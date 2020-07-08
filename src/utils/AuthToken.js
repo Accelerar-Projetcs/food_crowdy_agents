@@ -2,6 +2,7 @@ export const saveUserDetails = (newUser) => {
 	const currentUser = {};
 	currentUser.id = newUser._id;
 	currentUser.name = newUser.name;
+	currentUser.role = newUser.role;
 	localStorage.setItem('_user', JSON.stringify(currentUser));
 };
 

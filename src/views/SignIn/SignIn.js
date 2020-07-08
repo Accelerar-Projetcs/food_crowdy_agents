@@ -145,9 +145,7 @@ const SignIn = (props) => {
 	const [loading, setLoading] = useState('');
 	const [formState, setFormState] = useState({
 		isValid: false,
-		values: {
-		
-		},
+		values: {},
 		touched: {},
 		errors: {}
 	});
@@ -206,8 +204,8 @@ const SignIn = (props) => {
 			} else if (response.data) {
 				setMessage(response.data.message);
 			}
-			setLoading(false);
 		}
+		setLoading(false);
 	};
 
 	const hasError = (field) =>
@@ -313,7 +311,8 @@ const SignIn = (props) => {
 								<Button
 									className={classes.signInButton}
 									color='primary'
-									disabled={!formState.isValid}
+									// disabled={!formState.isValid}
+									disabled={loading ? true : false}
 									fullWidth
 									size='large'
 									type='submit'

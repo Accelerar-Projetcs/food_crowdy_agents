@@ -10,12 +10,12 @@ export const ProductsApi = axios.create({
 	responseType: 'json'
 });
 export const agentApi = axios.create({
-	baseURL: 'http://localhost:3002/',
+	baseURL: 'http://localhost:3004/',
 	responseType: 'json'
 });
 
 export const agentUser = axios.create({
-	baseURL: 'http://localhost:3002/agent/user',
+	baseURL: 'http://localhost:3004/agent/user',
 	responseType: 'json'
 });
 

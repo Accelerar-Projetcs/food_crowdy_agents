@@ -4,14 +4,9 @@ import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
 import { Divider, Drawer } from '@material-ui/core';
 import DashboardIcon from '@material-ui/icons/Dashboard';
-import PeopleIcon from '@material-ui/icons/People';
 import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket';
-// import TextFieldsIcon from '@material-ui/icons/TextFields';
-// import ImageIcon from '@material-ui/icons/Image';
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
 import SettingsIcon from '@material-ui/icons/Settings';
-// import LockOpenIcon from '@material-ui/icons/LockOpen';
-
 import { Profile, SidebarNav } from './components';
 
 const useStyles = makeStyles((theme) => ({
@@ -42,17 +37,17 @@ const Sidebar = (props) => {
 
 	const classes = useStyles();
 
-	const pages = [
+	const BackLineAgent = [
 		{
 			title: 'Dashboard',
-			href: '/dashboard',
+			href: '/',
 			icon: <DashboardIcon />
 		},
-		{
-			title: 'Users',
-			href: '/users',
-			icon: <PeopleIcon />
-		},
+		// {
+		// 	title: 'Users',
+		// 	href: '/users',
+		// 	icon: <PeopleIcon />
+		// },
 		{
 			title: 'Products',
 			href: '/products',
@@ -84,6 +79,76 @@ const Sidebar = (props) => {
 			icon: <SettingsIcon />
 		}
 	];
+	const FrontLine = [
+		{
+			title: 'Dashboard',
+			href: '/',
+			icon: <DashboardIcon />
+		},
+		// {
+		// 	title: 'Users',
+		// 	href: '/users',
+		// 	icon: <PeopleIcon />
+		// },
+		{
+			title: 'Bulk Share',
+			href: '/products',
+			icon: <ShoppingBasketIcon />
+		},
+		{
+			title: 'Account',
+			href: '/account',
+			icon: <AccountBoxIcon />
+		},
+		{
+			title: 'Settings',
+			href: '/settings',
+			icon: <SettingsIcon />
+		}
+	];
+	const Farmers = [
+		{
+			title: 'Dashboard',
+			href: '/',
+			icon: <DashboardIcon />
+		},
+		// {
+		// 	title: 'Users',
+		// 	href: '/users',
+		// 	icon: <PeopleIcon />
+		// },
+		{
+			title: 'Products',
+			href: '/products',
+			icon: <ShoppingBasketIcon />
+		},
+		{
+			title: 'Account',
+			href: '/account',
+			icon: <AccountBoxIcon />
+		},
+		{
+			title: 'Settings',
+			href: '/settings',
+			icon: <SettingsIcon />
+		}
+	];
+
+	const roles = {
+		type: 'frontline'
+	};
+	const getRole = (roles) => {
+		switch (roles.type) {
+			case 'frontline':
+				return FrontLine;
+			case 'backline':
+				return BackLineAgent;
+			case 'Farmers':
+				return Farmers;
+			default:
+				return [];
+		}
+	};
 
 	return (
 		<Drawer
@@ -95,7 +160,7 @@ const Sidebar = (props) => {
 			<div {...rest} className={clsx(classes.root, className)}>
 				<Profile />
 				<Divider className={classes.divider} />
-				<SidebarNav className={classes.nav} pages={pages} />
+				<SidebarNav className={classes.nav} pages={getRole(roles)} />
 				{/* <UpgradePlan /> */}
 			</div>
 		</Drawer>

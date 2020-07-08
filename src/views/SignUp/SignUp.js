@@ -23,7 +23,7 @@ import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 const schema = {
 	email: {
-		presence: { allowEmpty: false, message: 'is required' },
+		// presence: { allowEmpty: false, message: 'is required' },
 		email: true,
 		length: {
 			maximum: 64
@@ -39,7 +39,7 @@ const schema = {
 	password: {
 		presence: {
 			allowEmpty: false,
-			message: 'is required',
+			// message: 'is required',
 			message2: 'password must be minimum of 7 characters'
 		},
 		length: {
@@ -153,8 +153,11 @@ const SignIn = (props) => {
 	const [formState, setFormState] = useState({
 		isValid: false,
 		values: {
-			userName: '',
-			role: 'Backline'
+			// name: 'John M',
+			// email: 'thiweyhtopwekekn@gmail.com',
+			// password: 'mike123',
+			// phoneNumber: '0993893899388',
+			role: 'backline'
 		},
 		touched: {},
 		errors: {}
@@ -194,15 +197,18 @@ const SignIn = (props) => {
 	const handleSignIn = async (event) => {
 		event.preventDefault();
 		setLoading(!loading);
+		console.log(formState);
 		try {
 			const res = await agentUser.post('/signup', formState.values);
 			console.log(formState.values);
-			saveUserDetails(res.data.validUser);
+			saveUserDetails(res.data.newUser);
 			saveAuthToken(res.data.token);
+			console.log(res);
+
 			if (location && location.state) {
 				history.replace(location.state.pathname);
 			} else {
-				history.replace('/dashboard');
+				history.replace('/');
 			}
 		} catch (error) {
 			const { response } = error;
@@ -299,7 +305,21 @@ const SignIn = (props) => {
 									name='userName'
 									onChange={handleChange}
 									type='text'
-									value={formState.values.userName || ''}
+									// value={formState.values.userName || ''}
+									variant='outlined'
+								/>
+								<TextField
+									className={classes.textField}
+									// error={hasError('email')}
+									fullWidth
+									// helperText={
+									// 	hasError('email') ? formState.errors.email[0] : null
+									// }
+									label='Email address'
+									name='email'
+									onChange={handleChange}
+									type='text'
+									// value={formState.values.email || ''}
 									variant='outlined'
 								/>
 								<TextField
@@ -313,7 +333,7 @@ const SignIn = (props) => {
 									name='email'
 									onChange={handleChange}
 									type='text'
-									value={formState.values.email || ''}
+									// value={formState.values.email || ''}
 									variant='outlined'
 								/>
 								<TextField
@@ -327,29 +347,29 @@ const SignIn = (props) => {
 									name='password'
 									onChange={handleChange}
 									type='password'
-									value={formState.values.password || ''}
+									// value={formState.values.password || ''}
 									variant='outlined'
 								/>
-								<TextField
+								{/* <TextField
 									className={classes.textField}
 									fullWidth
 									select
 									label='role'
 									name='agent-role'
 									onChange={handleChange}
-									required
-									// value={formState.values.role}
+									// required
+									value={formState.values.role}
 									variant='outlined'>
 									{['frontline', 'backline', 'farmer Vendor'].map((option) => (
 										<option key={option} value={option}>
 											{option}
 										</option>
 									))}
-								</TextField>
+								</TextField> */}
 								<Button
 									className={classes.signInButton}
 									color='primary'
-									disabled={!formState.isValid}
+									// disabled={!formState.isValid}
 									fullWidth
 									size='large'
 									type='submit'

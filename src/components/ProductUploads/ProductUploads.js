@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { agentApi, ProductsApi } from '../../server/Server';
+import { getUserId } from '../../utils/localStore';
 import PropTypes from 'prop-types';
 import { category, state } from './data';
 import { toast } from 'react-toastify';
@@ -33,47 +34,33 @@ const useStyles = makeStyles(() => ({
 	}
 }));
 
-const AccountDetails = ({ userId }) => {
+const AccountDetails = () => {
 	// const { className, ...rest } = props;
 	const classes = useStyles();
+	const agentId = getUserId();
 	const [farmerInfo, setFarmersInfo] = useState({
 		farmerName: '',
 		farmerLocation: '',
 		farmerDeal: ''
 	});
 	const [productDetails, setProductDetails] = useState({
-		title: ' ',
-		agentId: userId,
-		category: '',
-		description: '',
-		price: '',
-		bulkPrice: '',
-		maxDays: '',
-		maxParticipants: '',
-		discount: '',
-		location: '',
-		farmerName: '',
-		farmerLocation: '',
-		farmerDeal: ''
+		title: 'Bola',
+		agentId: agentId,
+		category: 'rice',
+		description: 'new Product',
+		price: 37,
+		bulkPrice: 33,
+		maxDays: 33,
+		maxParticipants: 73,
+		location: 'lagos',
+		farmerName: 'mike',
+		phoneNumber: '9829833',
+		videoURL: 'https://youtu.be/ewZX_EIs0Jc',
+		deal: 'rice',
+		uniqueId: null
 	});
 	const [imageFile, setImageFile] = useState('');
-	const [farmersDB, setFramersDb] = useState([
-		{
-			title: 'mr ali',
-			id: 27,
-			state: 'lagos'
-		},
-		{
-			title: 'mr ali',
-			id: 29,
-			state: 'lagos'
-		},
-		{
-			title: 'mr ali',
-			id: 21,
-			state: 'lagos'
-		}
-	]);
+	const [farmersDB, setFramersDb] = useState([]);
 	// const [alert, setAlert] = useState(false);
 	const [loading, setLoading] = useState(false);
 	const handleChange = (key, value) => {
@@ -105,40 +92,49 @@ const AccountDetails = ({ userId }) => {
 		data.append('category', productDetails.category);
 		data.append('description', productDetails.description);
 		data.append('price', productDetails.bulkPrice);
-		data.append('price', productDetails.price);
+		data.append('bulkPrice', productDetails.price);
 		data.append('maxParticipants', productDetails.maxParticipants);
 		data.append('maxDays', productDetails.maxDays);
-		data.append('discount', productDetails.discount);
+		// data.append('discount', productDetails.discount);
 		data.append('farmerName', productDetails.farmerName);
-		data.append('farmerLocation', productDetails.farmerLocation);
+		data.append('deal', productDetails.deal);
 		data.append('location', productDetails.location);
-		data.append('imageFile', imageFile);
-		const headers = {
-			headers: {
-				'Content-Type': 'multipart/form-data'
-			}
-		};
+		data.append('phoneNumber', productDetails.phoneNumber);
+		data.append('uniqueId', productDetails.uniqueId);
+		data.append('videoURL', productDetails.videoURL);
+		// data.append('location', productDetails.location);
+		data.append('image', imageFile);
+		// const header = {
+		// 	headers: {
+		// 		'Content-Type': 'multipart/form-data'
+		// 	}
+		// };
+		console.log(productDetails.videoURL);
+		
+		console.log(...data);
 		try {
-			const res = await agentApi.post(
-				`agent/myupload/create/${productDetails.agentId}`,
-				productDetails,
-				headers
+			const res = await ProductsApi.post(
+				`/create/${productDetails.agentId}`,
+				data
+				// header
 			);
 			setLoading(false);
+			console.log(res);
 			toast.success('product Uploaded succesfully', {
 				position: toast.POSITION.TOP_RIGHT,
-				autoClose: 20000
+				autoClose: 5000
 			});
 			console.log(res);
 		} catch (error) {
-			setLoading(false);
 			// setAlert(true);
+			console.log({ error });
 			toast.error('There was a problem in uploading your product', {
 				position: toast.POSITION.TOP_RIGHT,
-				autoClose: 20000
+				autoClose: 5000
 			});
 			console.log(error);
 		}
+		setLoading(false);
 	};
 
 	const setFarmerDBQuery = (id) => {
@@ -183,12 +179,12 @@ const AccountDetails = ({ userId }) => {
 									label='Farmers Name'
 									margin='dense'
 									name='farmerName'
-									onChange={(e) => getFarmersInfo('farmerName', e.target.value)}
-									value={
-										farmersDB
-											? farmerInfo.farmerName
-											: productDetails.farmerName
-									}
+									onChange={(e) => handleChange('farmerName', e.target.value)}
+									// value={
+									// 	farmersDB
+									// 		? farmerInfo.farmerName
+									// 		: productDetails.farmerName
+									// }
 									variant='outlined'
 								/>
 								<Paper>
@@ -212,29 +208,40 @@ const AccountDetails = ({ userId }) => {
 									label='Farmer Loction'
 									margin='dense'
 									name='farmerLocation'
-									onChange={(e) =>
-										getFarmersInfo('farmerLocation', e.target.value)
-									}
+									onChange={(e) => handleChange('phoneNumber', e.target.value)}
 									value={
 										farmersDB
 											? farmerInfo.farmerLocation
 											: productDetails.farmerLocation
 									}
 									variant='outlined'
-								/>
+								/> */}
 								<TextField
 									fullWidth
 									label='Deal'
 									margin='dense'
 									name='farmerDeal'
-									onChange={(e) => handleChange('farmerDeal', e.target.value)}
-									value={
-										farmersDB
-											? farmerInfo.farmerDeal
-											: productDetails.farmerDeal
-									}
+									onChange={(e) => handleChange('deal', e.target.value)}
+									// value={
+									// 	farmersDB
+									// 		? farmerInfo.farmerDeal
+									// 		: productDetails.farmerDeal
+									// }
 									variant='outlined'
-								/> */}
+								/>
+								<TextField
+									fullWidth
+									label='Phone Number'
+									margin='dense'
+									name='phoneNumber'
+									onChange={(e) => handleChange('phoneNumber', e.target.value)}
+									// value={
+									// 	farmersDB
+									// 		? farmerInfo.farmerDeal
+									// 		: productDetails.farmerDeal
+									// }
+									variant='outlined'
+								/>
 							</div>
 						</CardContent>
 					</Card>
@@ -256,7 +263,20 @@ const AccountDetails = ({ userId }) => {
 										margin='dense'
 										name='productTitle'
 										onChange={(e) => handleChange('title', e.target.value)}
-										required
+										// required
+										variant='outlined'
+									/>
+								</Grid>
+								<Grid item md={6} xs={12}>
+									<TextField
+										fullWidth
+										helperText='Please specify the first name'
+										label='video link'
+										margin='dense'
+										name='video'
+										onChange={(e) => handleChange('videoURL', e.target.value)}
+										// required
+										type='text'
 										variant='outlined'
 									/>
 								</Grid>
@@ -265,8 +285,8 @@ const AccountDetails = ({ userId }) => {
 										fullWidth
 										label=''
 										margin='dense'
-										name='imageFile'
-										required
+										name='image'
+										// required
 										type='file'
 										onChange={(e) => setImageFile(e.target.files[0])}
 										variant='outlined'
@@ -279,8 +299,8 @@ const AccountDetails = ({ userId }) => {
 										margin='dense'
 										name='agnetID'
 										onChange={handleChange}
-										required
-										value={productDetails.agentId}
+										// required
+										value={agentId}
 										variant='outlined'
 										disabled
 									/>
@@ -337,7 +357,7 @@ const AccountDetails = ({ userId }) => {
 										name='priceId'
 										onChange={(e) => handleChange('price', e.target.value)}
 										variant='outlined'
-										required
+										// required
 										type='number'
 									/>
 								</Grid>
@@ -349,11 +369,11 @@ const AccountDetails = ({ userId }) => {
 										name='bulk-price'
 										onChange={(e) => handleChange('bulkPrice', e.target.value)}
 										variant='outlined'
-										required
+										// required
 										type='number'
 									/>
 								</Grid>
-								<Grid item md={6} xs={12}>
+								{/* <Grid item md={6} xs={12}>
 									<TextField
 										fullWidth
 										label='Discount'
@@ -361,10 +381,10 @@ const AccountDetails = ({ userId }) => {
 										name='discount-id'
 										onChange={(e) => handleChange('discount', e.target.value)}
 										variant='outlined'
-										required
+										// required
 										type='number'
 									/>
-								</Grid>
+								</Grid> */}
 								<Grid item md={6} xs={12}>
 									<TextField
 										fullWidth
@@ -375,17 +395,29 @@ const AccountDetails = ({ userId }) => {
 											handleChange('maxParticipants', e.target.value)
 										}
 										variant='outlined'
-										required
+										// required
 										type='number'
 									/>
 								</Grid>
 							</Grid>
+							<TextField
+								fullWidth
+								label='Description'
+								margin='dense'
+								multiline
+								rows={6}
+								name='desc-id'
+								onChange={(e) => handleChange('description', e.target.value)}
+								variant='outlined'
+								// required
+								type='text'
+							/>
 						</CardContent>
 						<Divider />
 						<CardActions>
 							<Button
-								// type='submit'
-								onClick={() => console.log(productDetails)}
+								type='submit'
+								// onClick={() => console.log(productDetails)}
 								disabled={loading ? true : false}
 								variant='contained'
 								fullWidth

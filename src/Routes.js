@@ -45,17 +45,11 @@ const Routes = () => {
 	return (
 		<Switch>
 			<Suspense fallback={<h1>Loading....</h1>}>
-				{/* <MainLayout/> */}
-				{/* <ProductList /> */}
-				{/* <DeleteRequest/> */}
-				{/* <Redirect exact from='/' to='/dashboard' /> */}
-				{/* <Route exact path='/' component={Layout} /> */}
-				{/* <Route exact path='/dashboard' component={Dashboard} /> */}
 				<RouteWithLayout
 					component={Dashboard}
 					exact
 					layout={MainLayout}
-					path='/dashboard'
+					path='/'
 				/>
 				<RouteWithLayout
 					component={UserListView}
