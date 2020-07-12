@@ -1,26 +1,11 @@
 import React, { Suspense, lazy } from 'react';
-import { Switch, Redirect } from 'react-router-dom';
+import { Switch } from 'react-router-dom';
 
 import { RouteWithLayout } from './components';
 import { Main as MainLayout, Minimal as MinimalLayout } from './layouts';
 
-// import Layout from './layouts/Main/Main';
-
-// import {
-// 	Dashboard as DashboardView,
-// 	// ProductList as ProductListView,
-// 	UserList as UserListView,
-// 	Typography as TypographyView,
-// 	Icons as IconsView,
-// 	// Account as AccountView,
-// 	Settings as SettingsView
-// 	// SignUp as SignUpView,
-// 	// SignIn as SignInView,
-// 	// NotFound as NotFoundView
-// } from './views';
-
 import Dashboard from './views/Dashboard/Dashboard';
-import ProductList from './views/ProductList/ProductList';
+
 import AccountView from './views/Account/Account';
 import SignUpView from './views/SignUp/SignUp';
 import SignInView from './views/SignIn/SignIn';
@@ -39,7 +24,10 @@ const AgentProductUpload = lazy(() =>
 	import('./views/BackLineAgent/productUpload/ProductUpload')
 );
 
-// console.log(<Layout/>);
+//**** FrontLine Agents ******//
+const ProductsForFrontLine = lazy(() =>
+	import('./views/FrontLineAgent/Products/Products')
+);
 
 const Routes = () => {
 	return (
@@ -82,17 +70,17 @@ const Routes = () => {
 					layout={MainLayout}
 				/>
 				<RouteWithLayout
+					exact
+					path='/agents/frontline/products'
+					component={ProductsForFrontLine}
+					layout={MainLayout}
+				/>
+				<RouteWithLayout
 					component={TypographyView}
 					exact
 					layout={MainLayout}
 					path='/typography'
 				/>
-				{/* <RouteWithLayout
-        component={IconsView}
-        exact
-        layout={MainLayout}
-        path="/icons"
-      /> */}
 				<RouteWithLayout
 					component={AccountView}
 					exact
@@ -123,7 +111,6 @@ const Routes = () => {
 					layout={MinimalLayout}
 					path='/not-found'
 				/>
-				{/* <RouteWithLayout exact to='/not-found' /> */}
 			</Suspense>
 		</Switch>
 	);

@@ -15,7 +15,6 @@ import {
 	Typography
 } from '@material-ui/core';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-
 // // import { Facebook as FacebookIcon, Google as GoogleIcon } from '@material-ui/icons';
 // import FacebookIcon from '@material-ui/icons/Facebook';
 // import GoogleIcon from '@material-ui/icons/GroupOutlined';
@@ -338,4 +337,4 @@ SignIn.propTypes = {
 	history: PropTypes.object
 };
 
-export default withRouter(SignIn);
+export default SignIn;

@@ -1,439 +1,146 @@
-import React, { useState, useEffect } from 'react';
-import { agentApi, ProductsApi } from '../../server/Server';
-import { getUserId } from '../../utils/localStore';
-import PropTypes from 'prop-types';
-import { category, state } from './data';
+import React, { useContext, useState } from 'react';
+import { contextApi } from '../context/Context';
+// import PropTypes from 'prop-types';
+import { makeStyles } from '@material-ui/core/styles';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import TableSortLabel from '@material-ui/core/TableSortLabel';
 import { toast } from 'react-toastify';
-import { makeStyles } from '@material-ui/styles';
+import FarmerDetails from './FarmersDetails';
 import {
 	Card,
-	CardHeader,
 	CardContent,
-	CardActions,
+	CardHeader,
 	Divider,
-	Grid,
-	Button,
-	TextField,
-	List,
-	ListItem,
-	ListItemText,
-	Paper
+	CardActions,
+	Button
 } from '@material-ui/core';
+import { Link } from 'react-router-dom';
+import styles from './styles';
+import headCells from './header';
+const useStyles = makeStyles(() => styles);
 
-const useStyles = makeStyles(() => ({
-	root: {},
-	cardDetails: {
-		position: 'relative',
-		width: '100%'
-	},
-	list: {
-		position: 'absolute',
-		background: '#fff',
-		width: 'auto',
-		margin: '3rem '
-	}
-}));
+function EnhancedTableHead(props) {
+	const { order, orderBy } = props;
+	return (
+		<TableHead>
+			<TableRow>
+				{headCells.map((headCell) => (
+					<TableCell
+						key={headCell.id}
+						align={headCell.numeric ? 'right' : 'left'}
+						padding={headCell.disablePadding ? 'none' : 'default'}>
+						<TableSortLabel
+							active={orderBy === headCell.id}
+							direction={orderBy === headCell.id ? order : 'asc'}>
+							{headCell.label}
+						</TableSortLabel>
+					</TableCell>
+				))}
+			</TableRow>
+		</TableHead>
+	);
+}
 
-const AccountDetails = () => {
-	// const { className, ...rest } = props;
+export default function EnhancedTable() {
 	const classes = useStyles();
-	const agentId = getUserId();
-	const [farmerInfo, setFarmersInfo] = useState({
-		farmerName: '',
-		farmerLocation: '',
-		farmerDeal: ''
-	});
-	const [productDetails, setProductDetails] = useState({
-		title: 'Bola',
-		agentId: agentId,
-		category: 'rice',
-		description: 'new Product',
-		price: 37,
-		bulkPrice: 33,
-		maxDays: 33,
-		maxParticipants: 73,
-		location: 'lagos',
-		farmerName: 'mike',
-		phoneNumber: '9829833',
-		videoURL: 'https://youtu.be/ewZX_EIs0Jc',
-		deal: 'rice',
-		uniqueId: null
-	});
-	const [imageFile, setImageFile] = useState('');
-	const [farmersDB, setFramersDb] = useState([]);
-	// const [alert, setAlert] = useState(false);
-	const [loading, setLoading] = useState(false);
-	const handleChange = (key, value) => {
-		setProductDetails({ ...productDetails, [key]: value });
-	};
+	// const [data] = React.useState([]);
+	const [open, setOpen] = useState(false);
+	const { dealDisplay } = useContext(contextApi);
+	console.log(dealDisplay);
 
-	const getFarmersInfo = async (key, value) => {
-		try {
-			const res = await ProductsApi.get(`/farmers`);
-			if (res.data) {
-				setFarmersInfo(res.data);
-			} else {
-				setFarmersInfo({ ...setFarmersInfo, [key]: value });
-			}
-		} catch (error) {
-			setFarmersInfo({ ...setFarmersInfo, [key]: value });
-			setFramersDb([{ title: farmersDB[key] }]);
-			console.log(farmerInfo);
-		}
-
-		// console.log(farmerInfo);
-	};
-	const uploadProducts = async (e) => {
-		e.preventDefault();
-		setLoading(true);
-		const data = new FormData();
-		data.append('title', productDetails.title);
-		data.append('agentId', productDetails.agentId);
-		data.append('category', productDetails.category);
-		data.append('description', productDetails.description);
-		data.append('price', productDetails.bulkPrice);
-		data.append('bulkPrice', productDetails.price);
-		data.append('maxParticipants', productDetails.maxParticipants);
-		data.append('maxDays', productDetails.maxDays);
-		// data.append('discount', productDetails.discount);
-		data.append('farmerName', productDetails.farmerName);
-		data.append('deal', productDetails.deal);
-		data.append('location', productDetails.location);
-		data.append('phoneNumber', productDetails.phoneNumber);
-		data.append('uniqueId', productDetails.uniqueId);
-		data.append('videoURL', productDetails.videoURL);
-		// data.append('location', productDetails.location);
-		data.append('image', imageFile);
-		// const header = {
-		// 	headers: {
-		// 		'Content-Type': 'multipart/form-data'
-		// 	}
-		// };
-		console.log(productDetails.videoURL);
-		
-		console.log(...data);
-		try {
-			const res = await ProductsApi.post(
-				`/create/${productDetails.agentId}`,
-				data
-				// header
-			);
-			setLoading(false);
-			console.log(res);
-			toast.success('product Uploaded succesfully', {
-				position: toast.POSITION.TOP_RIGHT,
-				autoClose: 5000
-			});
-			console.log(res);
-		} catch (error) {
-			// setAlert(true);
-			console.log({ error });
-			toast.error('There was a problem in uploading your product', {
-				position: toast.POSITION.TOP_RIGHT,
-				autoClose: 5000
-			});
-			console.log(error);
-		}
-		setLoading(false);
-	};
-
-	const setFarmerDBQuery = (id) => {
-		const data = farmersDB.filter((item) => (item.id === id ? item : ''));
-		console.log(id);
-		console.log(data);
-
-		const farmerData = data[0];
-		setFarmersInfo({
-			farmerName: farmerData.title,
-			farmerLocation: farmerData.state,
-			farmerDeal: farmerData.id
+	const postOffer = () => {
+		// try {
+		// 	const res = await ProductsApi.post(
+		// 		`/create/${productDetails.agentId}`,
+		// 		data
+		// 		// header
+		// 	);
+		// 	setLoading(false);
+		// 	console.log(res);
+		if (dealDisplay.length) return;
+		toast.success('product Uploaded succesfully', {
+			position: toast.POSITION.TOP_RIGHT,
+			autoClose: 5000
 		});
-		console.log(farmerInfo);
+		setOpen(false);
 
-		setProductDetails({
-			// ...productDetails,
-			farmerName: farmerData.title,
-			farmerLocation: farmerData.state,
-			farmerDeal: farmerData.id
-		});
+		// 	console.log(res);
+		// } catch (error) {
+		// 	// setAlert(true);
+		// 	console.log({ error });
+		// 	toast.error('There was a problem in uploading your product', {
+		// 		position: toast.POSITION.TOP_RIGHT,
+		// 		autoClose: 5000
+		// 	});
+		// 	console.log(error);
+		// }
+		// setLoading(false);
 	};
 
-	useEffect(() => {
-		console.log('logging');
-	}, []);
+	React.useEffect(() => {}, []);
 
 	return (
-		<form autoComplete='off' noValidate onSubmit={uploadProducts}>
-			<Grid container spacing={4}>
-				<Grid item lg={4} md={6} xl={4} xs={12}>
-					<Card>
-						<CardHeader
-							subheader='This infomations can be edited'
-							title='Farmers Details'
-						/>
-						<Divider />
-						<CardContent>
-							<div className={classes.details}>
-								<TextField
-									fullWidth
-									label='Farmers Name'
-									margin='dense'
-									name='farmerName'
-									onChange={(e) => handleChange('farmerName', e.target.value)}
-									// value={
-									// 	farmersDB
-									// 		? farmerInfo.farmerName
-									// 		: productDetails.farmerName
-									// }
-									variant='outlined'
-								/>
-								<Paper>
-									<List
-										className={classes.list}
-										component='nav'
-										aria-label='main mailbox folders'>
-										{farmersDB &&
-											farmersDB.map((list) => (
-												<ListItem
-													button
-													key={list.id}
-													onClick={() => setFarmerDBQuery(list.id)}>
-													<ListItemText primary={list.title} />
-												</ListItem>
-											))}
-									</List>
-								</Paper>
-								{/* <TextField
-									fullWidth
-									label='Farmer Loction'
-									margin='dense'
-									name='farmerLocation'
-									onChange={(e) => handleChange('phoneNumber', e.target.value)}
-									value={
-										farmersDB
-											? farmerInfo.farmerLocation
-											: productDetails.farmerLocation
-									}
-									variant='outlined'
-								/> */}
-								<TextField
-									fullWidth
-									label='Deal'
-									margin='dense'
-									name='farmerDeal'
-									onChange={(e) => handleChange('deal', e.target.value)}
-									// value={
-									// 	farmersDB
-									// 		? farmerInfo.farmerDeal
-									// 		: productDetails.farmerDeal
-									// }
-									variant='outlined'
-								/>
-								<TextField
-									fullWidth
-									label='Phone Number'
-									margin='dense'
-									name='phoneNumber'
-									onChange={(e) => handleChange('phoneNumber', e.target.value)}
-									// value={
-									// 	farmersDB
-									// 		? farmerInfo.farmerDeal
-									// 		: productDetails.farmerDeal
-									// }
-									variant='outlined'
-								/>
-							</div>
-						</CardContent>
-					</Card>
-				</Grid>
-				<Grid item lg={8} md={6} xl={8} xs={12}>
-					<Card>
-						<CardHeader
-							subheader='This infomations can be edited'
-							title='Products Uploads'
-						/>
-						<Divider />
-						<CardContent>
-							<Grid container spacing={3}>
-								<Grid item md={6} xs={12}>
-									<TextField
-										fullWidth
-										helperText='Please specify the first name'
-										label='Title'
-										margin='dense'
-										name='productTitle'
-										onChange={(e) => handleChange('title', e.target.value)}
-										// required
-										variant='outlined'
-									/>
-								</Grid>
-								<Grid item md={6} xs={12}>
-									<TextField
-										fullWidth
-										helperText='Please specify the first name'
-										label='video link'
-										margin='dense'
-										name='video'
-										onChange={(e) => handleChange('videoURL', e.target.value)}
-										// required
-										type='text'
-										variant='outlined'
-									/>
-								</Grid>
-								<Grid item md={6} xs={12}>
-									<TextField
-										fullWidth
-										label=''
-										margin='dense'
-										name='image'
-										// required
-										type='file'
-										onChange={(e) => setImageFile(e.target.files[0])}
-										variant='outlined'
-									/>
-								</Grid>
-								<Grid item md={6} xs={12}>
-									<TextField
-										fullWidth
-										label='Agent id'
-										margin='dense'
-										name='agnetID'
-										onChange={handleChange}
-										// required
-										value={agentId}
-										variant='outlined'
-										disabled
-									/>
-								</Grid>
-								<Grid item md={6} xs={12}>
-									<TextField
-										id='outlined-select-catergory-native'
-										select
-										fullWidth
-										label='Category'
-										value={productDetails.category}
-										onChange={(e) => handleChange('category', e.target.value)}
-										// helperText='Please select your currency'
-										variant='outlined'>
-										{category.map((option) => (
-											<option key={option} value={option}>
-												{option}
-											</option>
-										))}
-									</TextField>
-								</Grid>
-								<Grid item md={6} xs={12}>
-									<TextField
-										id='outlined-select-location-native'
-										select
-										label='Location'
-										fullWidth
-										value={productDetails.location}
-										onChange={(e) => handleChange('location', e.target.value)}
-										// helperText='Please select your currency'
-										variant='outlined'>
-										{state.map((option) => (
-											<option key={option} value={option}>
-												{option}
-											</option>
-										))}
-									</TextField>
-								</Grid>
-								<Grid item md={6} xs={12}>
-									<TextField
-										fullWidth
-										label='Max days'
-										margin='dense'
-										name='maxDays'
-										onChange={(e) => handleChange('maxDays', e.target.value)}
-										variant='outlined'
-									/>
-								</Grid>
-								<Grid item md={6} xs={12}>
-									<TextField
-										fullWidth
-										label='Price'
-										margin='dense'
-										name='priceId'
-										onChange={(e) => handleChange('price', e.target.value)}
-										variant='outlined'
-										// required
-										type='number'
-									/>
-								</Grid>
-								<Grid item md={6} xs={12}>
-									<TextField
-										fullWidth
-										label='Bulk Price'
-										margin='dense'
-										name='bulk-price'
-										onChange={(e) => handleChange('bulkPrice', e.target.value)}
-										variant='outlined'
-										// required
-										type='number'
-									/>
-								</Grid>
-								{/* <Grid item md={6} xs={12}>
-									<TextField
-										fullWidth
-										label='Discount'
-										margin='dense'
-										name='discount-id'
-										onChange={(e) => handleChange('discount', e.target.value)}
-										variant='outlined'
-										// required
-										type='number'
-									/>
-								</Grid> */}
-								<Grid item md={6} xs={12}>
-									<TextField
-										fullWidth
-										label='No of Parts'
-										margin='dense'
-										name='parts-id'
-										onChange={(e) =>
-											handleChange('maxParticipants', e.target.value)
-										}
-										variant='outlined'
-										// required
-										type='number'
-									/>
-								</Grid>
-							</Grid>
-							<TextField
-								fullWidth
-								label='Description'
-								margin='dense'
-								multiline
-								rows={6}
-								name='desc-id'
-								onChange={(e) => handleChange('description', e.target.value)}
-								variant='outlined'
-								// required
-								type='text'
-							/>
-						</CardContent>
-						<Divider />
-						<CardActions>
-							<Button
-								type='submit'
-								// onClick={() => console.log(productDetails)}
-								disabled={loading ? true : false}
-								variant='contained'
-								fullWidth
-								color='primary'>
-								UPLOAD PRODUCT
-							</Button>
-						</CardActions>
-					</Card>
-				</Grid>
-			</Grid>
-		</form>
+		<div className={classes.root}>
+			<Card>
+				<div className={classes.cardHead}>
+					<CardHeader title={'Upload A Deal'} />
+					<FarmerDetails />
+				</div>
+				<Divider />
+				<CardContent className={classes.content}>
+					{!dealDisplay.length ? (
+						<h2>Send in Your Offer for Review</h2>
+					) : (
+						<TableContainer>
+							<Table
+								className={classes.table}
+								aria-labelledby='tableTitle'
+								aria-label='enhanced table'>
+								<EnhancedTableHead classes={classes.head} />
+								<TableBody>
+									{dealDisplay.map((row, index) => {
+										return (
+											<TableRow
+												hover // tabIndex={-1}
+												key={row.id}>
+												<TableCell component='th' scope='row' padding='none'>
+													{row.farmerName}
+												</TableCell>
+												<TableCell align='right'>{row.product}</TableCell>
+												<TableCell align='right'>{row.location}</TableCell>
+												<TableCell align='right'>{row.qty}</TableCell>
+												<TableCell align='right'>{row.price}</TableCell>
+											</TableRow>
+										);
+									})}
+								</TableBody>
+							</Table>
+						</TableContainer>
+					)}
+				</CardContent>
+				{dealDisplay.length && (
+					<CardActions className={classes.actions}>
+						<Button color='primary' size='small' variant='contained'>
+							SUBMIT REQUEST
+						</Button>
+					</CardActions>
+				)}
+			</Card>
+		</div>
 	);
-};
+}
 
-AccountDetails.propTypes = {
-	className: PropTypes.string
+EnhancedTableHead.propTypes = {
+	// classes: PropTypes.object.isRequired,
+	// numSelected: PropTypes.number.isRequired,
+	// onRequestSort: PropTypes.func.isRequired,
+	// onSelectAllClick: PropTypes.func.isRequired,
+	// order: PropTypes.oneOf(['asc', 'desc']).isRequired,
+	// orderBy: PropTypes.string.isRequired,
+	// rowCount: PropTypes.number.isRequired
 };
-
-export default AccountDetails;
