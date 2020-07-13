@@ -85,6 +85,11 @@ const Sidebar = (props) => {
 			href: '/',
 			icon: <DashboardIcon />
 		},
+		{
+			title: 'Add user',
+			href: '/agents/frontline/products',
+			icon: <DashboardIcon />
+		},
 		// {
 		// 	title: 'Users',
 		// 	href: '/users',

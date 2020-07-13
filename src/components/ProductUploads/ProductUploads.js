@@ -49,38 +49,9 @@ function EnhancedTableHead(props) {
 export default function EnhancedTable() {
 	const classes = useStyles();
 	// const [data] = React.useState([]);
-	const [open, setOpen] = useState(false);
+	// const [open, setOpen] = useState(false);
 	const { dealDisplay } = useContext(contextApi);
 	console.log(dealDisplay);
-
-	const postOffer = () => {
-		// try {
-		// 	const res = await ProductsApi.post(
-		// 		`/create/${productDetails.agentId}`,
-		// 		data
-		// 		// header
-		// 	);
-		// 	setLoading(false);
-		// 	console.log(res);
-		if (dealDisplay.length) return;
-		toast.success('product Uploaded succesfully', {
-			position: toast.POSITION.TOP_RIGHT,
-			autoClose: 5000
-		});
-		setOpen(false);
-
-		// 	console.log(res);
-		// } catch (error) {
-		// 	// setAlert(true);
-		// 	console.log({ error });
-		// 	toast.error('There was a problem in uploading your product', {
-		// 		position: toast.POSITION.TOP_RIGHT,
-		// 		autoClose: 5000
-		// 	});
-		// 	console.log(error);
-		// }
-		// setLoading(false);
-	};
 
 	React.useEffect(() => {}, []);
 

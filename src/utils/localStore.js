@@ -1,5 +1,3 @@
-
-
 export const getUserName = () => {
 	if (localStorage.getItem('_user')) {
 		const nameID = JSON.parse(localStorage.getItem('_user'));
@@ -18,15 +16,11 @@ export const getUserId = () => {
 	}
 };
 
-
-//function that clears users local storage offline details
-
 export const clearUserOfflineDatas = () => {
 	localStorage.removeItem('_cart');
-	localStorage.removeItem('_bulkBuyCart');
-	localStorage.removeItem('_productId');
 };
 
-
-
-// cartBadge();
+export const formatter = new Intl.NumberFormat('en-NG', {
+	style: 'currency',
+	currency: 'NGN'
+});

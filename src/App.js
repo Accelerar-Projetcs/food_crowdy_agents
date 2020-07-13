@@ -33,7 +33,6 @@ export default class App extends Component {
 					<Routes />
           <ToastContainer />
 				</Router>
-
 			</ThemeProvider>
 		);
 	}

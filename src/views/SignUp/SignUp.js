@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Link as RouterLink, withRouter } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
 import { agentUser } from '../../server/Server';
 import { saveAuthToken, saveUserDetails } from '../../utils/AuthToken';
+import DoneIcon from '@material-ui/icons/Done';
 import PropTypes from 'prop-types';
 import { Alert } from '@material-ui/lab/';
 import validate from 'validate.js';
@@ -12,14 +13,10 @@ import {
 	IconButton,
 	TextField,
 	Link,
-	Typography
+	Typography,
+	InputAdornment
 } from '@material-ui/core';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-
-// // import { Facebook as FacebookIcon, Google as GoogleIcon } from '@material-ui/icons';
-// import FacebookIcon from '@material-ui/icons/Facebook';
-// import GoogleIcon from '@material-ui/icons/GroupOutlined';
-// import FaceBook from '@material-ui/icons/Facebook';
 
 const schema = {
 	email: {
@@ -51,11 +48,11 @@ const schema = {
 
 const useStyles = makeStyles((theme) => ({
 	root: {
-		backgroundColor: theme.palette.background.default,
-		height: '100%'
+		backgroundColor: '#fff',
+		height: '100vh'
 	},
 	grid: {
-		height: '100%'
+		height: '100vh'
 	},
 	quoteContainer: {
 		[theme.breakpoints.down('md')]: {
@@ -141,6 +138,15 @@ const useStyles = makeStyles((theme) => ({
 	},
 	signInButton: {
 		margin: theme.spacing(2, 0)
+	},
+	done: {
+		color: 'green'
+	},
+	weak: {
+		color: 'yellow'
+	},
+	strong: {
+		color: 'green'
 	}
 }));
 
@@ -150,13 +156,17 @@ const SignIn = (props) => {
 	const classes = useStyles();
 	const [message, setMessage] = useState('');
 	const [loading, setLoading] = useState('');
+	const [passwordCheck, setPasswordCheck] = useState({
+		text: '',
+		class: ''
+	});
 	const [formState, setFormState] = useState({
 		isValid: false,
 		values: {
-			// name: 'John M',
-			// email: 'thiweyhtopwekekn@gmail.com',
-			// password: 'mike123',
-			// phoneNumber: '0993893899388',
+			name: 'John M',
+			email: 'thiweyhtopwekekn@gmail.com',
+			password: 'mike123',
+			phoneNumber: '0993893899388',
 			role: 'backline'
 		},
 		touched: {},
@@ -177,6 +187,21 @@ const SignIn = (props) => {
 		history.goBack();
 	};
 
+	const validatePassword = (e) => {
+		console.log(e.target.value);
+		if (e.target.value.length < 8) {
+			setPasswordCheck({
+				title: 'password strength too weak',
+				class: 'weak'
+			});
+		} else if (e.target.value.length > 10) {
+			setPasswordCheck({
+				title: 'password strength strong',
+				class: 'strong'
+			});
+		}
+	};
+
 	const handleChange = (event) => {
 		event.persist();
 
@@ -184,8 +209,7 @@ const SignIn = (props) => {
 			...formState,
 			values: {
 				...formState.values,
-				[event.target.name]:
-					event.target.type === 'checkbox' ? event.target.value : ''
+				[event.target.name]: event.target.value
 			},
 			touched: {
 				...formState.touched,
@@ -224,7 +248,7 @@ const SignIn = (props) => {
 
 	const hasError = (field) =>
 		formState.touched[field] && formState.errors[field] ? true : false;
-
+	console.log(passwordCheck);
 	return (
 		<div className={classes.root}>
 			<Grid className={classes.grid} container>
@@ -239,9 +263,6 @@ const SignIn = (props) => {
 								<Typography className={classes.name} variant='body1'>
 									FoodCrowdy Agents
 								</Typography>
-								{/* <Typography className={classes.bio} variant='body2'>
-									Manager at inVision
-								</Typography> */}
 							</div>
 						</div>
 					</div>
@@ -258,30 +279,6 @@ const SignIn = (props) => {
 								<Typography className={classes.title} variant='h2'>
 									Sign Up
 								</Typography>
-								{/* <Typography color='textSecondary' gutterBottom>
-									Sign in with social media
-								</Typography> */}
-								{/* <Grid className={classes.socialButtons} container spacing={2}>
-									<Grid item>
-										<Button
-											color='primary'
-											onClick={handleSignIn}
-											size='large'
-											variant='contained'>
-											<FacebookIcon className={classes.socialIcon} />
-											Login with Facebook
-										</Button>
-									</Grid>
-									<Grid item>
-										<Button
-											onClick={handleSignIn}
-											size='large'
-											variant='contained'>
-											<GoogleIcon className={classes.socialIcon} />
-											Login with Google
-										</Button>
-									</Grid>
-								</Grid> */}
 								{message && (
 									<Alert variant='outlined' severity='error'>
 										{message}
@@ -305,21 +302,7 @@ const SignIn = (props) => {
 									name='userName'
 									onChange={handleChange}
 									type='text'
-									// value={formState.values.userName || ''}
-									variant='outlined'
-								/>
-								<TextField
-									className={classes.textField}
-									// error={hasError('email')}
-									fullWidth
-									// helperText={
-									// 	hasError('email') ? formState.errors.email[0] : null
-									// }
-									label='Email address'
-									name='email'
-									onChange={handleChange}
-									type='text'
-									// value={formState.values.email || ''}
+									value={formState.values.userName || ''}
 									variant='outlined'
 								/>
 								<TextField
@@ -333,7 +316,7 @@ const SignIn = (props) => {
 									name='email'
 									onChange={handleChange}
 									type='text'
-									// value={formState.values.email || ''}
+									value={formState.values.email || ''}
 									variant='outlined'
 								/>
 								<TextField
@@ -345,27 +328,48 @@ const SignIn = (props) => {
 									}
 									label='Password'
 									name='password'
-									onChange={handleChange}
+									onChange={(e) => {
+										handleChange(e);
+										validatePassword(e);
+									}}
 									type='password'
 									// value={formState.values.password || ''}
+									startAdornment={
+										<InputAdornment position='start'>
+											<IconButton>
+												<DoneIcon />
+											</IconButton>
+										</InputAdornment>
+									}
 									variant='outlined'
 								/>
-								{/* <TextField
+								<DoneIcon />
+								<div className={passwordCheck.class}>
+									<span></span>
+									{passwordCheck.text}
+									<p></p>
+								</div>
+								<TextField
 									className={classes.textField}
 									fullWidth
 									select
 									label='role'
 									name='agent-role'
 									onChange={handleChange}
-									// required
-									value={formState.values.role}
+									required
+									SelectProps={{
+										native: true
+									}}
+									helperText='Please select your role'
 									variant='outlined'>
-									{['frontline', 'backline', 'farmer Vendor'].map((option) => (
-										<option key={option} value={option}>
-											{option}
-										</option>
-									))}
-								</TextField> */}
+									{['BackLine Vendors', 'Frontline', 'Farmers'].map(
+										(option) => (
+											<option key={option} value={option}>
+												{option}
+											</option>
+										)
+									)}
+								</TextField>
 								<Button
 									className={classes.signInButton}
 									color='primary'
@@ -395,4 +399,4 @@ SignIn.propTypes = {
 	history: PropTypes.object
 };
 
-export default withRouter(SignIn);
+export default SignIn;

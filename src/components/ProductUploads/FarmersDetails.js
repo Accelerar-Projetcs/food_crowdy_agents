@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useContext } from 'react';
 import { contextApi } from '../context/Context';
-import { agentApi, ProductsApi } from '../../server/Server';
+// import { agentApi, ProductsApi } from '../../server/Server';
 import { getUserId } from '../../utils/localStore';
 import PropTypes from 'prop-types';
 import { category, state } from './data';
@@ -12,19 +12,20 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import AddIcon from '@material-ui/icons/Add';
+// import Close from '@material-ui/icons/Close';
 import Fab from '@material-ui/core/Fab';
 import Tooltip from '@material-ui/core/Tooltip';
 import {
 	Card,
 	CardHeader,
 	CardContent,
-	CardActions,
+	// CardActions`,
 	Divider,
 	Grid,
 	Button,
 	TextField
 } from '@material-ui/core';
-import data from '../../views/Dashboard/components/LatestOrders/data';
+// import data from '../../views/Dashboard/components/LatestOrders/data';
 
 const useStyles = makeStyles(() => ({
 	root: {},
@@ -42,21 +43,24 @@ const useStyles = makeStyles(() => ({
 		height: '2.2rem',
 		width: '2.5rem',
 		margin: '.4rem  0 0 0'
+	},
+	close: {
+		float: 'right'
 	}
 }));
 
 const AccountDetails = () => {
 	const classes = useStyles();
 	const agentId = getUserId();
-	const [farmerInfo, setFarmersInfo] = useState({
-		farmerName: '',
-		farmerLocation: '',
-		farmerDeal: ''
-	});
+	// const [farmerInfo, setFarmersInfo] = useState({
+	// 	farmerName: '',
+	// 	farmerLocation: '',
+	// 	farmerDeal: ''
+	// });
 	const [open, setOpen] = useState(false);
 	const [scroll, setScroll] = useState('paper');
 	const [deal, setDeal] = useState([]);
-	const { dealTosend, setDealToSend } = useContext(contextApi);
+	// const { dealTosend, setDealToSend } = useContext(contextApi);
 	const [productDetails, setProductDetails] = useState({
 		title: 'Bola',
 		agentId: agentId,
@@ -69,27 +73,11 @@ const AccountDetails = () => {
 		videoURL: 'https://youtu.be/ewZX_EIs0Jc',
 		uniqueId: null
 	});
-	// const [productDetails, setProductDetails] = useState({
-	// 	title: 'Bola',
-	// 	agentId: agentId,
-	// 	category: 'rice',
-	// 	description: 'new Product',
-	// 	price: 37,
-	// 	bulkPrice: 33,
-	// 	maxDays: 33,
-	// 	maxParticipants: 73,
-	// 	location: 'lagos',
-	// 	farmerName: 'mike',
-	// 	phoneNumber: '9829833',
-	// 	videoURL: 'https://youtu.be/ewZX_EIs0Jc',
-	// 	deal: 'rice',
-	// 	uniqueId: null
-	// });
 	const [imageFile, setImageFile] = useState('');
-	const [farmersDB, setFramersDb] = useState([]);
+	// const [farmersDB, setFramersDb] = useState([]);
 	// const [alert, setAlert] = useState(false);
 	// const [loading, setLoading] = useState(false);
-	const { setDealDisplay, } = useContext(contextApi);
+	const { dealDisplay, setDealDisplay } = useContext(contextApi);
 
 	const handleChange = (key, value) => {
 		setProductDetails({ ...productDetails, [key]: value });
@@ -110,10 +98,12 @@ const AccountDetails = () => {
 	// 	}
 	// };
 
-	const uploadProducts = async (e) => {
+	const uploadProducts = (e) => {
 		e.preventDefault();
-		setDeal([
-			...deal,
+		// setDeal();
+
+		setDealDisplay([
+			...dealDisplay,
 			{
 				id: Math.random(0, 300),
 				farmerName: productDetails.farmerName,
@@ -123,18 +113,20 @@ const AccountDetails = () => {
 				qty: productDetails.qty
 			}
 		]);
-
-		setDealDisplay(deal);
-		const data = new FormData();
-		data.append('title', productDetails.title);
-		data.append('agentId', productDetails.agentId);
-		data.append('product', productDetails.category);
-		data.append('description', productDetails.description);
-		data.append('price', productDetails.bulkPrice);
-		setDealToSend([...dealTosend, { data }]);
-		console.log(dealTosend);
-		console.log(...dealTosend);
-		localStorage.setItem('formData', data);
+		toast.success('Offer Added', {
+			position: toast.POSITION.TOP_RIGHT,
+			autoClose: 5000
+		});
+		// const data = new FormData();
+		// data.append('title', productDetails.title);
+		// data.append('agentId', productDetails.agentId);
+		// data.append('product', productDetails.category);
+		// data.append('description', productDetails.description);
+		// data.append('price', productDetails.bulkPrice);
+		// setDealToSend([...dealTosend, { data }]);
+		// console.log(dealTosend);
+		// console.log(...dealTosend);
+		// localStorage.setItem('formData', data);
 	};
 
 	const handleClickOpen = (scrollType) => () => {
@@ -147,14 +139,15 @@ const AccountDetails = () => {
 	};
 
 	const descriptionElementRef = useRef(null);
-	React.useEffect(() => {
+	useEffect(() => {}, []);
+	useEffect(() => {
 		if (open) {
 			const { current: descriptionElement } = descriptionElementRef;
 			if (descriptionElement !== null) {
 				descriptionElement.focus();
 			}
 		}
-	}, [open]);
+	}, [open, deal]);
 
 	return (
 		<div>
@@ -176,6 +169,7 @@ const AccountDetails = () => {
 				<DialogTitle id='scroll-dialog-title'>
 					You are about to add a deal
 				</DialogTitle>
+				{/* <Close onClick={handleClose} className={classes.close} /> */}
 				<DialogContent dividers={'scroll' === 'paper'}>
 					<Grid container spacing={4}>
 						<Card>

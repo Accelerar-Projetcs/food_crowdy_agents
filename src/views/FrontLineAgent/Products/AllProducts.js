@@ -9,7 +9,6 @@ import CardActions from '@material-ui/core/CardActions';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
-import { red } from '@material-ui/core/colors';
 import Grid from '@material-ui/core/Grid';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShareIcon from '@material-ui/icons/Share';
@@ -19,24 +18,12 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 const useStyles = makeStyles((theme) => ({
 	root: {
 		// maxWidth: 345
-		margin: theme.spacing(2)
+		margin: theme.spacing(1),
+		background: theme.palette.background.paper
 	},
 	media: {
 		height: 0,
 		paddingTop: '56.25%' // 16:9
-	},
-	expand: {
-		transform: 'rotate(0deg)',
-		marginLeft: 'auto',
-		transition: theme.transitions.create('transform', {
-			duration: theme.transitions.duration.shortest
-		})
-	},
-	expandOpen: {
-		transform: 'rotate(180deg)'
-	},
-	avatar: {
-		backgroundColor: red[500]
 	}
 }));
 
@@ -77,15 +64,16 @@ export default function RecipeReviewCard() {
 
 	return (
 		<React.Fragment>
-			<Grid container spacing={4}>
+			<Grid container spacing={2}>
 				{data.map((item) => (
-					<Grid spacing={3} itemitem lg={6} md={12} xl={9} xs={12}>
+					<Grid key={item.id} item lg={6} md={12} xl={9} xs={12}>
 						<Card className={classes.root}>
 							<CardHeader
 								avatar={
-									<Avatar aria-label='recipe' className={classes.avatar}>
-										R
-									</Avatar>
+									<Avatar
+										alt={item.title}
+										aria-label={item.title}
+										className={classes.avatar}></Avatar>
 								}
 								action={
 									<IconButton aria-label='settings'>

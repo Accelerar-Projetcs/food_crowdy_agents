@@ -1,4 +1,5 @@
-import React, { useState, createContext, useEffect } from 'react';
+import React, { useState, createContext } from 'react';
+import { toast } from 'react-toastify';
 
 /**
  * using a global notification state for user signup and sign in
@@ -30,9 +31,44 @@ const ContextProvider = ({ children }) => {
 		// }
 	};
 
+	const postOffer = () => {
+		// try {
+		// 	const res = await ProductsApi.post(
+		// 		`/create/${productDetails.agentId}`,
+		// 		data
+		// 		// header
+		// 	);
+		// 	setLoading(false);
+		// 	console.log(res);
+		toast.success('product Uploaded succesfully', {
+			position: toast.POSITION.TOP_RIGHT,
+			autoClose: 5000
+		});
+		// setOpen(false);
+
+		// 	console.log(res);
+		// } catch (error) {
+		// 	// setAlert(true);
+		// 	console.log({ error });
+		// 	toast.error('There was a problem in uploading your product', {
+		// 		position: toast.POSITION.TOP_RIGHT,
+		// 		autoClose: 5000
+		// 	});
+		// 	console.log(error);
+		// }
+		// setLoading(false);
+	};
+
 	return (
 		<contextApi.Provider
-			value={{ dealDisplay, setDealDisplay, setDealToSend, dealTosend }}>
+			value={{
+				dealDisplay,
+				setDealDisplay,
+				setDealToSend,
+				dealTosend,
+				postOffer,
+				logoutUser
+			}}>
 			{children}
 		</contextApi.Provider>
 	);

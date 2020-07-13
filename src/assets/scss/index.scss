@@ -14,8 +14,8 @@ $bg-color: #fff;
 $gray: rgb(63, 63, 63);
 $black: rgb(22, 22, 22);
 $success: green;
-$sm-font:.9rem;
-$sm-font-heading:1.1rem;
+$sm-font: 0.9rem;
+$sm-font-heading: 1.1rem;
 $box-shadow: 0 1px 1px rgba(0, 0, 0, 0.11), 0 2px 2px rgba(0, 0, 0, 0.11),
 	0 4px 4px rgba(0, 0, 0, 0.11), 0 6px 8px rgba(0, 0, 0, 0.11),
 	0 8px 16px rgba(0, 0, 0, 0.11);
@@ -43,7 +43,7 @@ a {
 }
 
 /****Shopping Page****/
- .shoping {
+.shoping {
 	background: $light2;
 	.shop-title {
 		margin: 1rem 0.3rem;
@@ -70,5 +70,34 @@ a {
 		box-shadow: $box-shadow;
 		border-radius: $border-radius;
 		margin: 1rem;
+	}
+}
+
+.strong {
+	// background: yellowgreen;
+	span {
+		// display: inline-block;
+		color: $black;
+	}
+	p {
+		background: green;
+		height: .3rem;
+		border-radius: $border-radius;
+		display: inline-block;
+		width: 20%;
+	}
+}
+.weak {
+	// background: yellowgreen;
+	span {
+		// display: inline-block;
+		color: $black;
+	}
+	p {
+		background: yellow;
+		height: .3rem;
+		border-radius: $border-radius;
+		display: inline-block;
+		width: 10%;
 	}
 }
