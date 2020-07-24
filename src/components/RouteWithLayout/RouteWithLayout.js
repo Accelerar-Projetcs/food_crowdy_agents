@@ -1,18 +1,25 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import SignIn from '../../views/SignUp/SignUp';
 
 const RouteWithLayout = (props) => {
 	const { layout: Layout, component: Component, ...rest } = props;
-
+	const token = localStorage.getItem('_user');
+	
 	return (
 		<Route
 			{...rest}
-			render={(matchProps) => (
-				<Layout>
-					<Component {...matchProps} />
-				</Layout>
-			)}
+			render={(matchProps) =>
+				!token ? (
+					<Layout>
+						<Component {...matchProps} />
+					</Layout>
+				) : (
+					// <Redirect to='/sign-in' />
+					<SignIn />
+				)
+			}
 		/>
 	);
 };

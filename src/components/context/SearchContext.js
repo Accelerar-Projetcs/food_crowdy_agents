@@ -1,18 +1,28 @@
 import React, { useState, createContext } from 'react';
 import { toast } from 'react-toastify';
-import { ProductsApi } from '../../server/Server';
+import { ProductsApi, agentUser } from '../../server/Server';
 import { getUserId } from '../../utils/localStore';
-export const contextApi = createContext();
+
+/**
+ * using a global notification state for user signup and sign in
+ **/
+
+export const SearchContext = createContext();
 
 const ContextProvider = ({ children }) => {
+	// const history = useHistory();
 	const [dealDisplay, setDealDisplay] = useState([]);
 	const [dealTosend, setDealToSend] = useState([]);
 	const [loading, setLoading] = useState(false);
 	const agentId = getUserId();
 
-	//****Filtered Product States*******//
-	const [products, setproducts] = useState([]);
-
+	const logoutUser = async (e, history) => {
+		e.preventDefault();
+		try {
+			localStorage.clear();
+			history.push('/');
+		} catch (error) {}
+	};
 
 	const postOffer = (history) => {
 		// if (!dealDisplay.length) {
@@ -58,8 +68,6 @@ const ContextProvider = ({ children }) => {
 		// }
 	};
 
-	//||----Search Context Manipulation for filtering Products------||
-
 	return (
 		<contextApi.Provider
 			value={{
@@ -68,6 +76,7 @@ const ContextProvider = ({ children }) => {
 				setDealToSend,
 				dealTosend,
 				postOffer,
+				logoutUser,
 				loading,
 				setLoading
 			}}>

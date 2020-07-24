@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+import { agentProducts } from '../../utils/FetchData';
+import { getUniqueId } from '../../utils/localStore';
 import { makeStyles } from '@material-ui/core/styles';
 import {
 	Card,
@@ -17,8 +19,16 @@ import {
 	TableSortLabel
 } from '@material-ui/core';
 
-function createData(name, category, location, noOfParts, totalPrice, id) {
-	return { name, category, location, noOfParts, totalPrice, id };
+function createData(
+	name,
+	category,
+	location,
+	noOfParts,
+	totalPrice,
+	id,
+	Farmlocation
+) {
+	return { name, category, location, noOfParts, totalPrice, id, Farmlocation };
 }
 
 const formatter = new Intl.NumberFormat('en-NG', {
@@ -54,13 +64,13 @@ function stableSort(array, comparator) {
 }
 
 const headCells = [
-	{ id: 'name', numeric: false, disablePadding: true, label: 'PRODUCTS' },
-	{ id: 'CATEGORY', numeric: true, disablePadding: false, label: 'CATEGORY' },
-	{ id: 'LOCATION', numeric: true, disablePadding: false, label: 'LOCATION' },
-	{ id: 'MAX-PARTS', numeric: true, disablePadding: false, label: 'MAX-PARTS' },
+	{ id: 'name', numeric: false, disablePadding: true, label: 'Agent ID' },
+	{ id: 'CATEGORY', numeric: true, disablePadding: false, label: 'Farmer' },
+	// { id: 'Title', numeric: true, disablePadding: false, label: 'Title' },
+	{ id: 'location', numeric: true, disablePadding: false, label: 'Location' },
 	{ id: 'DATE', numeric: true, disablePadding: false, label: 'DATE' },
 	{
-		id: 'TOTAL PRICE',
+		id: ' Price',
 		numeric: true,
 		disablePadding: false,
 		label: 'TOTAL PRICE'
@@ -136,26 +146,35 @@ const Pending = ({ productData, title }) => {
 	const [order, setOrder] = React.useState('asc');
 	const [orderBy, setOrderBy] = React.useState('category');
 	const [selected, setSelected] = React.useState([]);
+	const [data, setData] = React.useState([]);
 	const [page, setPage] = React.useState(0);
 	const [rowsPerPage, setRowsPerPage] = React.useState(5);
 	console.log(title);
+	const agentId = getUniqueId(setPage);
 
 	const storeData = (data) => {
 		const storedData = data.map((item) =>
 			createData(
+				item.agentId,
 				item.title,
-				item.category,
-				item.discount,
-				item.maxParticipants,
-				item.bulkPrice,
+				item.farmerName,
+				item.location,
+				item.agentPriceOffer,
+				item.createdAt,
 				item._id
 			)
 		);
 		return storedData;
 	};
 
-	const rows = [storeData([])];
+	const rows = [storeData(data)];
 	console.log(productData);
+	React.useEffect(() => {
+		agentProducts(`/agent/myupload/pending/${agentId}`).then((data) => {
+			setData(data.data);
+			console.log(data);
+		});
+	}, [agentId]);
 
 	const handleRequestSort = (event, property) => {
 		const isAsc = orderBy === property && order === 'asc';
@@ -234,14 +253,14 @@ const Pending = ({ productData, title }) => {
 													{row.name.slice(0, 20)}
 												</TableCell>
 												<TableCell align='right'>{row.category}</TableCell>
-												<TableCell align='right'>{row.location}</TableCell>
 												<TableCell align='right'>{row.noOfParts}</TableCell>
-												<TableCell align='right'>
-													{formatter.format(row.totalPrice)}
-												</TableCell>
+												{/* <TableCell align='right'>{row.title}</TableCell> */}
 												<TableCell align='right'>
 													{' '}
 													{moment(order.createdAt).format('DD/MM/YYYY')}
+												</TableCell>
+												<TableCell align='right'>
+													{formatter.format(row.totalPrice)}
 												</TableCell>
 											</TableRow>
 										);
