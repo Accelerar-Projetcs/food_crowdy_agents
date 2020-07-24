@@ -31,7 +31,7 @@ export default class App extends Component {
 			<ThemeProvider theme={theme}>
 				<Router history={browserHistory}>
 					<Routes />
-          <ToastContainer />
+					<ToastContainer hideProgressBar={false} />
 				</Router>
 			</ThemeProvider>
 		);
