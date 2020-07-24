@@ -16,6 +16,23 @@ export const getUserId = () => {
 	}
 };
 
+export const getRole = () => {
+	if (localStorage.getItem('_user')) {
+		const userID = JSON.parse(localStorage.getItem('_user'));
+		return userID.role;
+	} else {
+		return null;
+	}
+};
+export const getUniqueId = () => {
+	if (localStorage.getItem('_user')) {
+		const userID = JSON.parse(localStorage.getItem('_user'));
+		return userID.uniqueId;
+	} else {
+		return null;
+	}
+};
+
 export const clearUserOfflineDatas = () => {
 	localStorage.removeItem('_cart');
 };
