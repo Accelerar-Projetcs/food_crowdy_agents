@@ -1,10 +1,9 @@
 import React, { Suspense, lazy } from 'react';
-import { Switch } from 'react-router-dom';
+import logo from './assets/images/logoFood_1.svg';
+import { Switch, Route } from 'react-router-dom';
 
 import { RouteWithLayout } from './components';
 import { Main as MainLayout, Minimal as MinimalLayout } from './layouts';
-
-import Dashboard from './views/Dashboard/Dashboard';
 
 import AccountView from './views/Account/Account';
 import SignUpView from './views/SignUp/SignUp';
@@ -13,8 +12,11 @@ import UserListView from './views/UserList/UserList';
 import SettingsView from './views/Settings/Settings';
 import TypographyView from './views/Typography/Typography';
 import NotFoundView from './views/NotFound/NotFound';
+import BackLineAgentDashboard from './views/DashboardBL/Dashboard';
+import FrontLineAgentDashboard from './views/Dashboard/Dashboard';
 
 //**** BackLine Agents ******//
+
 const DeleteRequest = lazy(() => import('./views/BackLineAgent/DeleteRequest'));
 const UpdateRequest = lazy(() => import('./views/BackLineAgent/UpdateRequest'));
 const ProductsList = lazy(() =>
@@ -28,17 +30,49 @@ const AgentProductUpload = lazy(() =>
 const ProductsForFrontLine = lazy(() =>
 	import('./views/FrontLineAgent/Products/Products')
 );
+const ProductsDetails = lazy(() =>
+	import('./views/FrontLineAgent/ProductDetails/ProductDetails')
+);
+const FrontLineAgentWallet = lazy(() =>
+	import('./views/FrontLineAgent/Wallet/Wallet')
+);
+
+//****FallBack Loader  Components ****//
+const FallBack = (
+	<div className='full-page-loader'>
+		<img width='200' src={logo} alt='Food Crowdy Agents' />
+	</div>
+);
+
+//***Function to Display specific Home Dashboard by Roles *****//
+const getRole = (roles) => {
+	switch (roles) {
+		case 'frontline':
+			return FrontLineAgentDashboard;
+		case 'backline':
+			return BackLineAgentDashboard;
+		default:
+			return NotFoundView;
+	}
+};
 
 const Routes = () => {
+	const role = `frontline-agent`;
 	return (
-		<Switch>
-			<Suspense fallback={<h1>Loading....</h1>}>
+		<Suspense fallback={FallBack}>
+			<Switch>
 				<RouteWithLayout
-					component={Dashboard}
+					component={getRole('frontline')}
 					exact
 					layout={MainLayout}
 					path='/'
 				/>
+				{/* <RouteWithLayout
+					component={BackLineAgentDashboard}
+					exact
+					layout={MainLayout}
+					path='/backline-agent'
+				/> */}
 				<RouteWithLayout
 					component={UserListView}
 					exact
@@ -76,6 +110,25 @@ const Routes = () => {
 					layout={MainLayout}
 				/>
 				<RouteWithLayout
+					exact
+					// path='/agents/frontline/produ/cts-details'
+					path='/agents/frontline/products-details/:category/:title/:id'
+					component={ProductsDetails}
+					layout={MainLayout}
+				/>
+				<RouteWithLayout
+					exact
+					path='/agents/frontline/wallet'
+					component={FrontLineAgentWallet}
+					layout={MainLayout}
+				/>
+				<RouteWithLayout
+					exact
+					path='/frontline'
+					component={FrontLineAgentDashboard}
+					layout={MainLayout}
+				/>
+				<RouteWithLayout
 					component={TypographyView}
 					exact
 					layout={MainLayout}
@@ -93,13 +146,13 @@ const Routes = () => {
 					layout={MainLayout}
 					path='/settings'
 				/>
-				<RouteWithLayout
+				<Route
 					component={SignUpView}
 					exact
 					layout={MinimalLayout}
 					path='/sign-up'
 				/>
-				<RouteWithLayout
+				<Route
 					component={SignInView}
 					exact
 					layout={MinimalLayout}
@@ -109,10 +162,9 @@ const Routes = () => {
 					component={NotFoundView}
 					exact
 					layout={MinimalLayout}
-					path='/not-found'
 				/>
-			</Suspense>
-		</Switch>
+			</Switch>
+		</Suspense>
 	);
 };
 

@@ -4,6 +4,7 @@ import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
 import { Avatar, Typography } from '@material-ui/core';
+import { getUserName } from '../../../../../../utils/localStore';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -24,13 +25,16 @@ const useStyles = makeStyles((theme) => ({
 const Profile = (props) => {
 	const { className, ...rest } = props;
 
+	const userName = getUserName();
 	const classes = useStyles();
 
 	const user = {
-		name: 'Michael',
+		name: userName,
 		avatar: '/images/avatars/avatar_11.png',
-		bio: 'Chinweike Michael'
+		bio: userName
 	};
+
+	console.log(userName);
 
 	return (
 		<div {...rest} className={clsx(classes.root, className)}>
@@ -42,7 +46,7 @@ const Profile = (props) => {
 				to='/settings'
 			/>
 			<Typography className={classes.name} variant='h4'>
-				{user.name}
+				{user.userName}
 			</Typography>
 			<Typography variant='body2'>{user.bio}</Typography>
 		</div>

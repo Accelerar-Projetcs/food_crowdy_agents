@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
 import { AppBar, Toolbar } from '@material-ui/core';
-// import Logo from '../../../../assets/images/logo.svg';
+import Logo from '../../../../assets/images/logoFood.svg';
 
 const useStyles = makeStyles(() => ({
 	root: {
@@ -25,7 +25,7 @@ const Topbar = (props) => {
 			position='fixed'>
 			<Toolbar>
 				<RouterLink to='/'>
-					<img alt='Food crowdy agents' src={"https://res.cloudinary.com/cmcwebcode/image/upload/v1594111180/logo_lbdjst.svg"} />
+					<img height={60} alt='Food crowdy agents' src={Logo} />
 				</RouterLink>
 			</Toolbar>
 		</AppBar>
