@@ -1,27 +1,11 @@
+@import './theme';
+@import './custom';
+
 * {
 	box-sizing: border-box;
 	margin: 0;
 	padding: 0;
 }
-$border-radius: 0.3rem;
-$primary: #008080;
-$light: #e9e9e9;
-$light2: #f0f0f0;
-$white: #fff;
-$secondary: #ffcc2a;
-$footer-text: rgb(209, 209, 209);
-$bg-color: #fff;
-$gray: rgb(63, 63, 63);
-$black: rgb(22, 22, 22);
-$success: green;
-$sm-font: 0.9rem;
-$sm-font-heading: 1.1rem;
-$box-shadow: 0 1px 1px rgba(0, 0, 0, 0.11), 0 2px 2px rgba(0, 0, 0, 0.11),
-	0 4px 4px rgba(0, 0, 0, 0.11), 0 6px 8px rgba(0, 0, 0, 0.11),
-	0 8px 16px rgba(0, 0, 0, 0.11);
-$box-shadow2: 0 1px 1px rgba(0, 0, 0, 0.11), 0 2px 2px rgba(0, 0, 0, 0.11),
-	0 4px 4px rgba(0, 0, 0, 0.11), 0 6px 8px rgba(0, 0, 0, 0.11),
-	0 8px 16px rgba(0, 0, 0, 0.11);
 
 html {
 	height: 100%;
@@ -42,62 +26,10 @@ a {
 	height: 100%;
 }
 
-/****Shopping Page****/
-.shoping {
-	background: $light2;
-	.shop-title {
-		margin: 1rem 0.3rem;
-		background: $white;
-		box-shadow: $box-shadow;
-		border-radius: $border-radius;
-		h3 {
-			margin: 0.5rem 0.8rem;
-			background: $white;
-			padding: 1rem 0.5rem;
-		}
-	}
-	&-search {
-		padding: 0.4rem;
-		form {
-			margin: 1rem 0.4rem;
-			input {
-				border-radius: $border-radius;
-				border: 2px solid $light;
-				width: 60%;
-			}
-		}
-		background: $white;
-		box-shadow: $box-shadow;
-		border-radius: $border-radius;
-		margin: 1rem;
-	}
+.tetiary-color-bg {
+	color: $white;
+	background: $tetiaryColor;
 }
-
-.strong {
-	// background: yellowgreen;
-	span {
-		// display: inline-block;
-		color: $black;
-	}
-	p {
-		background: green;
-		height: .3rem;
-		border-radius: $border-radius;
-		display: inline-block;
-		width: 20%;
-	}
-}
-.weak {
-	// background: yellowgreen;
-	span {
-		// display: inline-block;
-		color: $black;
-	}
-	p {
-		background: yellow;
-		height: .3rem;
-		border-radius: $border-radius;
-		display: inline-block;
-		width: 10%;
-	}
+.tetiary-text-color {
+	color: $tetiaryColor;
 }

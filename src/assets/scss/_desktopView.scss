@@ -1,0 +1,19 @@
+@media (min-width: 1000px) {
+	//***Product Pgae****//
+  // body{
+  //   display: none;
+  // }
+	.product-details {
+		&-items {
+			display: none !important;
+			justify-content: center;
+			.image {
+				margin: 2rem;
+			}
+			.desc {
+				flex-basis: 50%;
+				margin: 2rem 2rem;
+			}
+		}
+	}
+}
