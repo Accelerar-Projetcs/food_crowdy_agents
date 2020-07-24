@@ -51,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
 // 	refunded: 'danger'
 // };
 
-const LatestOrders = (props) => {
+const ApprovedDeals = (props) => {
 	const { className, ...rest } = props;
 
 	const classes = useStyles();
@@ -66,7 +66,7 @@ const LatestOrders = (props) => {
 						New entry
 					</Button>
 				}
-				title='Users Network'
+				title='Approved Offers'
 			/>
 			<Divider />
 			<CardContent className={classes.content}>
@@ -118,8 +118,8 @@ const LatestOrders = (props) => {
 	);
 };
 
-LatestOrders.propTypes = {
+ApprovedDeals.propTypes = {
 	className: PropTypes.string
 };
 
-export default LatestOrders;
+export default ApprovedDeals;

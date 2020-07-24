@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
+import Footer from '../../layouts/Main/components/Footer/Footer';
+import Minimal from '../../layouts/Minimal/Minimal';
 import { agentUser } from '../../server/Server';
 import { saveAuthToken, saveUserDetails } from '../../utils/AuthToken';
 import DoneIcon from '@material-ui/icons/Done';
@@ -7,14 +9,14 @@ import PropTypes from 'prop-types';
 import { Alert } from '@material-ui/lab/';
 import validate from 'validate.js';
 import { makeStyles } from '@material-ui/styles';
+import { toast } from 'react-toastify';
 import {
 	Grid,
 	Button,
 	IconButton,
 	TextField,
 	Link,
-	Typography,
-	InputAdornment
+	Typography
 } from '@material-ui/core';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
@@ -48,8 +50,8 @@ const schema = {
 
 const useStyles = makeStyles((theme) => ({
 	root: {
-		backgroundColor: '#fff',
-		height: '100vh'
+		backgroundColor: '#fff'
+		// height: '100vh'
 	},
 	grid: {
 		height: '100vh'
@@ -150,9 +152,7 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-const SignIn = (props) => {
-	const { history, location } = props;
-
+const SignIn = ({ history }) => {
 	const classes = useStyles();
 	const [message, setMessage] = useState('');
 	const [loading, setLoading] = useState('');
@@ -162,13 +162,7 @@ const SignIn = (props) => {
 	});
 	const [formState, setFormState] = useState({
 		isValid: false,
-		values: {
-			name: 'John M',
-			email: 'thiweyhtopwekekn@gmail.com',
-			password: 'mike123',
-			phoneNumber: '0993893899388',
-			role: 'backline'
-		},
+		values: {},
 		touched: {},
 		errors: {}
 	});
@@ -187,17 +181,29 @@ const SignIn = (props) => {
 		history.goBack();
 	};
 
-	const validatePassword = (e) => {
-		console.log(e.target.value);
-		if (e.target.value.length < 8) {
+	const checkPassword = (inputText) => {
+		// var password = /^(?=.\d)(?=.[a-z])(?=.*[A-Z]).{6,20}$/;
+		var password = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$/;
+		//Minimum 8 characters at least 1 Alphabet, 1 Number and 1 Special Character:
+		// if (inputText.length > 8) {
+		if (inputText.match(password)) {
 			setPasswordCheck({
-				title: 'password strength too weak',
-				class: 'weak'
+				text: 'password strength is strong',
+				class: 'strong',
+				done: true
 			});
-		} else if (e.target.value.length > 10) {
+		} else if (inputText.length < 4) {
 			setPasswordCheck({
-				title: 'password strength strong',
-				class: 'strong'
+				text: '',
+				class: '',
+				done: false
+			});
+			return false;
+		} else {
+			setPasswordCheck({
+				text: 'password strength is weak',
+				class: 'weak',
+				done: false
 			});
 		}
 	};
@@ -221,22 +227,21 @@ const SignIn = (props) => {
 	const handleSignIn = async (event) => {
 		event.preventDefault();
 		setLoading(!loading);
-		console.log(formState);
+
 		try {
 			const res = await agentUser.post('/signup', formState.values);
-			console.log(formState.values);
 			saveUserDetails(res.data.newUser);
 			saveAuthToken(res.data.token);
-			console.log(res);
-
-			if (location && location.state) {
-				history.replace(location.state.pathname);
-			} else {
-				history.replace('/');
-			}
+			toast.success(
+				`Welcome ${formState.values.name} offer a deal for review`,
+				{
+					position: toast.POSITION.TOP_RIGHT,
+					autoClose: 5000
+				}
+			);
+			history.push('/');
 		} catch (error) {
 			const { response } = error;
-			console.log({ error });
 			if (response === undefined) {
 				setMessage(error.message);
 			} else if (response.data) {
@@ -248,9 +253,9 @@ const SignIn = (props) => {
 
 	const hasError = (field) =>
 		formState.touched[field] && formState.errors[field] ? true : false;
-	console.log(passwordCheck);
 	return (
 		<div className={classes.root}>
+			<Minimal />
 			<Grid className={classes.grid} container>
 				<Grid className={classes.quoteContainer} item lg={5}>
 					<div className={classes.quote}>
@@ -299,11 +304,12 @@ const SignIn = (props) => {
 										hasError('userName') ? formState.errors.username[0] : null
 									}
 									label='Name'
-									name='userName'
+									name='name'
 									onChange={handleChange}
 									type='text'
-									value={formState.values.userName || ''}
+									value={formState.values.name || ''}
 									variant='outlined'
+									required
 								/>
 								<TextField
 									className={classes.textField}
@@ -318,6 +324,22 @@ const SignIn = (props) => {
 									type='text'
 									value={formState.values.email || ''}
 									variant='outlined'
+									required
+								/>
+								<TextField
+									className={classes.textField}
+									error={hasError('email')}
+									fullWidth
+									helperText={
+										hasError('email') ? formState.errors.email[0] : null
+									}
+									label='Phone Number'
+									name='phoneNumber'
+									onChange={handleChange}
+									type='number'
+									value={formState.values.phoneNumber || ''}
+									variant='outlined'
+									required
 								/>
 								<TextField
 									className={classes.textField}
@@ -330,45 +352,42 @@ const SignIn = (props) => {
 									name='password'
 									onChange={(e) => {
 										handleChange(e);
-										validatePassword(e);
+										checkPassword(e.target.value);
 									}}
 									type='password'
 									// value={formState.values.password || ''}
-									startAdornment={
-										<InputAdornment position='start'>
-											<IconButton>
-												<DoneIcon />
-											</IconButton>
-										</InputAdornment>
-									}
 									variant='outlined'
+									required
 								/>
-								<DoneIcon />
 								<div className={passwordCheck.class}>
 									<span></span>
 									{passwordCheck.text}
 									<p></p>
+									<p></p>
+									<p></p>
+									{passwordCheck.done && (
+										<DoneIcon style={{ color: 'green' }} color='inherit' />
+									)}
 								</div>
 								<TextField
 									className={classes.textField}
 									fullWidth
 									select
 									label='role'
-									name='agent-role'
+									name='role'
 									onChange={handleChange}
 									required
 									SelectProps={{
 										native: true
 									}}
 									helperText='Please select your role'
-									variant='outlined'>
-									{['BackLine Vendors', 'Frontline', 'Farmers'].map(
-										(option) => (
-											<option key={option} value={option}>
-												{option}
-											</option>
-										)
-									)}
+									variant='outlined'
+									required>
+									{['backline ', 'frontline', 'farmers'].map((option) => (
+										<option key={option} value={option}>
+											{option}
+										</option>
+									))}
 								</TextField>
 								<Button
 									className={classes.signInButton}
@@ -391,6 +410,7 @@ const SignIn = (props) => {
 					</div>
 				</Grid>
 			</Grid>
+			<Footer />
 		</div>
 	);
 };

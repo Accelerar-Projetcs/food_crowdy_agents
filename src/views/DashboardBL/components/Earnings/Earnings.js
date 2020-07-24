@@ -3,8 +3,9 @@ import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
 import { Card, CardContent, Grid, Typography, Avatar } from '@material-ui/core';
-import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
-import PeopleIcon from '@material-ui/icons/PeopleOutlined';
+import ArrowUp from '@material-ui/icons/ArrowUpwardTwoTone';
+import MoneyIcon from '@material-ui/icons/Money';
+import { formatter } from '../../../../utils/localStore';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -18,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
 		fontWeight: 700
 	},
 	avatar: {
-		backgroundColor: theme.palette.success.main,
+		backgroundColor: theme.palette.tetiary.main,
 		height: 56,
 		width: 56
 	},
@@ -35,12 +36,12 @@ const useStyles = makeStyles((theme) => ({
 		color: theme.palette.success.dark
 	},
 	differenceValue: {
-		color: theme.palette.success.dark,
+		color: theme.palette.error.dark,
 		marginRight: theme.spacing(1)
 	}
 }));
 
-const TotalUsers = (props) => {
+const Earnings = (props) => {
 	const { className, ...rest } = props;
 
 	const classes = useStyles();
@@ -55,20 +56,20 @@ const TotalUsers = (props) => {
 							color='textSecondary'
 							gutterBottom
 							variant='body2'>
-							TOTAL OFFERS
+							Earnings
 						</Typography>
-						<Typography variant='h3'>30</Typography>
+						<Typography variant='h3'>{formatter.format(20000)}</Typography>
 					</Grid>
 					<Grid item>
 						<Avatar className={classes.avatar}>
-							<PeopleIcon className={classes.icon} />
+							<MoneyIcon className={classes.icon} />
 						</Avatar>
 					</Grid>
 				</Grid>
 				<div className={classes.difference}>
-					<ArrowUpwardIcon className={classes.differenceIcon} />
+					<ArrowUp className={classes.differenceIcon} />
 					<Typography className={classes.differenceValue} variant='body2'>
-						16%
+						{/* 12% */}
 					</Typography>
 					<Typography className={classes.caption} variant='caption'>
 						Since last month
@@ -79,8 +80,8 @@ const TotalUsers = (props) => {
 	);
 };
 
-TotalUsers.propTypes = {
+Earnings.propTypes = {
 	className: PropTypes.string
 };
 
-export default TotalUsers;
+export default Earnings;

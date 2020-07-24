@@ -1,11 +1,13 @@
 import React from 'react';
-import clsx from 'clsx';
-import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
-import { Card, CardContent, Grid, Typography, Avatar } from '@material-ui/core';
-import ArrowUp from '@material-ui/icons/ArrowUpwardTwoTone';
-import MoneyIcon from '@material-ui/icons/Money';
-import { formatter } from '../../../../utils/localStore';
+import {
+	Card,
+	CardContent,
+	Grid,
+	Typography,
+	Button
+} from '@material-ui/core';
+import ArrowUpWard from '@material-ui/icons/ArrowUpward';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -19,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
 		fontWeight: 700
 	},
 	avatar: {
-		backgroundColor: theme.palette.tetiary.main,
+		backgroundColor: theme.palette.success.main,
 		height: 56,
 		width: 56
 	},
@@ -33,21 +35,23 @@ const useStyles = makeStyles((theme) => ({
 		alignItems: 'center'
 	},
 	differenceIcon: {
-		color: theme.palette.success.dark
+		color: theme.palette.error.dark
 	},
 	differenceValue: {
 		color: theme.palette.error.dark,
 		marginRight: theme.spacing(1)
+	},
+	btn: {
+		color: theme.palette.white,
+		background: theme.palette.success.main
 	}
 }));
 
-const Budget = (props) => {
-	const { className, ...rest } = props;
-
+const FundWallet = () => {
 	const classes = useStyles();
 
 	return (
-		<Card {...rest} className={clsx(classes.root, className)}>
+		<Card className={classes.root}>
 			<CardContent>
 				<Grid container justify='space-between'>
 					<Grid item>
@@ -56,20 +60,17 @@ const Budget = (props) => {
 							color='textSecondary'
 							gutterBottom
 							variant='body2'>
-							Earnings
+							Fund Your Wallet
 						</Typography>
-						<Typography variant='h3'>{formatter.format(20000)}</Typography>
-					</Grid>
-					<Grid item>
-						<Avatar className={classes.avatar}>
-							<MoneyIcon className={classes.icon} />
-						</Avatar>
+						<Button className={classes.btn} variant='contained' color='inherit'>
+							Fund Wallet
+						</Button>
 					</Grid>
 				</Grid>
 				<div className={classes.difference}>
-					<ArrowUp className={classes.differenceIcon} />
+					<ArrowUpWard className={classes.differenceIcon} />
 					<Typography className={classes.differenceValue} variant='body2'>
-						{/* 12% */}
+						12%
 					</Typography>
 					<Typography className={classes.caption} variant='caption'>
 						Since last month
@@ -80,8 +81,4 @@ const Budget = (props) => {
 	);
 };
 
-Budget.propTypes = {
-	className: PropTypes.string
-};
-
-export default Budget;
+export default FundWallet;

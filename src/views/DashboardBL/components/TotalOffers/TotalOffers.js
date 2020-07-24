@@ -3,9 +3,8 @@ import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
 import { Card, CardContent, Grid, Typography, Avatar } from '@material-ui/core';
-import ArrowUp from '@material-ui/icons/ArrowUpwardTwoTone';
-import MoneyIcon from '@material-ui/icons/Money';
-import { formatter } from '../../../../utils/localStore';
+import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
+import PeopleIcon from '@material-ui/icons/PeopleOutlined';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -19,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
 		fontWeight: 700
 	},
 	avatar: {
-		backgroundColor: theme.palette.tetiary.main,
+		backgroundColor: theme.palette.success.main,
 		height: 56,
 		width: 56
 	},
@@ -36,12 +35,12 @@ const useStyles = makeStyles((theme) => ({
 		color: theme.palette.success.dark
 	},
 	differenceValue: {
-		color: theme.palette.error.dark,
+		color: theme.palette.success.dark,
 		marginRight: theme.spacing(1)
 	}
 }));
 
-const Budget = (props) => {
+const TotalUserBrought = (props) => {
 	const { className, ...rest } = props;
 
 	const classes = useStyles();
@@ -56,20 +55,20 @@ const Budget = (props) => {
 							color='textSecondary'
 							gutterBottom
 							variant='body2'>
-							Earnings
+							TOTAL Offers
 						</Typography>
-						<Typography variant='h3'>{formatter.format(20000)}</Typography>
+						<Typography variant='h3'>30</Typography>
 					</Grid>
 					<Grid item>
 						<Avatar className={classes.avatar}>
-							<MoneyIcon className={classes.icon} />
+							<PeopleIcon className={classes.icon} />
 						</Avatar>
 					</Grid>
 				</Grid>
 				<div className={classes.difference}>
-					<ArrowUp className={classes.differenceIcon} />
+					<ArrowUpwardIcon className={classes.differenceIcon} />
 					<Typography className={classes.differenceValue} variant='body2'>
-						{/* 12% */}
+						16%
 					</Typography>
 					<Typography className={classes.caption} variant='caption'>
 						Since last month
@@ -80,8 +79,8 @@ const Budget = (props) => {
 	);
 };
 
-Budget.propTypes = {
+TotalUserBrought.propTypes = {
 	className: PropTypes.string
 };
 
-export default Budget;
+export default TotalUserBrought;

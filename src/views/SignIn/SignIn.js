@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Link as RouterLink, withRouter } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
 import { agentUser } from '../../server/Server';
 import { saveAuthToken, saveUserDetails } from '../../utils/AuthToken';
 import PropTypes from 'prop-types';
 import { Alert } from '@material-ui/lab/';
 import validate from 'validate.js';
 import { makeStyles } from '@material-ui/styles';
+import Footer from '../../layouts/Main/components/Footer/Footer';
+import Minimal from '../../layouts/Minimal/Minimal';
 import {
 	Grid,
 	Button,
@@ -15,10 +17,6 @@ import {
 	Typography
 } from '@material-ui/core';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-// // import { Facebook as FacebookIcon, Google as GoogleIcon } from '@material-ui/icons';
-// import FacebookIcon from '@material-ui/icons/Facebook';
-// import GoogleIcon from '@material-ui/icons/GroupOutlined';
-// import FaceBook from '@material-ui/icons/Facebook';
 
 const schema = {
 	email: {
@@ -43,11 +41,10 @@ const schema = {
 
 const useStyles = makeStyles((theme) => ({
 	root: {
-		backgroundColor: theme.palette.background.default,
-		height: '100%'
+		// height: '100%'
 	},
 	grid: {
-		height: '100%'
+		// height: '100%'
 	},
 	quoteContainer: {
 		[theme.breakpoints.down('md')]: {
@@ -137,7 +134,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const SignIn = (props) => {
-	const { history, location } = props;
+	const { history } = props;
 
 	const classes = useStyles();
 	const [message, setMessage] = useState('');
@@ -170,10 +167,7 @@ const SignIn = (props) => {
 			...formState,
 			values: {
 				...formState.values,
-				[event.target.name]:
-					event.target.type === 'checkbox'
-						? event.target.checked
-						: event.target.value
+				[event.target.name]: event.target.value
 			},
 			touched: {
 				...formState.touched,
@@ -187,17 +181,12 @@ const SignIn = (props) => {
 		setLoading(!loading);
 		try {
 			const res = await agentUser.post('/signin', formState.values);
-			console.log(formState.values);
 			saveUserDetails(res.data.validUser);
 			saveAuthToken(res.data.token);
-			if (location && location.state) {
-				history.replace(location.state.pathname);
-			} else {
-				history.replace('/dashboard');
-			}
+			console.log(res);
+			history.push('/');
 		} catch (error) {
 			const { response } = error;
-			console.log({ error });
 			if (response === undefined) {
 				setMessage(error.message);
 			} else if (response.data) {
@@ -212,6 +201,7 @@ const SignIn = (props) => {
 
 	return (
 		<div className={classes.root}>
+			<Minimal />
 			<Grid className={classes.grid} container>
 				<Grid className={classes.quoteContainer} item lg={5}>
 					<div className={classes.quote}>
@@ -224,9 +214,6 @@ const SignIn = (props) => {
 								<Typography className={classes.name} variant='body1'>
 									FoodCrowdy Agents
 								</Typography>
-								{/* <Typography className={classes.bio} variant='body2'>
-									Manager at inVision
-								</Typography> */}
 							</div>
 						</div>
 					</div>
@@ -243,30 +230,7 @@ const SignIn = (props) => {
 								<Typography className={classes.title} variant='h2'>
 									Sign in
 								</Typography>
-								{/* <Typography color='textSecondary' gutterBottom>
-									Sign in with social media
-								</Typography> */}
-								{/* <Grid className={classes.socialButtons} container spacing={2}>
-									<Grid item>
-										<Button
-											color='primary'
-											onClick={handleSignIn}
-											size='large'
-											variant='contained'>
-											<FacebookIcon className={classes.socialIcon} />
-											Login with Facebook
-										</Button>
-									</Grid>
-									<Grid item>
-										<Button
-											onClick={handleSignIn}
-											size='large'
-											variant='contained'>
-											<GoogleIcon className={classes.socialIcon} />
-											Login with Google
-										</Button>
-									</Grid>
-								</Grid> */}
+
 								{message && (
 									<Alert variant='outlined' severity='error'>
 										{message}
@@ -329,6 +293,7 @@ const SignIn = (props) => {
 					</div>
 				</Grid>
 			</Grid>
+			<Footer />
 		</div>
 	);
 };

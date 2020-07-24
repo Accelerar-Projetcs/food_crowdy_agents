@@ -1,19 +1,19 @@
 import React from 'react';
-import UploadProducts from '../../../components/ProductUploads/ProductUploads';
+import UploadProducts from '../../../components/ProductUploadForm/ProductUploads';
 import { makeStyles } from '@material-ui/styles';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
 		padding: theme.spacing(4),
-		minHeight:'100%'
+		minHeight: '100%'
 	}
 }));
 
-const ProductUpload = () => {
+const ProductUpload = ({ history }) => {
 	const classes = useStyles();
 	return (
 		<div className={classes.root}>
-			<UploadProducts />
+			<UploadProducts history={history} />
 		</div>
 	);
 };

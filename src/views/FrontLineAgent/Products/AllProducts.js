@@ -1,121 +1,179 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import clsx from 'clsx';
 import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
-import CardMedia from '@material-ui/core/CardMedia';
-import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
-import Avatar from '@material-ui/core/Avatar';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
-import Grid from '@material-ui/core/Grid';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import ShareIcon from '@material-ui/icons/Share';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
+import { Link } from 'react-router-dom';
+import Paginator from 'react-hooks-paginator';
+import {
+	CardHeader,
+	CardContent,
+	Typography,
+	Grid,
+	Divider,
+	CardActions,
+	Chip,
+	TextField
+} from '@material-ui/core/';
+import { formatter } from '../../../utils/localStore';
+import States from '../../../utils/LocationList';
+import { FilterList } from '@material-ui/icons';
+import ProgressBar from '../../../components/ProgressBar/ProgressBar';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
-		// maxWidth: 345
-		margin: theme.spacing(1),
-		background: theme.palette.background.paper
+		display: 'flex'
 	},
-	media: {
-		height: 0,
-		paddingTop: '56.25%' // 16:9
+	details: {
+		display: 'flex',
+		flexDirection: 'column'
+	},
+	content: {
+		flex: '1 0 auto',
+		'& >*': {
+			margin: theme.spacing(0.3, 0)
+		}
+	},
+	cover: {
+		width: 151
+	},
+	price: {
+		display: 'block',
+		alignItems: 'center',
+		paddingLeft: theme.spacing(1),
+		paddingBottom: theme.spacing(1),
+		fontWeight: 600
+	},
+	marketPrice: {
+		textDecoration: `line-through`
+	},
+	playIcon: {
+		height: 38,
+		width: 38
+	},
+	card: {
+		padding: theme.spacing(1)
+	},
+	header: {
+		display: 'flex',
+		justifyContent: `space-between`
+	},
+	textField: {
+		margin: theme.spacing(0, 1)
 	}
 }));
 
-export default function RecipeReviewCard() {
+export default function AllProducts({ data, loading }) {
 	const classes = useStyles();
-	const [expanded, setExpanded] = React.useState(false);
-
-	const handleExpandClick = () => {
-		setExpanded(!expanded);
-	};
-
-	const data = [
-		{
-			id: '212',
-			title: '3 Basin of Rice',
-			price: '30, 000.00',
-			marketPrice: '20, 000'
-		},
-		{
-			id: '220120912',
-			title: '3 Basin of Rice',
-			price: '30, 000.00',
-			marketPrice: '20, 000'
-		},
-		{
-			id: '2wioqw12',
-			title: '3 Basin of Rice',
-			price: '30, 000.00',
-			marketPrice: '20, 000'
-		},
-		{
-			id: '2122912',
-			title: '3 Basin of Rice',
-			price: '30, 000.00',
-			marketPrice: '20, 000'
-		}
-	];
+	const pageLimit = 3;
+	const [offset, setOffset] = useState(0);
+	const [currentPage, setCurrentPage] = useState(1);
+	const [currentData, setCurrentData] = useState([1, 2, 3, 4, 5, 6]);
+	useEffect(() => {
+		setCurrentData([data].slice(offset, offset + pageLimit));
+	}, [offset]);
 
 	return (
-		<React.Fragment>
-			<Grid container spacing={2}>
-				{data.map((item) => (
-					<Grid key={item.id} item lg={6} md={12} xl={9} xs={12}>
-						<Card className={classes.root}>
-							<CardHeader
-								avatar={
-									<Avatar
-										alt={item.title}
-										aria-label={item.title}
-										className={classes.avatar}></Avatar>
-								}
-								action={
-									<IconButton aria-label='settings'>
-										<MoreVertIcon />
-									</IconButton>
-								}
-								title={item.title}
-								subheader={item.price}
-							/>
-							<CardMedia
-								className={classes.media}
-								image='/static/images/cards/paella.jpg'
-								title='Paella dish'
-							/>
-							<CardContent>
-								<Typography variant='body2' color='textSecondary' component='p'>
-									This impressive paella is a perfect party dish and a fun meal
-									to cook together with your guests. Add 1 cup of frozen peas
-									along with the mussels, if you like.
-								</Typography>
-							</CardContent>
-							<CardActions disableSpacing>
-								<IconButton aria-label='add to favorites'>
-									<FavoriteIcon />
-								</IconButton>
-								<IconButton aria-label='share'>
-									<ShareIcon />
-								</IconButton>
-								<IconButton
-									className={clsx(classes.expand, {
-										[classes.expandOpen]: expanded
-									})}
-									onClick={handleExpandClick}
-									aria-expanded={expanded}
-									aria-label='show more'>
-									<ExpandMoreIcon />
-								</IconButton>
-							</CardActions>
-						</Card>
-					</Grid>
-				))}
+		<Card className={classes.card}>
+			<div className={classes.header}>
+				<CardHeader title='(400) Products' />
+				<CardContent>
+					<strong>Sort by: </strong> <FilterList />
+					<TextField
+						className={classes.textField}
+						id='outlined-select-state'
+						select
+						margin='dense'
+						label=''
+						name='location'
+						SelectProps={{
+							native: true
+						}}
+						variant='outlined'>
+						{States.map((option) => (
+							<option key={option.id} value={option.name}>
+								{option.name}
+							</option>
+						))}
+					</TextField>
+					<TextField
+						className={classes.textField}
+						id='outlined-select-state'
+						select
+						label=''
+						name='location'
+						margin='dense'
+						SelectProps={{
+							native: true
+						}}
+						variant='outlined'>
+						{['high-low', 'low-high'].map((option) => (
+							<option key={option} value={option}>
+								{option}
+							</option>
+						))}
+					</TextField>
+				</CardContent>
+			</div>
+
+			<Divider />
+			{loading && <ProgressBar />}
+			<Grid container spacing={1}>
+				{data &&
+					data.map((item) => (
+						<Grid key={item._id} item lg={6} md={6} xl={8} xs={12}>
+							<Link
+								to={`/agents/frontline/products-details/${item.category}/${item.title}/${item._id}`}>
+								<Card>
+									<div className={classes.root}>
+										<img
+											className={classes.cover}
+											src={item.imagePath}
+											alt={item.farmerName}
+											height='100'
+										/>
+										<div className={classes.details}>
+											<CardContent className={classes.content}>
+												<Typography component='h5' variant='h5'>
+													Live From Space
+												</Typography>
+												<Chip label={item.category} color='primary' />
+											</CardContent>
+										</div>
+									</div>
+									<Divider />
+									<div className={classes.price}>
+										<Typography variant='subtitle1' color='textSecondary'>
+											Our Price :{' '}
+											{formatter.format(item && item.rebaseSellingPrice)}
+										</Typography>
+										<br />
+										<Typography
+											className={classes.marketPrice}
+											variant='subtitle1'
+											color='textSecondary'>
+											Market Price :{formatter.format(item.marketPrice || 0)}
+										</Typography>
+									</div>
+								</Card>
+							</Link>
+						</Grid>
+					))}
 			</Grid>
-		</React.Fragment>
+			<Divider />
+			<CardActions>
+				<div>
+					<Paginator
+						totalRecords={data && data.length}
+						pageLimit={pageLimit}
+						pageNeighbours={2}
+						setOffset={setOffset}
+						currentPage={currentPage}
+						setCurrentPage={setCurrentPage}
+						pageActiveClass={'active-btn'}
+						pagePrevClass={'active-btn'}
+						// pageLinkClass={'active-btn'}
+					/>
+				</div>
+			</CardActions>
+		</Card>
 	);
 }

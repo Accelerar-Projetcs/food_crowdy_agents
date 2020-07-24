@@ -1,13 +1,10 @@
 import React, { useState } from 'react';
-import clsx from 'clsx';
 import moment from 'moment';
 import PerfectScrollbar from 'react-perfect-scrollbar';
-import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
 import Base, { Color } from 'react-bullet-status';
 import {
 	Card,
-	CardActions,
 	CardHeader,
 	CardContent,
 	Button,
@@ -20,7 +17,7 @@ import {
 	Tooltip,
 	TableSortLabel
 } from '@material-ui/core';
-import ArrowRightIcon from '@material-ui/icons/ArrowRight';
+// import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 
 import mockData from './data';
 // import { StatusBullet } from 'co';
@@ -45,28 +42,20 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-// const statusColors = {
-// 	delivered: 'success',
-// 	pending: 'info',
-// 	refunded: 'danger'
-// };
-
-const LatestOrders = (props) => {
-	const { className, ...rest } = props;
-
+const WalletHistory = () => {
 	const classes = useStyles();
 
 	const [orders] = useState(mockData);
 
 	return (
-		<Card {...rest} className={clsx(classes.root, className)}>
+		<Card className={classes.root}>
 			<CardHeader
 				action={
 					<Button color='primary' size='small' variant='outlined'>
 						New entry
 					</Button>
 				}
-				title='Users Network'
+				title='Transaction History'
 			/>
 			<Divider />
 			<CardContent className={classes.content}>
@@ -75,8 +64,8 @@ const LatestOrders = (props) => {
 						<Table>
 							<TableHead>
 								<TableRow>
-									<TableCell>Order Ref</TableCell>
-									<TableCell>Customer</TableCell>
+									<TableCell>Ref</TableCell>
+									<TableCell>Title</TableCell>
 									<TableCell sortDirection='desc'>
 										<Tooltip enterDelay={300} title='Sort'>
 											<TableSortLabel active direction='desc'>
@@ -108,18 +97,14 @@ const LatestOrders = (props) => {
 					</div>
 				</PerfectScrollbar>
 			</CardContent>
-			<Divider />
+			{/* <Divider />
 			<CardActions className={classes.actions}>
 				<Button color='primary' size='small' variant='text'>
 					View all <ArrowRightIcon />
 				</Button>
-			</CardActions>
+			</CardActions> */}
 		</Card>
 	);
 };
 
-LatestOrders.propTypes = {
-	className: PropTypes.string
-};
-
-export default LatestOrders;
+export default WalletHistory;
