@@ -4,30 +4,16 @@ import palette from './palette';
 import typography from './typography';
 import overrides from './overrides';
 
+// let customFontSize = responsiveFontSizes(theme);
+
 const theme = createMuiTheme({
-  palette,
-  typography,
-  overrides,
-  zIndex: {
-    appBar: 1200,
-    drawer: 1100
-  },
-  palette: {
-		primary: {
-			main: '#008080'
-		},
-		// primary: {
-		// 	main: '#008080'
-		// },
-		secondary: {
-			main: '#FFCC2A'
-		}
-		// secondary: {
-		// 	main: '#04ff57',
-		// },
-	},
-	typography: {
-		fontFamily: ['Arial, Helvetica, sans-serif'].join(',')
+	palette,
+	typography,
+	overrides,
+	// customFontSize,
+	zIndex: {
+		appBar: 1200,
+		drawer: 1100
 	}
 });
 
