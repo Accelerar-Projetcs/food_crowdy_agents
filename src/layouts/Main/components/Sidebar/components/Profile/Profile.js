@@ -34,7 +34,6 @@ const Profile = (props) => {
 		bio: userName
 	};
 
-	console.log(userName);
 
 	return (
 		<div {...rest} className={clsx(classes.root, className)}>

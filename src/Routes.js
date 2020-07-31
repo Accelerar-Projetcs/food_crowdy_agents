@@ -1,6 +1,7 @@
 import React, { Suspense, lazy } from 'react';
 import logo from './assets/images/logoFood_1.svg';
 import { Switch, Route } from 'react-router-dom';
+// import { getRole as getAgentRoles } from './utils/localStore';
 
 import { RouteWithLayout } from './components';
 import { Main as MainLayout, Minimal as MinimalLayout } from './layouts';
@@ -45,8 +46,9 @@ const FallBack = (
 );
 
 //***Function to Display specific Home Dashboard by Roles *****//
+// const agentRole = getAgentRoles();
 const getRole = (roles) => {
-	switch (roles) {
+	switch (String(roles)) {
 		case 'frontline':
 			return FrontLineAgentDashboard;
 		case 'backline':
@@ -57,22 +59,15 @@ const getRole = (roles) => {
 };
 
 const Routes = () => {
-	const role = `frontline-agent`;
 	return (
 		<Suspense fallback={FallBack}>
 			<Switch>
 				<RouteWithLayout
-					component={getRole('frontline')}
+					component={getRole('backline')}
 					exact
 					layout={MainLayout}
 					path='/'
 				/>
-				{/* <RouteWithLayout
-					component={BackLineAgentDashboard}
-					exact
-					layout={MainLayout}
-					path='/backline-agent'
-				/> */}
 				<RouteWithLayout
 					component={UserListView}
 					exact

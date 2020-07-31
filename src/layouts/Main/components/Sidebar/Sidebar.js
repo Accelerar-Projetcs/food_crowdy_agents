@@ -2,7 +2,6 @@ import React from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
-import { getRole as getUserRole } from '../../../../utils/localStore';
 import { Divider, Drawer } from '@material-ui/core';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket';
@@ -11,6 +10,7 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import People from '@material-ui/icons/People';
 import Wallet from '@material-ui/icons/AccountBalanceWallet';
 import { Profile, SidebarNav } from './components';
+import { getRole as getAgentRoles } from '../../../../utils/localStore';
 
 const useStyles = makeStyles((theme) => ({
 	drawer: {
@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
 const Sidebar = (props) => {
 	const { open, variant, onClose, className, ...rest } = props;
 	const classes = useStyles();
-	const userRole = getUserRole();
+	const userRole = getAgentRoles();
 
 	const BackLineAgent = [
 		{
@@ -111,10 +111,6 @@ const Sidebar = (props) => {
 			icon: <SettingsIcon />
 		}
 	];
-
-	// const roles = {
-	// 	type: 'frontline'
-	// };
 	const getRole = (roles) => {
 		switch (roles) {
 			case 'frontline':
@@ -125,7 +121,7 @@ const Sidebar = (props) => {
 				return Farmers;
 			default:
 				// return BackLineAgent;
-				return FrontLine;
+				return [];
 		}
 	};
 

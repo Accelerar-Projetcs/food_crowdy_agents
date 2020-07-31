@@ -1,13 +1,12 @@
 /* eslint-disable react/no-multi-comp */
 /* eslint-disable react/display-name */
-import React, { forwardRef, useContext } from 'react';
+import React, { forwardRef } from 'react';
 import { NavLink as RouterLink, useHistory } from 'react-router-dom';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
 import { Person } from '@material-ui/icons';
 import { List, ListItem, Button, colors } from '@material-ui/core';
-import { contextApi } from '../../../../../../components/context/Context';
 
 const useStyles = makeStyles((theme) => ({
 	root: {},
@@ -58,9 +57,13 @@ const CustomRouterLink = forwardRef((props, ref) => (
 
 const SidebarNav = (props) => {
 	const { pages, className, ...rest } = props;
-	const { logoutUser } = useContext(contextApi);
 	const history = useHistory();
 	const classes = useStyles();
+
+	const logout = () => {
+		localStorage.clear('');
+		history.push('/sign-in');
+	};
 
 	return (
 		<List {...rest} className={clsx(classes.root, className)}>
@@ -76,9 +79,7 @@ const SidebarNav = (props) => {
 					</Button>
 				</ListItem>
 			))}
-			<ListItem
-				onClick={(e) => logoutUser(e, history)} 	className={classes.logout}
-				>
+			<ListItem onClick={logout} className={classes.logout}>
 				<Person className={classes.link} /> logout
 			</ListItem>
 		</List>

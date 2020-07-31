@@ -9,7 +9,6 @@ import {
 	Badge,
 	Hidden,
 	IconButton,
-	Typography
 } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import NotificationsIcon from '@material-ui/icons/NotificationsOutlined';
@@ -45,10 +44,7 @@ const Topbar = (props) => {
 				<RouterLink to='/'>
 					<img alt='food Crowdy agent' height='60' src={Logo} />
 				</RouterLink>
-				<Typography variant='h3' className={classes.header}>
-					AGENTS DASHBOARD
-				</Typography>
-
+				<h3 className={classes.header}>AGENTS DASHBOARD</h3>
 				<div className={classes.flexGrow} />
 				<Hidden mdDown>
 					<IconButton color='inherit'>
