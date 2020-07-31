@@ -2,7 +2,14 @@ import React from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
-import { Card, CardContent, Grid, Typography, Avatar } from '@material-ui/core';
+import {
+	Card,
+	CardContent,
+	Grid,
+	Typography,
+	Avatar,
+	Chip
+} from '@material-ui/core';
 import ArrowUp from '@material-ui/icons/ArrowUpwardTwoTone';
 import MoneyIcon from '@material-ui/icons/Money';
 import { formatter } from '../../../../utils/localStore';
@@ -58,7 +65,8 @@ const Earnings = (props) => {
 							variant='body2'>
 							Earnings
 						</Typography>
-						<Typography variant='h3'>{formatter.format(20000)}</Typography>
+						<Chip color='primary' label='BETA' />
+						<Typography variant='h3'>{formatter.format(0)}</Typography>
 					</Grid>
 					<Grid item>
 						<Avatar className={classes.avatar}>

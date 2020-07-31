@@ -66,7 +66,7 @@ export default function AllProducts({ data, loading }) {
 	const pageLimit = 3;
 	const [offset, setOffset] = useState(0);
 	const [currentPage, setCurrentPage] = useState(1);
-	const [currentData, setCurrentData] = useState([1, 2, 3, 4, 5, 6]);
+	const [currentData, setCurrentData] = useState([2]);
 	useEffect(() => {
 		setCurrentData([data].slice(offset, offset + pageLimit));
 	}, [offset]);

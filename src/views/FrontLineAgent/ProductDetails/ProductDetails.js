@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { ProductsApiHooks } from '../../../server/Server';
 // import { toast } from 'react-toastify';
 import { Media } from '../../../components/BackDrop/AppShell';
@@ -16,9 +16,7 @@ const ProductDetails = ({ match }) => {
 	const classes = useStyles();
 	// const [data, setData] = useState('');
 	// const [loading, setLoading] = useState(false);
-	const [{ data, loading }] = ProductsApiHooks(
-		`/${match.params.id}`
-	);
+	const [{ data, loading }] = ProductsApiHooks(`/${match.params.id}`);
 
 	// const [noOfPrt, setNoOfParts] = useState(0);
 	// const userName = getUserName();

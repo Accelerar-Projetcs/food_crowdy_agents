@@ -10,6 +10,7 @@ import { Alert } from '@material-ui/lab/';
 import validate from 'validate.js';
 import { makeStyles } from '@material-ui/styles';
 import { toast } from 'react-toastify';
+import { useHistory } from 'react-router-dom';
 import {
 	Grid,
 	Button,
@@ -22,7 +23,7 @@ import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 const schema = {
 	email: {
-		// presence: { allowEmpty: false, message: 'is required' },
+		presence: { allowEmpty: false, message: 'Email is required	' },
 		email: true,
 		length: {
 			maximum: 64
@@ -38,7 +39,7 @@ const schema = {
 	password: {
 		presence: {
 			allowEmpty: false,
-			// message: 'is required',
+			message: 'password is required',
 			message2: 'password must be minimum of 7 characters'
 		},
 		length: {
@@ -67,7 +68,8 @@ const useStyles = makeStyles((theme) => ({
 		display: 'flex',
 		justifyContent: 'center',
 		alignItems: 'center',
-		backgroundImage: 'url(https://source.unsplash.com/random)',
+		backgroundImage:
+			'url(https://res.cloudinary.com/cmcwebcode/image/upload/v1596039761/foodcrowdy/signup_1_wovngn.jpg)',
 		backgroundSize: 'cover',
 		backgroundRepeat: 'no-repeat',
 		backgroundPosition: 'center'
@@ -152,9 +154,11 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-const SignIn = ({ history }) => {
+const SignIn = () => {
 	const classes = useStyles();
+	const history = useHistory();
 	const [message, setMessage] = useState('');
+	const [role, setRole] = useState('backline');
 	const [loading, setLoading] = useState('');
 	const [passwordCheck, setPasswordCheck] = useState({
 		text: '',
@@ -207,7 +211,6 @@ const SignIn = ({ history }) => {
 			});
 		}
 	};
-
 	const handleChange = (event) => {
 		event.persist();
 
@@ -226,8 +229,9 @@ const SignIn = ({ history }) => {
 
 	const handleSignIn = async (event) => {
 		event.preventDefault();
-		setLoading(!loading);
-
+		setLoading(true);
+		console.log(formState.values);
+		formState.values.role = role;
 		try {
 			const res = await agentUser.post('/signup', formState.values);
 			saveUserDetails(res.data.newUser);
@@ -235,11 +239,12 @@ const SignIn = ({ history }) => {
 			toast.success(
 				`Welcome ${formState.values.name} offer a deal for review`,
 				{
-					position: toast.POSITION.TOP_RIGHT,
-					autoClose: 5000
+					toastId: 'signup'
 				}
 			);
-			history.push('/');
+			if (res.status === 200) {
+				history.push('/');
+			}
 		} catch (error) {
 			const { response } = error;
 			if (response === undefined) {
@@ -247,8 +252,8 @@ const SignIn = ({ history }) => {
 			} else if (response.data) {
 				setMessage(response.data.message);
 			}
-			setLoading(false);
 		}
+		setLoading(false);
 	};
 
 	const hasError = (field) =>
@@ -328,11 +333,7 @@ const SignIn = ({ history }) => {
 								/>
 								<TextField
 									className={classes.textField}
-									error={hasError('email')}
 									fullWidth
-									helperText={
-										hasError('email') ? formState.errors.email[0] : null
-									}
 									label='Phone Number'
 									name='phoneNumber'
 									onChange={handleChange}
@@ -375,7 +376,8 @@ const SignIn = ({ history }) => {
 									select
 									label='role'
 									name='role'
-									onChange={handleChange}
+									value={role}
+									onChange={(e) => setRole(e.target.value)}
 									required
 									SelectProps={{
 										native: true
@@ -392,7 +394,7 @@ const SignIn = ({ history }) => {
 								<Button
 									className={classes.signInButton}
 									color='primary'
-									// disabled={!formState.isValid}
+									disabled={loading ? true : false}
 									fullWidth
 									size='large'
 									type='submit'

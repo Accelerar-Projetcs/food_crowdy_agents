@@ -57,7 +57,7 @@ const useStyles = makeStyles((theme) => ({
 		display: 'flex',
 		justifyContent: 'center',
 		alignItems: 'center',
-		backgroundImage: 'url(https://source.unsplash.com/random)',
+		backgroundImage: 'url(https://res.cloudinary.com/cmcwebcode/image/upload/v1596039761/foodcrowdy/signup_1_wovngn.jpg)',
 		backgroundSize: 'cover',
 		backgroundRepeat: 'no-repeat',
 		backgroundPosition: 'center'
@@ -178,13 +178,14 @@ const SignIn = (props) => {
 
 	const handleSignIn = async (event) => {
 		event.preventDefault();
-		setLoading(!loading);
+		setLoading(true);
 		try {
 			const res = await agentUser.post('/signin', formState.values);
 			saveUserDetails(res.data.validUser);
 			saveAuthToken(res.data.token);
-			console.log(res);
-			history.push('/');
+			if (res.status === 200) {
+				history.push('/');
+			}
 		} catch (error) {
 			const { response } = error;
 			if (response === undefined) {
@@ -198,7 +199,6 @@ const SignIn = (props) => {
 
 	const hasError = (field) =>
 		formState.touched[field] && formState.errors[field] ? true : false;
-
 	return (
 		<div className={classes.root}>
 			<Minimal />

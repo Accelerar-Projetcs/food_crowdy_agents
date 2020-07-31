@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
 import { Card, CardContent, Grid, Typography, Avatar } from '@material-ui/core';
-import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
-import PeopleIcon from '@material-ui/icons/PeopleOutlined';
+import {
+	ArrowUpward as ArrowUpwardIcon,
+	PeopleOutlined as PeopleIcon
+} from '@material-ui/icons/';
+import { contextApi } from '../../../../components/context/Context';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -42,8 +45,9 @@ const useStyles = makeStyles((theme) => ({
 
 const TotalUserBrought = (props) => {
 	const { className, ...rest } = props;
-
+	const { pendingProducts, approvedProducts } = useContext(contextApi);
 	const classes = useStyles();
+	const totalOffers = pendingProducts.length + approvedProducts.length;
 
 	return (
 		<Card {...rest} className={clsx(classes.root, className)}>
@@ -57,7 +61,7 @@ const TotalUserBrought = (props) => {
 							variant='body2'>
 							TOTAL Offers
 						</Typography>
-						<Typography variant='h3'>30</Typography>
+						<Typography variant='h3'>{totalOffers}</Typography>
 					</Grid>
 					<Grid item>
 						<Avatar className={classes.avatar}>
