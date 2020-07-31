@@ -5,13 +5,13 @@ import SignIn from '../../views/SignUp/SignUp';
 
 const RouteWithLayout = (props) => {
 	const { layout: Layout, component: Component, ...rest } = props;
-	const token = localStorage.getItem('_user');
-	
+	const token = localStorage.getItem('_token');
+
 	return (
 		<Route
 			{...rest}
 			render={(matchProps) =>
-				!token ? (
+				token ? (
 					<Layout>
 						<Component {...matchProps} />
 					</Layout>

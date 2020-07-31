@@ -1,13 +1,13 @@
-import React, { useState, useEffect, useRef, useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { contextApi } from '../context/Context';
 import { ProductsApi } from '../../server/Server';
 import { getUserId } from '../../utils/localStore';
 import PropTypes from 'prop-types';
 import { category, state } from './data';
-import { toast } from 'react-toastify';
 import { makeStyles } from '@material-ui/styles';
 import { Styles } from './styles';
 import { Alert, AlertTitle } from '@material-ui/lab';
+import { useHistory } from 'react-router-dom';
 import AddIcon from '@material-ui/icons/Add';
 import {
 	Card,
@@ -22,10 +22,12 @@ import {
 	Dialog,
 	DialogActions,
 	DialogContent,
-	DialogContentText,
-	CircularProgress,
+	// DialogContentText,
+	// CircularProgress,
 	DialogTitle
 } from '@material-ui/core';
+import BackDrop from '../../components/BackDrop/BackDrop';
+import { toast } from 'react-toastify';
 
 /**
  *  implementing React FilePond
@@ -43,70 +45,98 @@ const useStyles = makeStyles((theme) => Styles(theme));
 const AccountDetails = () => {
 	const classes = useStyles();
 	const agentId = getUserId();
+	const history = useHistory();
+	const { loading, setLoading } = useContext(contextApi);
 	const [open, setOpen] = useState(false);
-	const [alert, setAlert] = useState(false);
+	const [alert] = useState(false);
 	const [scroll, setScroll] = useState('paper');
 	const [deal] = useState([]);
-	const [loading, setLoading] = useState('');
+	const [loader, setloader] = useState(false);
 	const [imageFile, setImageFile] = useState({ files: '' });
-	const { dealDisplay, setDealDisplay } = useContext(contextApi);
 	const [productDetails, setProductDetails] = useState({
-		// farmerName: 'Bola',
-		// farmerId: ,
-		// title: ,
-		// deal: 'yam',
-		// price: 3000,
-		// agentId: agentId,
-		// location: 'lagos',
-		// qty: 37,
-		// videoURL: 'https://youtu.be/ewZX_EIs0Jc'
+		farmerId: null
 	});
 	const handleChange = (key, value) => {
 		setProductDetails({ ...productDetails, [key]: value });
 	};
 
 	const getFarmersInfo = async (key, value) => {
-		try {
-			const res = await ProductsApi.get(`/farmers?name=${value}`);
-			if (res.data.length) {
-				setProductDetails({
-					farmerName: res.data[0].name,
-					farmerId: res.data[0].uniqueId,
-					location: res.data[0].location
-				});
-				setLoading('farmer already exists');
-			} else {
-				handleChange('farmerName', value);
-			}
-		} catch (error) {
-			setProductDetails({
-				farmerName: value
-			});
-		}
-		setLoading(false);
+		handleChange('farmerName', value);
+		// try {
+		// 	// const res = await ProductsApi.get(`/search/farmerss?name=${value}`);
+		// 	// console.log(res);
+		// 	if (res.data.length) {
+		// 		setProductDetails({
+		// 			farmerName: res.data[0].name,
+		// 			farmerId: res.data[0].uniqueId,
+		// 			location: res.data[0].location
+		// 		});
+		// 		setloader('farmer already exists');
+		// 	} else {
+		// 		handleChange('farmerName', value);
+		// 	}
+		// } catch (error) {
+		// 	setProductDetails({
+		// 		farmerName: value
+		// 	});
+		// }
+		// setloader(false);
 	};
-	
+
 	const uploadProducts = async (e) => {
 		e.preventDefault();
-		if (!Object.keys(productDetails).length !== 9) return setAlert(true);
-		setDealDisplay([
-			...dealDisplay,
-			{
-				id: Math.random(0, 300),
-				title: productDetails.title,
-				farmerName: productDetails.farmerName,
-				farmerId: productDetails.farmerId,
-				deal: productDetails.deal,
-				price: productDetails.price,
-				agentId: agentId,
-				location: productDetails.location,
-				qty: productDetails.qty,
-				file: imageFile.files,
-				videoURL: productDetails.videoURL
-			}
-		]);
-		toast.success('Offer Added');
+		// if (Object.keys(productDetails).length !== 8) return setAlert(true);
+		// if (!dealDisplay.length) {
+		// 	return toast.warning('You have not added any offer yet', {
+		// 		position: toast.POSITION.TOP_RIGHT,
+		// 		autoClose: 5000
+		// 	});
+		// }
 		handleClose();
+		setloader(true);
+		console.log(productDetails);
+		console.log(imageFile);
+		try {
+			const data = new FormData();
+			data.append('farmName', productDetails.farmerName);
+			data.append('title', productDetails.title);
+			data.append('agentId', agentId);
+			data.append('farmerId', productDetails.farmerId || null);
+			data.append('deal', productDetails.productDetails);
+			data.append('agentPriceOffer', productDetails.price);
+			data.append('phoneNumber', productDetails.phoneNumber);
+			data.append('quantity', productDetails.qty);
+			data.append('location', productDetails.location);
+			data.append('image', imageFile.files);
+			data.append('videoURL', productDetails.videoURL);
+			await ProductsApi.post(`/createuploadrequest/${agentId}`, data);
+			toast.success('your deal has been  successfully uploaded', {
+				toastId: '4334'
+			});
+			setLoading(!loading);
+			history.push('/products');
+		} catch (error) {
+			toast.error('problem uploader offer try again', { toastId: 'we32493' });
+		}
+		setloader(false);
+		// setDealDisplay([
+		// 	...dealDisplay,
+		// 	{
+		// 		id: Math.random(0, 300),
+		// 		title: productDetails.title,
+		// 		farmerName: productDetails.farmerName,
+		// 		farmerId: productDetails.farmerId || null,
+		// 		deal: productDetails.deal,
+		// 		price: productDetails.price,
+		// 		agentId: agentId,
+		// 		location: productDetails.location,
+		// 		phoneNumber: productDetails.phoneNumber,
+		// 		qty: productDetails.qty,
+		// 		file: imageFile.files,
+		// 		videoURL: productDetails.videoURL
+		// 	}
+		// ]);
+		// toast.success('Offer Added');
 	};
 
 	const handleClickOpen = (scrollType) => () => {
@@ -118,18 +148,11 @@ const AccountDetails = () => {
 		setOpen(false);
 	};
 
-	const descriptionElementRef = useRef(null);
-	useEffect(() => {
-		// if (open) {
-		// 	const { current: descriptionElement } = descriptionElementRef;
-		// 	if (descriptionElement !== null) {
-		// 		descriptionElement.focus();
-		// 	}
-		// }
-	}, [open, deal]);
+	useEffect(() => {}, [open, deal]);
 
 	return (
 		<div className={classes.root}>
+			{loader && <BackDrop text='uploader your offer please wait...' />}
 			<form>
 				<Tooltip
 					onClick={handleClickOpen('paper')}
@@ -154,10 +177,7 @@ const AccountDetails = () => {
 					<DialogContent dividers={'scroll' === 'paper'}>
 						<Grid container spacing={4}>
 							<Card>
-								<CardHeader
-									subheader='This infomations can be edited'
-									title='Products Uploads'
-								/>
+								<CardHeader title='Products Uploads' />
 								<Divider />
 								<CardContent>
 									{alert && (
@@ -176,33 +196,29 @@ const AccountDetails = () => {
 												fullWidth
 												// helperText={loading !== '' ? { loading } : ''}
 												label='Farmers Name'
-												// margin='dense'
 												name='productTitle'
 												value={productDetails.farmerName || ''}
 												onChange={(e) => {
 													handleChange('farmerName', e.target.value);
 													getFarmersInfo('title', e.target.value);
 												}}
-												// required
+												required
 												variant='outlined'
 											/>
-											{loading && <CircularProgress color='primary' />}
 											<TextField
-												className={classes.textField}
 												className={classes.textField}
 												id='outlined-select-state'
 												select
 												label='loaction'
 												fullWidth
 												name='State'
-												// value={productDetails.product || ''}
+												required
 												onChange={(e) =>
 													handleChange('location', e.target.value)
 												}
 												SelectProps={{
 													native: true
 												}}
-												// helperText='Please select your state'
 												variant='outlined'>
 												{state.map((option) => (
 													<option key={option.id} value={option.name}>
@@ -215,19 +231,15 @@ const AccountDetails = () => {
 											<TextField
 												className={classes.textField}
 												fullWidth
-												// helperText='Please specify the first name'
 												label='title'
-												// margin='dense'
 												name='title-id'
 												onChange={(e) => {
 													handleChange('title', e.target.value);
 												}}
-												// required
+												required
 												variant='outlined'
 											/>
-
 											<TextField
-												className={classes.textField}
 												className={classes.textField}
 												id='outlined-select-state'
 												select
@@ -239,7 +251,6 @@ const AccountDetails = () => {
 												SelectProps={{
 													native: true
 												}}
-												// helperText='Please select your state'
 												variant='outlined'>
 												{category.map((option) => (
 													<option key={option} value={option}>
@@ -248,62 +259,86 @@ const AccountDetails = () => {
 												))}
 											</TextField>
 										</Grid>
-										<Grid item md={6} xs={12}>
-											<>
-												<TextField
-													className={classes.textField}
-													fullWidth
-													label='Phone Number'
-													// margin='dense'
-													name='phoneNumber'
-													onChange={handleChange}
-													// required
-													variant='outlined'
-												/>
-												<FilePond
-													// files={imageFile}
-													allowMultiple={true}
-													maxFiles={1}
-													onupdatefiles={(fileItems) => {
-														setImageFile({
-															files: fileItems[0].file
-														});
-													}}
-												/>
-											</>
+										<Grid item md={12} xs={12}>
+											<Grid container spacing={2}>
+												<Grid item md={6} xs={12}>
+													<TextField
+														className={classes.textField}
+														fullWidth
+														label='Phone Number'
+														name='phoneNumber'
+														onChange={(e) =>
+															handleChange('phoneNumber', e.target.value)
+														}
+														required
+														variant='outlined'
+													/>
+												</Grid>
+												<Grid item md={6} xs={12}>
+													<TextField
+														className={classes.textField}
+														fullWidth
+														label='Video Link'
+														name='videoURL'
+														required
+														type='text'
+														onChange={(e) =>
+															handleChange('videoURL', e.target.value)
+														}
+														variant='outlined'
+													/>
+												</Grid>
+											</Grid>
 										</Grid>
-										<Grid item md={6} xs={12}>
-											<TextField
-												className={classes.textField}
-												fullWidth
-												label='Video Link'
-												// margin='dense'
-												name='videoURL'
-												// required
-												type='text'
-												onChange={(e) =>
-													handleChange('videoURL', e.target.value)
+										<Grid item md={12} xs={12}>
+											<FilePond
+												// files={imageFile}
+												allowMultiple={true}
+												maxFiles={1}
+												name={'file'}
+												required={true}
+												allowFileSizeValidation={true}
+												maxTotalFileSize={10485760}
+												labelMaxTotalFileSize={
+													'Total file size should be lesser than 5MB.'
 												}
-												variant='outlined'
+												allowFileTypeValidation={true}
+												acceptedFileTypes={['image/jpeg']}
+												fileValidateTypeLabelExpectedTypesMap={{
+													// 'application/pdf': '.pdf',
+													'image/jpeg': '.jpg'
+												}}
+												labelFileTypeNotAllowed={
+													'Upload only PDF or JPEG file.'
+												}
+												onremovefile={(file) => {
+													setImageFile('');
+												}}
+												onupdatefiles={(fileItems) => {
+													setImageFile({
+														files: fileItems[0].file
+													});
+												}}
 											/>
-											<TextField
+
+											{/* <TextField
 												className={classes.textField}
 												fullWidth
+												hidden={true}
 												label='Agent id'
-												// margin='dense'
+												
 												name='agentId'
 												// onChange={handleChange}
 												value={agentId}
 												variant='outlined'
 												disabled
-											/>
+											/> */}
 										</Grid>
 										<Grid item md={6} xs={12}>
 											<TextField
 												className={classes.textField}
 												fullWidth
 												label='Price'
-												// margin='dense'
 												name='priceId'
 												onChange={(e) => handleChange('price', e.target.value)}
 												variant='outlined'
@@ -316,7 +351,6 @@ const AccountDetails = () => {
 												className={classes.textField}
 												fullWidth
 												label='Qty'
-												// margin='dense'
 												name='qty-id'
 												onChange={(e) => handleChange('qty', e.target.value)}
 												variant='outlined'
@@ -329,10 +363,6 @@ const AccountDetails = () => {
 								<Divider />
 							</Card>
 						</Grid>
-						{/* <DialogContentText
-							id='scroll-dialog-description'
-							// ref={descriptionElementRef}
-							tabIndex={-1}></DialogContentText> */}
 					</DialogContent>
 					<DialogActions>
 						<Button onClick={handleClose} color='primary'>

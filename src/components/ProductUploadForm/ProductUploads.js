@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { contextApi } from '../context/Context';
 // import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
@@ -16,7 +16,7 @@ import {
 	TableCell,
 	Card,
 	Tooltip,
-	TableContainer,
+	// TableContainer,
 	TableRow,
 	TableSortLabel,
 	TableHead,
@@ -47,24 +47,25 @@ function EnhancedTableHead() {
 	);
 }
 
-export default function EnhancedTable({ history }) {
+export default function EnhancedTable() {
 	const classes = useStyles();
 	const { dealDisplay, postOffer, loading } = useContext(contextApi);
 
-	React.useEffect(() => {}, [dealDisplay]);
+	React.useEffect(() => {}, [dealDisplay, loading]);
+
 
 	return (
 		<div className={classes.root}>
 			{loading && <BackDrop text='Sending offer please wait.....' />}
 			<Card>
-				<CardHeader action={<FarmerDetails />} title='Approved Offers' />
+				<CardHeader action={<FarmerDetails />} title='Deals' />
 				<Divider />
 				<CardContent className={classes.content}>
 					{!dealDisplay.length ? (
 						<CardContent className={classes.contentCard}>
 							<h2>Send in Your Offer for Review</h2>
 							<Divider />
-							<Typography className={classes.block} variant='h3'>
+							<Typography className={classes.block} variant='body1'>
 								Make passive income by bringing in great offers for review
 							</Typography>
 							<Alert className={classes.block} color='info'>
@@ -118,13 +119,12 @@ export default function EnhancedTable({ history }) {
 					)}
 				</CardContent>
 				<Divider />
-				{!dealDisplay.length ? (
+				{dealDisplay.length ? (
 					<CardActions className={classes.actions}>
 						<Button
 							onClick={() => {
-								// setLoading(true);
-								postOffer(history);
-								// setLoading(false);
+								// setLoader(true);
+								postOffer();
 							}}
 							color='primary'
 							size='small'

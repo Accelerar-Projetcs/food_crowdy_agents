@@ -1,9 +1,8 @@
-import React from 'react';
+import React, { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import { agentProducts } from '../../utils/FetchData';
-import { getUniqueId } from '../../utils/localStore';
 import { makeStyles } from '@material-ui/core/styles';
+// import LoadingCenter from '../LoadingCenter/LoadingCenter';
 import {
 	Card,
 	CardHeader,
@@ -18,6 +17,7 @@ import {
 	TableRow,
 	TableSortLabel
 } from '@material-ui/core';
+import { contextApi } from '../context/Context';
 
 function createData(
 	name,
@@ -140,18 +140,15 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-const Pending = ({ productData, title }) => {
-	// const { title, productData, ...rest } = props;
+const Pending = ({ title, Products }) => {
 	const classes = useStyles();
-	const [order, setOrder] = React.useState('asc');
-	const [orderBy, setOrderBy] = React.useState('category');
-	const [selected, setSelected] = React.useState([]);
-	const [data, setData] = React.useState([]);
-	const [page, setPage] = React.useState(0);
-	const [rowsPerPage, setRowsPerPage] = React.useState(5);
-	console.log(title);
-	const agentId = getUniqueId(setPage);
-
+	const { pendingProducts } = useContext(contextApi);
+	const [order, setOrder] = useState('asc');
+	const [orderBy, setOrderBy] = useState('category');
+	const [selected, setSelected] = useState([]);
+	const [page, setPage] = useState(0);
+	const [rowsPerPage, setRowsPerPage] = useState(5);
+	console.log(pendingProducts);
 	const storeData = (data) => {
 		const storedData = data.map((item) =>
 			createData(
@@ -167,14 +164,9 @@ const Pending = ({ productData, title }) => {
 		return storedData;
 	};
 
-	const rows = [storeData(data)];
-	console.log(productData);
-	React.useEffect(() => {
-		agentProducts(`/agent/myupload/pending/${agentId}`).then((data) => {
-			setData(data.data);
-			console.log(data);
-		});
-	}, [agentId]);
+	// const rows = [storeData([])];
+	// console.log(Products);
+	const rows = [storeData(Products || [])];
 
 	const handleRequestSort = (event, property) => {
 		const isAsc = orderBy === property && order === 'asc';
@@ -240,32 +232,36 @@ const Pending = ({ productData, title }) => {
 								onRequestSort={handleRequestSort}
 								rowCount={rows[0].length}
 							/>
-							<TableBody>
-								{stableSort(rows, getComparator(order, orderBy))
-									.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-									.map((row, index) => {
-										return (
-											<TableRow
-												hover
-												onClick={(event) => handleClick(event, row.name)}
-												key={row.id}>
-												<TableCell component='th' scope='row' padding='none'>
-													{row.name.slice(0, 20)}
-												</TableCell>
-												<TableCell align='right'>{row.category}</TableCell>
-												<TableCell align='right'>{row.noOfParts}</TableCell>
-												{/* <TableCell align='right'>{row.title}</TableCell> */}
-												<TableCell align='right'>
-													{' '}
-													{moment(order.createdAt).format('DD/MM/YYYY')}
-												</TableCell>
-												<TableCell align='right'>
-													{formatter.format(row.totalPrice)}
-												</TableCell>
-											</TableRow>
-										);
-									})}
-							</TableBody>
+							{Products ? (
+								<TableBody>
+									{stableSort(rows, getComparator(order, orderBy))
+										.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+										.map((row, index) => {
+											return (
+												<TableRow
+													hover
+													onClick={(event) => handleClick(event, row.name)}
+													key={Math.random(3, 30)}>
+													<TableCell component='th' scope='row' padding='none'>
+														{row.name.slice(0, 20)}
+													</TableCell>
+													<TableCell align='right'>{row.category}</TableCell>
+													<TableCell align='right'>{row.noOfParts}</TableCell>
+													{/* <TableCell align='right'>{row.title}</TableCell> */}
+													<TableCell align='right'>
+														{moment(order.createdAt).format('DD/MM/YYYY')}
+													</TableCell>
+													<TableCell align='right'>
+														{formatter.format(row.totalPrice)}
+													</TableCell>
+												</TableRow>
+											);
+										})}
+								</TableBody>
+							) : (
+								// <LoadingCenter text='fetching data' />
+								''
+							)}
 						</Table>
 					</TableContainer>
 					<TablePagination
