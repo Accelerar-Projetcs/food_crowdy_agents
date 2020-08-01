@@ -148,7 +148,6 @@ const Pending = ({ title, Products }) => {
 	const [selected, setSelected] = useState([]);
 	const [page, setPage] = useState(0);
 	const [rowsPerPage, setRowsPerPage] = useState(5);
-	console.log(pendingProducts);
 	const storeData = (data) => {
 		const storedData = data.map((item) =>
 			createData(
@@ -159,13 +158,10 @@ const Pending = ({ title, Products }) => {
 				item.agentPriceOffer,
 				item.createdAt,
 				item._id
-			)
+			)	
 		);
 		return storedData;
 	};
-
-	// const rows = [storeData([])];
-	// console.log(Products);
 	const rows = [storeData(Products || [])];
 
 	const handleRequestSort = (event, property) => {

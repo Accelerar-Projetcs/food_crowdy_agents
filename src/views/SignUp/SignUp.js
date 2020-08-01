@@ -230,7 +230,6 @@ const SignIn = () => {
 	const handleSignIn = async (event) => {
 		event.preventDefault();
 		setLoading(true);
-		console.log(formState.values);
 		formState.values.role = role;
 		try {
 			const res = await agentUser.post('/signup', formState.values);

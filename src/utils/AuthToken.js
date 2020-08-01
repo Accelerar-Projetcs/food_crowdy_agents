@@ -9,10 +9,9 @@ export const saveUserDetails = (newUser) => {
 };
 
 export const getAuthToken = () => {
-	const store = localStorage.getItem('_token');
-	if (store) {
-		const token = JSON.parse(store);
-		return token;
+
+	if (localStorage.getItem('_token')) {
+		return JSON.parse(localStorage.getItem('_token'));
 	} else {
 		return null;
 	}

@@ -54,7 +54,8 @@ const AccountDetails = () => {
 	const [loader, setloader] = useState(false);
 	const [imageFile, setImageFile] = useState({ files: '' });
 	const [productDetails, setProductDetails] = useState({
-		farmerId: null
+		farmerId: null,
+		agentId
 	});
 	const handleChange = (key, value) => {
 		setProductDetails({ ...productDetails, [key]: value });
@@ -92,51 +93,35 @@ const AccountDetails = () => {
 		// 		autoClose: 5000
 		// 	});
 		// }
-		handleClose();
+		// handleClose();
 		setloader(true);
-		console.log(productDetails);
-		console.log(imageFile);
 		try {
 			const data = new FormData();
 			data.append('farmName', productDetails.farmerName);
 			data.append('title', productDetails.title);
 			data.append('agentId', agentId);
 			data.append('farmerId', productDetails.farmerId || null);
-			data.append('deal', productDetails.productDetails);
+			data.append('deal', productDetails.deal);
 			data.append('agentPriceOffer', productDetails.price);
 			data.append('phoneNumber', productDetails.phoneNumber);
 			data.append('quantity', productDetails.qty);
 			data.append('location', productDetails.location);
 			data.append('image', imageFile.files);
 			data.append('videoURL', productDetails.videoURL);
-			await ProductsApi.post(`/createuploadrequest/${agentId}`, data);
+			const res = await ProductsApi.post(
+				`/createuploadrequest/${agentId}`,
+				data
+			);
 			toast.success('your deal has been  successfully uploaded', {
 				toastId: '4334'
 			});
+			// console.log(res);
 			setLoading(!loading);
 			history.push('/products');
 		} catch (error) {
 			toast.error('problem uploader offer try again', { toastId: 'we32493' });
 		}
 		setloader(false);
-		// setDealDisplay([
-		// 	...dealDisplay,
-		// 	{
-		// 		id: Math.random(0, 300),
-		// 		title: productDetails.title,
-		// 		farmerName: productDetails.farmerName,
-		// 		farmerId: productDetails.farmerId || null,
-		// 		deal: productDetails.deal,
-		// 		price: productDetails.price,
-		// 		agentId: agentId,
-		// 		location: productDetails.location,
-		// 		phoneNumber: productDetails.phoneNumber,
-		// 		qty: productDetails.qty,
-		// 		file: imageFile.files,
-		// 		videoURL: productDetails.videoURL
-		// 	}
-		// ]);
-		// toast.success('Offer Added');
 	};
 
 	const handleClickOpen = (scrollType) => () => {
@@ -320,19 +305,17 @@ const AccountDetails = () => {
 													});
 												}}
 											/>
-
-											{/* <TextField
+											<TextField
 												className={classes.textField}
 												fullWidth
-												hidden={true}
+												// hidden={true}
 												label='Agent id'
-												
 												name='agentId'
 												// onChange={handleChange}
 												value={agentId}
 												variant='outlined'
 												disabled
-											/> */}
+											/>
 										</Grid>
 										<Grid item md={6} xs={12}>
 											<TextField
