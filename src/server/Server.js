@@ -33,10 +33,9 @@ export const ProductsApiHooks = makeUseAxios({
 	axios: axios.create({
 		// baseURL: 'http://localhost:3005/products',
 		baseURL: 'https://m5.foodcrowdy.com/products',
-		responseType: 'json'
+		responseType: 'json' 
 	})
 });
-
 export const AdminApi = axios.create({
 	baseURL: 'https://m1.foodcrowdy.com/admin',
 	// baseURL: 'http://localhost:3001/admin',

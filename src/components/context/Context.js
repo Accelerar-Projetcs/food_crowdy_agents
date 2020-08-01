@@ -1,5 +1,5 @@
 import React, { useState, createContext, useEffect } from 'react';
-import { toast } from 'react-toastify';
+// import { toast } from 'react-toastify';
 import { ProductsApi } from '../../server/Server';
 import { getUserId, getUniqueId } from '../../utils/localStore';
 // import { useHistory } from 'react-router-dom';

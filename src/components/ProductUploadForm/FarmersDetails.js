@@ -96,7 +96,6 @@ const AccountDetails = () => {
 		// }
 		handleClose();
 		setloader(true);
-		console.log(productDetails);
 		try {
 			const data = new FormData();
 			data.append('farmName', productDetails.farmerName);
@@ -117,7 +116,7 @@ const AccountDetails = () => {
 			toast.success('your deal has been  successfully uploaded', {
 				toastId: '4334'
 			});
-			// console.log(res);
+			console.log(res);
 			setLoading(!loading);
 			history.push('/products');
 		} catch (error) {
@@ -307,7 +306,7 @@ const AccountDetails = () => {
 													});
 												}}
 											/>
-											<TextField
+											{/* <TextField
 												className={classes.textField}
 												fullWidth
 												// hidden={true}
@@ -317,7 +316,7 @@ const AccountDetails = () => {
 												value={agentId}
 												variant='outlined'
 												disabled
-											/>
+											/> */}
 										</Grid>
 										<Grid item md={6} xs={12}>
 											<TextField
