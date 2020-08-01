@@ -37,6 +37,7 @@ import FilePondPluginImageExifOrientation from 'filepond-plugin-image-exif-orien
 import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
 import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css';
 import 'filepond/dist/filepond.min.css';
+import { logDOM } from '@testing-library/react';
 
 // filepond plugin registration
 registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
@@ -93,8 +94,9 @@ const AccountDetails = () => {
 		// 		autoClose: 5000
 		// 	});
 		// }
-		// handleClose();
+		handleClose();
 		setloader(true);
+		console.log(productDetails);
 		try {
 			const data = new FormData();
 			data.append('farmName', productDetails.farmerName);
