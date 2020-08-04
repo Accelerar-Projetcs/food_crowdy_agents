@@ -3,7 +3,8 @@ import { contextApi } from '../context/Context';
 import { ProductsApi } from '../../server/Server';
 import { getUserId } from '../../utils/localStore';
 import PropTypes from 'prop-types';
-import { category, state } from './data';
+import { category } from '../../utils/ProductsCategory';
+import state from '../../utils/LocationList';
 import { makeStyles } from '@material-ui/styles';
 import { Styles } from './styles';
 import { Alert, AlertTitle } from '@material-ui/lab';
@@ -116,7 +117,6 @@ const AccountDetails = () => {
 			toast.success('your deal has been  successfully uploaded', {
 				toastId: '4334'
 			});
-			console.log(res);
 			setLoading(!loading);
 			history.push('/products');
 		} catch (error) {
@@ -239,8 +239,8 @@ const AccountDetails = () => {
 												}}
 												variant='outlined'>
 												{category.map((option) => (
-													<option key={option} value={option}>
-														{option}
+													<option key={option.value} value={option.value}>
+														{option.value}
 													</option>
 												))}
 											</TextField>

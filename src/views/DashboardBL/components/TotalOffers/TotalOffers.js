@@ -71,12 +71,12 @@ const TotalUserBrought = (props) => {
 				</Grid>
 				<div className={classes.difference}>
 					<ArrowUpwardIcon className={classes.differenceIcon} />
-					<Typography className={classes.differenceValue} variant='body2'>
+					{/* <Typography className={classes.differenceValue} variant='body2'>
 						16%
 					</Typography>
 					<Typography className={classes.caption} variant='caption'>
 						Since last month
-					</Typography>
+					</Typography> */}
 				</div>
 			</CardContent>
 		</Card>
