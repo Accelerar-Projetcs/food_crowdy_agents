@@ -41,9 +41,9 @@ const Products = () => {
 				</Link>
 				<TableList title={'Pending Products'} Products={pendingProducts} />
 			</div>
-			<div>
+			{/* <div>
 				<TableList title={'Approved Products'} Products={approvedProducts} />
-			</div>
+			</div> */}
 		</div>
 	);
 };

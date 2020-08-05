@@ -1,15 +1,6 @@
 import axios from 'axios';
 import { makeUseAxios } from 'axios-hooks';
 
-// export const BulkShareApi = axios.create({
-// 	baseURL: 'http://localhost:8001/bulkshare',
-// 	responseType: 'json'
-// });
-
-// export const ProductsApi = axios.create({
-// 	baseURL: 'http://localhost:3005/products',
-// 	responseType: 'json'
-// });
 export const agentApi = axios.create({
 	// baseURL: 'http://localhost:3002/',
 	baseURL: 'https://m2.foodcrowdy.com/',
@@ -22,7 +13,6 @@ export const agentUser = axios.create({
 	responseType: 'json'
 });
 
-
 export const ProductsApi = axios.create({
 	// baseURL: 'http://localhost:3005/products',
 	baseURL: 'https://m5.foodcrowdy.com/products',
@@ -33,7 +23,7 @@ export const ProductsApiHooks = makeUseAxios({
 	axios: axios.create({
 		// baseURL: 'http://localhost:3005/products',
 		baseURL: 'https://m5.foodcrowdy.com/products',
-		responseType: 'json' 
+		responseType: 'json'
 	})
 });
 export const AdminApi = axios.create({

@@ -38,7 +38,6 @@ import FilePondPluginImageExifOrientation from 'filepond-plugin-image-exif-orien
 import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
 import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css';
 import 'filepond/dist/filepond.min.css';
-import { logDOM } from '@testing-library/react';
 
 // filepond plugin registration
 registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
@@ -110,17 +109,14 @@ const AccountDetails = () => {
 			data.append('location', productDetails.location);
 			data.append('image', imageFile.files);
 			data.append('videoURL', productDetails.videoURL);
-			const res = await ProductsApi.post(
-				`/createuploadrequest/${agentId}`,
-				data
-			);
+			await ProductsApi.post(`/createuploadrequest/${agentId}`, data);
 			toast.success('your deal has been  successfully uploaded', {
 				toastId: '4334'
 			});
 			setLoading(!loading);
 			history.push('/products');
 		} catch (error) {
-			toast.error('problem uploader offer try again', { toastId: 'we32493' });
+			toast.error('problem uploading offer try again', { toastId: 'we32493' });
 		}
 		setloader(false);
 	};
@@ -138,7 +134,7 @@ const AccountDetails = () => {
 
 	return (
 		<div className={classes.root}>
-			{loader && <BackDrop text='uploader your offer please wait...' />}
+			{loader && <BackDrop text='uploading your offer please wait...' />}
 			<form>
 				<Tooltip
 					onClick={handleClickOpen('paper')}

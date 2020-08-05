@@ -1,9 +1,10 @@
 import React, { useState, createContext, useEffect } from 'react';
 // import { toast } from 'react-toastify';
-import { ProductsApi } from '../../server/Server';
+import { ProductsApi, agentApi } from '../../server/Server';
 import { getUserId, getUniqueId } from '../../utils/localStore';
 // import { useHistory } from 'react-router-dom';
 import { agentProducts } from '../../utils/FetchData';
+import { headers } from '../../server/Headers';
 export const contextApi = createContext();
 
 const ContextProvider = ({ children }) => {
@@ -70,13 +71,32 @@ const ContextProvider = ({ children }) => {
 	// };
 	useEffect(() => {
 		if (agentUnId) {
-			agentProducts(`/agent/myupload/pending/${agentUnId}`).then((data) => {
-				setPendingProducts(data.data);
-			});
+			const getAgentPendingrequests = async () => {
+				try {
+					const res = await agentApi.get(
+						`/agent/myupload/pending/${agentUnId}`,
+						{
+							headers
+						}
+					);
+					console.log(res);
+				} catch (error) {
+					console.log(error);
+				}
+			};
+			getAgentPendingrequests();
 
-			agentProducts(`/agent/myupload/approved/${agentUnId}`).then((data) => {
-				setApprovedProducts(data.data);
-			});
+			// agentProducts(`/agent/myupload/pending/${agentUnId}`)
+			// 	.then((data) => {
+			// 		setPendingProducts(data.data);
+			// 	})
+			// 	.catch((err) => {
+			// 		console.log(err);
+			// 	});
+
+			// agentProducts(`/agent/myupload/approved/${agentUnId}`).then((data) => {
+			// 	setApprovedProducts(data.data);
+			// });
 		}
 	}, [agentId, loading, agentUnId]);
 
