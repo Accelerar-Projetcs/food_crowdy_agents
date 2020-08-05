@@ -6,6 +6,8 @@ export const agentProducts = async (url) => {
 	return res;
 };
 
+// console.log(headers);
+
 export const AllProducts = async (url) => {
 	const res = await ProductsApi.get(url);
 	return res;

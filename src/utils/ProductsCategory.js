@@ -41,5 +41,17 @@ export const category = [
 		label: 'Oils',
 		link: '/products/Oils',
 		image: '/image/'
+	},
+	{
+		value: 'SeaFoods',
+		label: 'SeaFoods',
+		link: '/products/SeaFoods',
+		image: '/image/'
+	},
+	{
+		value: 'Nuts',
+		label: 'Nuts',
+		link: '/products/SeaFoods',
+		image: '/image/'
 	}
 ];
