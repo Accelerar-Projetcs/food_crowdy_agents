@@ -71,28 +71,13 @@ const ContextProvider = ({ children }) => {
 	// };
 	useEffect(() => {
 		if (agentUnId) {
-			const getAgentPendingrequests = async () => {
-				try {
-					const res = await agentApi.get(
-						`/agent/myupload/pending/${agentUnId}`,
-						{
-							headers
-						}
-					);
-					console.log(res);
-				} catch (error) {
-					console.log(error);
-				}
-			};
-			getAgentPendingrequests();
-
-			// agentProducts(`/agent/myupload/pending/${agentUnId}`)
-			// 	.then((data) => {
-			// 		setPendingProducts(data.data);
-			// 	})
-			// 	.catch((err) => {
-			// 		console.log(err);
-			// 	});
+			agentProducts(`/agent/myupload/pending/${agentUnId}`)
+				.then((data) => {
+					setPendingProducts(data.data);
+				})
+				.catch((err) => {
+					
+				});
 
 			// agentProducts(`/agent/myupload/approved/${agentUnId}`).then((data) => {
 			// 	setApprovedProducts(data.data);
