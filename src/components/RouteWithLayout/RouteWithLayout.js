@@ -1,11 +1,23 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import SignIn from '../../views/SignUp/SignUp';
+import SignIn from '../../views/SignIn/SignIn';
+import EmailVerification from '../../views/EmailVerification/EmailVerification';
 
 const RouteWithLayout = (props) => {
 	const { layout: Layout, component: Component, ...rest } = props;
 	const token = localStorage.getItem('_token');
+	// const token = true;
+	const verfied = true;
+
+	if (!verfied) {
+		return (
+			<Layout>
+				<Component />
+				<EmailVerification />
+			</Layout>
+		);
+	}
 
 	return (
 		<Route

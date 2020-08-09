@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import { makeStyles } from '@material-ui/core/styles';
@@ -17,7 +17,7 @@ import {
 	TableRow,
 	TableSortLabel
 } from '@material-ui/core';
-import { contextApi } from '../context/Context';
+
 
 function createData(
 	name,
@@ -142,7 +142,6 @@ const useStyles = makeStyles((theme) => ({
 
 const Pending = ({ title, Products }) => {
 	const classes = useStyles();
-	const { pendingProducts } = useContext(contextApi);
 	const [order, setOrder] = useState('asc');
 	const [orderBy, setOrderBy] = useState('category');
 	const [selected, setSelected] = useState([]);
