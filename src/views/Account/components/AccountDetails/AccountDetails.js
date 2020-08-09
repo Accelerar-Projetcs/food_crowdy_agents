@@ -31,8 +31,6 @@ const AccountDetails = (props) => {
 		});
 	};
 
-	const states = [];
-
 	return (
 		<Card {...rest} className={clsx(classes.root, className)}>
 			<form autoComplete='off' noValidate>
@@ -84,18 +82,6 @@ const AccountDetails = (props) => {
 								type='number'
 								variant='outlined'
 							/>
-						</Grid>
-						<Grid item md={6} xs={12}>
-							<TextField
-								fullWidth
-								label='Select State'
-								margin='dense'
-								name='state'
-								onChange={handleChange}
-								required
-								select
-								SelectProps={{ native: true }}
-								variant='outlined'></TextField>
 						</Grid>
 						<Grid item md={6} xs={12}>
 							<TextField

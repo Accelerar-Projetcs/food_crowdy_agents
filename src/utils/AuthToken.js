@@ -8,6 +8,7 @@ export const saveUserDetails = (newUser) => {
 	localStorage.setItem('_user', JSON.stringify(currentUser));
 };
 
+
 export const getAuthToken = () => {
 	if (localStorage.getItem('_token')) {
 		return JSON.parse(localStorage.getItem('_token'));

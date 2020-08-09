@@ -22,7 +22,7 @@ import {
 } from '@material-ui/core';
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 
-import mockData from './data';
+// import mockData from './data';
 // import { StatusBullet } from 'co';
 
 const useStyles = makeStyles((theme) => ({
@@ -56,7 +56,7 @@ const LatestOrders = (props) => {
 
 	const classes = useStyles();
 
-	const [orders] = useState(mockData);
+	const [orders] = useState([]);
 
 	return (
 		<Card {...rest} className={clsx(classes.root, className)}>

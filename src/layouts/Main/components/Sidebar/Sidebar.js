@@ -121,7 +121,8 @@ const Sidebar = (props) => {
 				return Farmers;
 			default:
 				// BackLineAgent;
-				return BackLineAgent;
+				// return BackLineAgent;
+				return FrontLine;
 				// return [];
 		}
 	};

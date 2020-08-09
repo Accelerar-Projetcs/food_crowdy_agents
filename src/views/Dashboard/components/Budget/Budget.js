@@ -58,7 +58,7 @@ const Budget = (props) => {
 							variant='body2'>
 							Earnings
 						</Typography>
-						<Typography variant='h3'>{formatter.format(20000)}</Typography>
+						<Typography variant='h3'>{formatter.format(0)}</Typography>
 					</Grid>
 					<Grid item>
 						<Avatar className={classes.avatar}>

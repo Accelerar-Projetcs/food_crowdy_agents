@@ -34,7 +34,7 @@ const AccountProfile = (props) => {
 			<CardContent>
 				<div className={classes.details}>
 					<div>
-						<Typography gutterBottom variant=''>
+						<Typography gutterBottom variant='h4'>
 							<strong>{getUserName()}</strong>
 						</Typography>
 						<Typography

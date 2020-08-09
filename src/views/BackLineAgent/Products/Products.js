@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 const Products = () => {
 	const classes = useStyles();
-	const { pendingProducts, approvedProducts } = useContext(contextApi);
+	const { pendingProducts } = useContext(contextApi);
 
 	return (
 		<div className={classes.root}>
