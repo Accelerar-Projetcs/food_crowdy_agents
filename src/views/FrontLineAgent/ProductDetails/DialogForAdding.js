@@ -21,29 +21,9 @@ import AddNewUser from '../AddUserForm/AddNewUser';
 import ExistingUser from '../AddUserForm/AddExistingUser';
 import CloseIcon from '@material-ui/icons/Close';
 
-const styles = makeStyles((theme) => ({
-	root: {
-		margin: 0,
-		padding: theme.spacing(2)
-	},
-	close: {
-		display: `flex`,
-		justifyContent: 'space-between'
-	},
-	btnOrange: {
-		background: theme.palette.tetiary.main,
-		color: theme.palette.white,
-		'&:hover': {
-			background: theme.palette.tetiary.light
-		}
-	},
-	closeButton: {
-		position: 'absolute',
-		right: theme.spacing(1),
-		top: theme.spacing(1),
-		color: theme.palette.grey[500]
-	}
-}));
+import {dialogStyles} from './styles/Styles';
+
+const styles = makeStyles((theme) => (dialogStyles(theme)));
 
 export default function CustomizedDialogs({ open, setOpen }) {
 	const [newUser, setNewUser] = useState(false);

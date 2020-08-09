@@ -2,12 +2,9 @@ import React from 'react';
 import { makeStyles } from '@material-ui/styles';
 import Category from './Category';
 
-const useStyles = makeStyles((theme) => ({
-	root: {
-		padding: theme.spacing(0)
-		// margin:theme.spacing(3)
-	}
-}));
+import { productsStyles } from './styles/Styles';
+
+const useStyles = makeStyles((theme) => productsStyles(theme));
 
 const Products = () => {
 	const classes = useStyles();

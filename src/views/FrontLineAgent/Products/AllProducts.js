@@ -17,64 +17,21 @@ import { formatter } from '../../../utils/localStore';
 import States from '../../../utils/LocationList';
 import { FilterList } from '@material-ui/icons';
 import ProgressBar from '../../../components/ProgressBar/ProgressBar';
+import { allProductsStyles } from './styles/Styles';
 
-const useStyles = makeStyles((theme) => ({
-	root: {
-		display: 'flex'
-	},
-	details: {
-		display: 'flex',
-		flexDirection: 'column'
-	},
-	content: {
-		flex: '1 0 auto',
-		'& >*': {
-			margin: theme.spacing(0.3, 0)
-		}
-	},
-	cover: {
-		width: 151
-	},
-	price: {
-		display: 'block',
-		alignItems: 'center',
-		paddingLeft: theme.spacing(1),
-		paddingBottom: theme.spacing(1),
-		fontWeight: 600
-	},
-	marketPrice: {
-		textDecoration: `line-through`
-	},
-	playIcon: {
-		height: 38,
-		width: 38
-	},
-	card: {
-		padding: theme.spacing(1)
-	},
-	header: {
-		display: 'flex',
-		justifyContent: `space-between`
-	},
-	textField: {
-		margin: theme.spacing(0, 1)
-	}
-}));
+const useStyles = makeStyles((theme) => allProductsStyles(theme));
 
 export default function AllProducts({ data, loading }) {
 	const classes = useStyles();
-	const pageLimit = 3;
+	const pageLimit = 6;
 	const [offset, setOffset] = useState(0);
 	const [currentPage, setCurrentPage] = useState(1);
-	const [currentData, setCurrentData] = useState([2]);
-	useEffect(() => {
-		setCurrentData([data].slice(offset, offset + pageLimit));
-	}, [offset]);
+	useEffect(() => {}, [data]);
 
 	return (
 		<Card className={classes.card}>
 			<div className={classes.header}>
-				<CardHeader title='(400) Products' />
+				<CardHeader title={`${data && data.length} Products`} />
 				<CardContent>
 					<strong>Sort by: </strong> <FilterList />
 					<TextField
@@ -115,10 +72,11 @@ export default function AllProducts({ data, loading }) {
 			</div>
 
 			<Divider />
-			{loading && <ProgressBar />}
+
 			<Grid container spacing={1}>
+				{loading && <ProgressBar />}
 				{data &&
-					data.map((item) => (
+					data.slice(offset, offset + pageLimit).map((item) => (
 						<Grid key={item._id} item lg={6} md={6} xl={8} xs={12}>
 							<Link
 								to={`/agents/frontline/products-details/${item.category}/${item.title}/${item._id}`}>
@@ -161,17 +119,19 @@ export default function AllProducts({ data, loading }) {
 			<Divider />
 			<CardActions>
 				<div>
-					<Paginator
-						totalRecords={data && data.length}
-						pageLimit={pageLimit}
-						pageNeighbours={2}
-						setOffset={setOffset}
-						currentPage={currentPage}
-						setCurrentPage={setCurrentPage}
-						pageActiveClass={'active-btn'}
-						pagePrevClass={'active-btn'}
-						// pageLinkClass={'active-btn'}
-					/>
+					{data && (
+						<Paginator
+							totalRecords={data.length}
+							pageLimit={pageLimit}
+							pageNeighbours={2}
+							setOffset={setOffset}
+							currentPage={currentPage}
+							setCurrentPage={setCurrentPage}
+							pageActiveClass={'active-btn'}
+							pagePrevClass={'active-btn'}
+							// pageLinkClass={'active-btn'}
+						/>
+					)}
 				</div>
 			</CardActions>
 		</Card>

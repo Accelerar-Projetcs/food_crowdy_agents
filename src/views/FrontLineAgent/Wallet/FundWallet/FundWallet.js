@@ -1,12 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/styles';
-import {
-	Card,
-	CardContent,
-	Grid,
-	Typography,
-	Button
-} from '@material-ui/core';
+import { Card, CardContent, Grid, Typography, Button } from '@material-ui/core';
 import ArrowUpWard from '@material-ui/icons/ArrowUpward';
 
 const useStyles = makeStyles((theme) => ({
@@ -70,10 +64,7 @@ const FundWallet = () => {
 				<div className={classes.difference}>
 					<ArrowUpWard className={classes.differenceIcon} />
 					<Typography className={classes.differenceValue} variant='body2'>
-						12%
-					</Typography>
-					<Typography className={classes.caption} variant='caption'>
-						Since last month
+						...
 					</Typography>
 				</div>
 			</CardContent>

@@ -14,11 +14,9 @@ import {
 	FormControlLabel,
 	Radio
 } from '@material-ui/core';
-const useStyles = makeStyles((theme) => ({
-	root: {
-		padding: theme.spacing(4)
-	}
-}));
+import { categoryStyles } from './styles/Styles';
+
+const useStyles = makeStyles((theme) => categoryStyles(theme));
 
 const ProductCategory = () => {
 	const classes = useStyles();

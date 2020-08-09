@@ -19,7 +19,7 @@ import {
 } from '@material-ui/core';
 // import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 
-import mockData from './data';
+// import mockData from './data';
 // import { StatusBullet } from 'co';
 
 const useStyles = makeStyles((theme) => ({
@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
 const WalletHistory = () => {
 	const classes = useStyles();
 
-	const [orders] = useState(mockData);
+	const [orders] = useState([]);
 
 	return (
 		<Card className={classes.root}>

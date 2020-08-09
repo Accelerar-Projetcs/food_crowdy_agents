@@ -1,6 +1,13 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/styles';
-import { Card, CardContent, Grid, Typography, Avatar } from '@material-ui/core';
+import {
+	Card,
+	CardContent,
+	Grid,
+	Typography,
+	Avatar,
+	Chip
+} from '@material-ui/core';
 import MoneyIcon from '@material-ui/icons/Money';
 import { formatter } from '../../../../utils/localStore';
 
@@ -23,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
 	icon: {
 		height: 32,
 		width: 32
-	},
+	}
 }));
 
 const BalanceHistory = () => {
@@ -41,7 +48,8 @@ const BalanceHistory = () => {
 							variant='body2'>
 							Wallet Balance
 						</Typography>
-						<Typography variant='h3'>{formatter.format(20000)}</Typography>
+						<Typography variant='h3'>{formatter.format(0)}</Typography>
+						<Chip color='primary' label='coming soon' />
 					</Grid>
 					<Grid item>
 						<Avatar className={classes.avatar}>
