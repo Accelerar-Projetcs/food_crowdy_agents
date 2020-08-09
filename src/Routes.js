@@ -1,7 +1,9 @@
-import React, { Suspense, lazy } from 'react';
+import React, { Suspense, lazy, useEffect, useContext } from 'react';
 import logo from './assets/images/logoFood_1.svg';
 import { Switch, Route } from 'react-router-dom';
-// import { getRole as getAgentRoles } from './utils/localStore';
+import { contextApi } from './components/context/Context';
+
+import { getRole as getAgentRoles } from './utils/localStore';
 
 import { RouteWithLayout } from './components';
 import { Main as MainLayout, Minimal as MinimalLayout } from './layouts';
@@ -38,6 +40,11 @@ const FrontLineAgentWallet = lazy(() =>
 	import('./views/FrontLineAgent/Wallet/Wallet')
 );
 
+//***Account Verification*********//
+const AccountConfirmation = lazy(() =>
+	import('./views/EmailVerification/AccountConfirmation/AccountConfirmation')
+);
+
 //****FallBack Loader  Components ****//
 const FallBack = (
 	<div className='full-page-loader'>
@@ -45,25 +52,45 @@ const FallBack = (
 	</div>
 );
 
-//***Function to Display specific Home Dashboard by Roles *****//
-// const agentRole = getAgentRoles();
-const getRole = (roles) => {
-	switch (String(roles)) {
-		case 'frontline':
-			return FrontLineAgentDashboard;
-		case 'backline':
-			return BackLineAgentDashboard;
-		default:
-			return NotFoundView;
-	}
-};
+// const user = {
+// 	id: '209023kcjkjvkdf',
+// 	name: 'agent test',
+// 	uniqueId: 'FGRT0098',
+// 	// role: 'frontline',
+// 	role: 'backline',
+// 	email: 'inifr@gmail.com'
+// };
+
+// localStorage.setItem('_user', JSON.stringify(user));
 
 const Routes = () => {
+	const { authUpdate } = useContext(contextApi);
+	//***Function to Display specific Home Dashboard by Roles *****//
+	const agentRole = getAgentRoles();
+	const getRole = (roles) => {
+		switch (String(roles)) {
+			case 'frontline':
+				return FrontLineAgentDashboard;
+			case 'backline':
+				return BackLineAgentDashboard;
+			default:
+				return NotFoundView;
+		}
+	};
+
+	useEffect(() => {}, [authUpdate]);
+
 	return (
 		<Suspense fallback={FallBack}>
 			<Switch>
 				<RouteWithLayout
-					component={getRole('backline')}
+					// component={BackLineAgentDashboard}
+					component={getRole(agentRole)}
+					// component={
+					// 	getRole === 'backline'
+					// 		? BackLineAgentDashboard
+					// 		: FrontLineAgentDashboard
+					// }
 					exact
 					layout={MainLayout}
 					path='/'
@@ -73,6 +100,12 @@ const Routes = () => {
 					exact
 					layout={MainLayout}
 					path='/users'
+				/>
+				<RouteWithLayout
+					component={AccountConfirmation}
+					exact
+					layout={MainLayout}
+					path='/agent/user/verify-account'
 				/>
 				<RouteWithLayout
 					component={ProductsList}
