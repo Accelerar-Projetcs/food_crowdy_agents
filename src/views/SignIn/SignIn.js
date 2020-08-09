@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import { agentUser } from '../../server/Server';
 import { saveAuthToken, saveUserDetails } from '../../utils/AuthToken';
@@ -17,6 +17,7 @@ import {
 	Typography
 } from '@material-ui/core';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import { contextApi } from '../../components/context/Context';
 
 const schema = {
 	email: {
@@ -57,7 +58,8 @@ const useStyles = makeStyles((theme) => ({
 		display: 'flex',
 		justifyContent: 'center',
 		alignItems: 'center',
-		backgroundImage: 'url(https://res.cloudinary.com/cmcwebcode/image/upload/v1596039761/foodcrowdy/signup_1_wovngn.jpg)',
+		backgroundImage:
+			'url(https://res.cloudinary.com/cmcwebcode/image/upload/v1596039761/foodcrowdy/signup_1_wovngn.jpg)',
 		backgroundSize: 'cover',
 		backgroundRepeat: 'no-repeat',
 		backgroundPosition: 'center'
@@ -135,8 +137,8 @@ const useStyles = makeStyles((theme) => ({
 
 const SignIn = (props) => {
 	const { history } = props;
-
 	const classes = useStyles();
+	const { authUpdate, setauthUpdate } = useContext(contextApi);
 	const [message, setMessage] = useState('');
 	const [loading, setLoading] = useState('');
 	const [formState, setFormState] = useState({
@@ -184,6 +186,7 @@ const SignIn = (props) => {
 			saveUserDetails(res.data.validUser);
 			saveAuthToken(res.data.token);
 			if (res.status === 200) {
+				setauthUpdate(!authUpdate);
 				history.push('/');
 			}
 		} catch (error) {
@@ -193,9 +196,11 @@ const SignIn = (props) => {
 			} else if (response.data) {
 				setMessage(response.data.message);
 			}
+			setLoading(false);
 		}
-		setLoading(false);
+	
 	};
+
 
 	const hasError = (field) =>
 		formState.touched[field] && formState.errors[field] ? true : false;
@@ -247,6 +252,7 @@ const SignIn = (props) => {
 									className={classes.textField}
 									error={hasError('email')}
 									fullWidth
+									required
 									helperText={
 										hasError('email') ? formState.errors.email[0] : null
 									}
@@ -261,6 +267,7 @@ const SignIn = (props) => {
 									className={classes.textField}
 									error={hasError('password')}
 									fullWidth
+									required
 									helperText={
 										hasError('password') ? formState.errors.password[0] : null
 									}
@@ -277,6 +284,7 @@ const SignIn = (props) => {
 									// disabled={!formState.isValid}
 									disabled={loading ? true : false}
 									fullWidth
+									required
 									size='large'
 									type='submit'
 									variant='contained'>

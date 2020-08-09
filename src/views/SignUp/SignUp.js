@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import Footer from '../../layouts/Main/components/Footer/Footer';
 import Minimal from '../../layouts/Minimal/Minimal';
 import { agentUser } from '../../server/Server';
 import { saveAuthToken, saveUserDetails } from '../../utils/AuthToken';
+import { contextApi } from '../../components/context/Context';
 import DoneIcon from '@material-ui/icons/Done';
 import PropTypes from 'prop-types';
 import { Alert } from '@material-ui/lab/';
@@ -157,6 +158,7 @@ const useStyles = makeStyles((theme) => ({
 const SignIn = () => {
 	const classes = useStyles();
 	const history = useHistory();
+	const { authUpdate, setauthUpdate } = useContext(contextApi);
 	const [message, setMessage] = useState('');
 	const [role, setRole] = useState('backline');
 	const [loading, setLoading] = useState('');
@@ -242,6 +244,7 @@ const SignIn = () => {
 				}
 			);
 			if (res.status === 200) {
+				setauthUpdate(!authUpdate);
 				history.push('/');
 			}
 		} catch (error) {
@@ -251,8 +254,8 @@ const SignIn = () => {
 			} else if (response.data) {
 				setMessage(response.data.message);
 			}
+			setLoading(false);
 		}
-		setLoading(false);
 	};
 
 	const hasError = (field) =>
@@ -377,7 +380,6 @@ const SignIn = () => {
 									name='role'
 									value={role}
 									onChange={(e) => setRole(e.target.value)}
-									required
 									SelectProps={{
 										native: true
 									}}
