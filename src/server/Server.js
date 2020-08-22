@@ -1,33 +1,31 @@
 import axios from 'axios';
 import { makeUseAxios } from 'axios-hooks';
+import { BASE_URL } from './index';
+
+const { AGENTUSERS, PRODUCT, AGENTS, ADMIN } = BASE_URL;
 
 export const agentApi = axios.create({
-	// baseURL: 'http://localhost:3002/',
-	baseURL: 'https://m2.foodcrowdy.com/',
+	baseURL: AGENTS,
 	responseType: 'json'
 });
 
 export const agentUser = axios.create({
-	// baseURL: 'http://localhost:3002/agent/user',
-	baseURL: 'https://m2.foodcrowdy.com/agent/user',
+	baseURL: AGENTUSERS,
 	responseType: 'json'
 });
 
 export const ProductsApi = axios.create({
-	// baseURL: 'http://localhost:3005/products',
-	baseURL: 'https://m5.foodcrowdy.com/products',
+	baseURL: PRODUCT,
 	responseType: 'json'
 });
 
 export const ProductsApiHooks = makeUseAxios({
 	axios: axios.create({
-		// baseURL: 'http://localhost:3005/products',
-		baseURL: 'https://m5.foodcrowdy.com/products',
+		baseURL: PRODUCT,
 		responseType: 'json'
 	})
 });
 export const AdminApi = axios.create({
-	baseURL: 'https://m1.foodcrowdy.com/admin',
-	// baseURL: 'http://localhost:3001/admin',
+	baseURL: ADMIN,
 	responseType: 'json'
 });

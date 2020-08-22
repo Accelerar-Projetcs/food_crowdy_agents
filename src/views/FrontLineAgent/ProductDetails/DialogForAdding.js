@@ -22,7 +22,6 @@ import ExistingUser from '../AddUserForm/AddExistingUser';
 import CloseIcon from '@material-ui/icons/Close';
 
 import {dialogStyles} from './styles/Styles';
-
 const styles = makeStyles((theme) => (dialogStyles(theme)));
 
 export default function CustomizedDialogs({ open, setOpen }) {
@@ -34,11 +33,7 @@ export default function CustomizedDialogs({ open, setOpen }) {
 		// setOpenDialog(false);
 		setOpen(false);
 	};
-	// useEffect(() => {
-	// 	// const handleClickOpen = () => {
-	// 	// 	setOpenDialog(true);
-	// 	// };
-	// }, [open]);
+
 
 	return (
 		<div>

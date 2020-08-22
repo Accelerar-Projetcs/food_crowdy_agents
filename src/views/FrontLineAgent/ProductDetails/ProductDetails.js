@@ -3,10 +3,9 @@ import { ProductsApiHooks } from '../../../server/Server';
 import { Media } from '../../../components/BackDrop/AppShell';
 import { makeStyles } from '@material-ui/styles';
 import ProductsDetailsData from './ProductDetailData';
-import {productDetailStyle} from './styles/Styles';
+import { productDetailStyle } from './styles/Styles';
 
-
-const useStyles = makeStyles((theme) => (productDetailStyle(theme)));
+const useStyles = makeStyles((theme) => productDetailStyle(theme));
 const ProductDetails = ({ match }) => {
 	const classes = useStyles();
 	const [{ data, loading }] = ProductsApiHooks(`/${match.params.id}`);

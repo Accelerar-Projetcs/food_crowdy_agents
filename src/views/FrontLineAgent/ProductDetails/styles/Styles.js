@@ -23,7 +23,9 @@ export const dialogStyles =(theme)=>({
 })
 
 export const productDetailStyle =(theme)=>({
-  
+  root: {
+		margin: theme.spacing(0.5)
+	}
 })
 
 export const productsDataStyles =(theme)=>({

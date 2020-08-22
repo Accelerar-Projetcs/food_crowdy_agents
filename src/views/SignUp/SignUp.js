@@ -188,10 +188,7 @@ const SignIn = () => {
 	};
 
 	const checkPassword = (inputText) => {
-		// var password = /^(?=.\d)(?=.[a-z])(?=.*[A-Z]).{6,20}$/;
 		var password = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$/;
-		//Minimum 8 characters at least 1 Alphabet, 1 Number and 1 Special Character:
-		// if (inputText.length > 8) {
 		if (inputText.match(password)) {
 			setPasswordCheck({
 				text: 'password strength is strong',
