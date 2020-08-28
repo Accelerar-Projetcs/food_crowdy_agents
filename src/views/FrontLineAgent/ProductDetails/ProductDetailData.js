@@ -1,5 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { addToCart } from '../../../Redux/Reducers/Cart';
 import { Grid, Typography, Chip, Divider, Button } from '@material-ui/core';
+import AddToCartForm from './AddToCartForm/AddToCartForm';
 import Rating from '../../../components/Rating/Rating';
 import DialogToAddUser from './DialogForAdding';
 import { AlertTitle, Alert } from '@material-ui/lab';
@@ -12,16 +15,21 @@ const useStyles = makeStyles((theme) => productsDataStyles(theme));
 
 const ProductDetailData = ({ data }) => {
 	const [open, setOpen] = useState(false);
+	const [addmodal, setaddModal] = useState(false);
+	const cart = useSelector((state) => state.Cart.cart);
 	const classes = useStyles();
+	// const dispatch = useDispatch();
 
 	const handleClickOpen = () => {
 		setOpen(!open);
 	};
 
+	// useEffect(() => {}, [cart]);
+
 	return (
 		<React.Fragment>
 			<DialogToAddUser open={open} setOpen={setOpen} />
-
+			{addmodal && <AddToCartForm data={data} />}
 			{data && (
 				<Grid container className={classes.content} spacing={8}>
 					<Grid item lg={4} md={12} xl={6} xs={10}>
@@ -49,7 +57,7 @@ const ProductDetailData = ({ data }) => {
 						<div className={classes.description}>
 							<div className={classes.title}>
 								<Typography variant='h3'>{data.title}</Typography>
-								<Rating value={5} />
+								{/* <Rating value={5} /> */}
 							</div>
 							<Chip className={classes.chip} label={data.category} />
 							<div className={classes.message}>
@@ -80,9 +88,9 @@ const ProductDetailData = ({ data }) => {
 									<Button
 										variant='contained'
 										className={classes.buyBtn}
-										onClick={handleClickOpen}
+										onClick={() => setaddModal(!addmodal)}
 										color='primary'>
-										Add Buyer
+										Add To Cart
 									</Button>
 								)}
 							</div>

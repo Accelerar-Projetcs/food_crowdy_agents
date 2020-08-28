@@ -1,10 +1,7 @@
 import React, { useState } from 'react';
-import clsx from 'clsx';
 import moment from 'moment';
 import PerfectScrollbar from 'react-perfect-scrollbar';
-import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
-import Base, { Color } from 'react-bullet-status';
 import {
 	Card,
 	CardActions,
@@ -17,11 +14,11 @@ import {
 	TableCell,
 	TableHead,
 	TableRow,
-	Tooltip,
-	TableSortLabel
 } from '@material-ui/core';
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
-import PersonAdd from '@material-ui/icons/PersonAdd';
+
+import mockData from './data';
+import StatusBullet from '../../../../components/StatusBullet/StatusBullet';
 
 const useStyles = makeStyles((theme) => ({
 	root: {},
@@ -43,33 +40,20 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-// const statusColors = {
-// 	delivered: 'success',
-// 	pending: 'info',
-// 	refunded: 'danger'
-// };
+const statusColors = {
+	delivered: 'success',
+	pending: 'info',
+	refunded: 'danger'
+};
 
-const LatestOrders = (props) => {
-	const { className, ...rest } = props;
-
+const OtherMarketers = () => {
 	const classes = useStyles();
 
-	const [orders] = useState([]);
+	const [orders] = useState(mockData);
 
 	return (
-		<Card {...rest} className={clsx(classes.root, className)}>
-			<CardHeader
-				action={
-					<Button
-						href='/agents/frontline/add-downlines'
-						color='primary'
-						size='small'
-						variant='outlined'>
-						<PersonAdd /> Add New
-					</Button>
-				}
-				title='Users Network'
-			/>
+		<Card className={classes.root}>
+			<CardHeader title='Markerters Activity Board' />
 			<Divider />
 			<CardContent className={classes.content}>
 				<PerfectScrollbar>
@@ -77,16 +61,10 @@ const LatestOrders = (props) => {
 						<Table>
 							<TableHead>
 								<TableRow>
-									<TableCell>Order Ref</TableCell>
-									<TableCell>Customer</TableCell>
-									<TableCell sortDirection='desc'>
-										<Tooltip enterDelay={300} title='Sort'>
-											<TableSortLabel active direction='desc'>
-												Date
-											</TableSortLabel>
-										</Tooltip>
-									</TableCell>
-									<TableCell>Status</TableCell>
+									<TableCell>Markerters ID</TableCell>
+									<TableCell>Name</TableCell>
+									<TableCell>Users</TableCell>
+									<TableCell>Agents</TableCell>
 								</TableRow>
 							</TableHead>
 							<TableBody>
@@ -99,7 +77,11 @@ const LatestOrders = (props) => {
 										</TableCell>
 										<TableCell>
 											<div className={classes.statusContainer}>
-												<Base value={1} color={Color.open} label='Opend' />
+												<StatusBullet
+													className={classes.status}
+													color={statusColors[order.status]}
+													size='sm'
+												/>
 												{order.status}
 											</div>
 										</TableCell>
@@ -120,8 +102,4 @@ const LatestOrders = (props) => {
 	);
 };
 
-LatestOrders.propTypes = {
-	className: PropTypes.string
-};
-
-export default LatestOrders;
+export default OtherMarketers;
