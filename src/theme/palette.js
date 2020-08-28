@@ -21,6 +21,7 @@ export default {
 		// light: colors.blue['A400']
 	},
 	tetiary: {
+		contrastText: white,
 		main: tetiaryColor,
 		contrastText: colors.orange[900],
 		dark: colors.orange[900],
