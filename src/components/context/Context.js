@@ -10,6 +10,11 @@ const ContextProvider = ({ children }) => {
 	const [dealTosend, setDealToSend] = useState([]);
 	const [loading, setLoading] = useState(false);
 
+	//****Cart****//
+	const [cartState, setCartState] = useState({
+		right: false
+	});
+
 	//*****Email Verifaction State****//
 	const [mailCheck, setmailCheck] = useState(true);
 	const agentId = getUserId();
@@ -53,7 +58,9 @@ const ContextProvider = ({ children }) => {
 				mailCheck,
 				setmailCheck,
 				authUpdate,
-				setauthUpdate
+				setauthUpdate,
+				cartState,
+				setCartState
 			}}>
 			{children}
 		</contextApi.Provider>
