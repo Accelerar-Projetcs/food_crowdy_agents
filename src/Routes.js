@@ -13,7 +13,6 @@ import SignUpView from './views/SignUp/SignUp';
 import SignInView from './views/SignIn/SignIn';
 import UserListView from './views/UserList/UserList';
 import SettingsView from './views/Settings/Settings';
-import TypographyView from './views/Typography/Typography';
 import NotFoundView from './views/NotFound/NotFound';
 import BackLineAgentDashboard from './views/DashboardBL/Dashboard';
 import FrontLineAgentDashboard from './views/Dashboard/Dashboard';
@@ -39,10 +38,25 @@ const ProductsDetails = lazy(() =>
 const FrontLineAgentWallet = lazy(() =>
 	import('./views/FrontLineAgent/Wallet/Wallet')
 );
+const Checkout = lazy(() => import('./views/FrontLineAgent/Checkout/Checkout'));
+const AddDownLines = lazy(() =>
+	import('./views/FrontLineAgent/AddDownlines/AddDownLines')
+);
+const ChooseDownLine = lazy(() =>
+	import('./views/FrontLineAgent/Checkout/ChooseDownLine/ChooseDownLine')
+);
+const RegistrationForm = lazy(() =>
+	import('./views/FrontLineAgent/RegistrationForm/RegistrationForm')
+);
 
 //***Account Verification*********//
 const AccountConfirmation = lazy(() =>
 	import('./views/EmailVerification/AccountConfirmation/AccountConfirmation')
+);
+
+//*****Marketers  Dashboard******//
+const MarkertersDashBoard = lazy(() =>
+	import('./views/DashboardMKT/Dashboard')
 );
 
 //****FallBack Loader  Components ****//
@@ -52,16 +66,17 @@ const FallBack = (
 	</div>
 );
 
-// const user = {
-// 	id: '209023kcjkjvkdf',
-// 	name: 'agent test',
-// 	uniqueId: 'FGRT0098',
-// 	// role: 'frontline',
-// 	role: 'backline',
-// 	email: 'inifr@gmail.com'
-// };
+const user = {
+	id: '209023kcjkjvkdf',
+	name: 'agent test',
+	uniqueId: 'FGRT0098',
+	role: 'frontline',
+	// role: 'backline',
+	email: 'inifr@gmail.com'
+};
 
 // localStorage.setItem('_user', JSON.stringify(user));
+// localStorage.setItem('_token', JSON.stringify('sddscjdskjk'));
 
 const Routes = () => {
 	const { authUpdate } = useContext(contextApi);
@@ -73,6 +88,8 @@ const Routes = () => {
 				return FrontLineAgentDashboard;
 			case 'backline':
 				return BackLineAgentDashboard;
+			case 'marketer':
+				return MarkertersDashBoard;
 			default:
 				return NotFoundView;
 		}
@@ -85,7 +102,7 @@ const Routes = () => {
 			<Switch>
 				<RouteWithLayout
 					// component={BackLineAgentDashboard}
-					component={getRole(agentRole)}
+					component={getRole('frontline')}
 					// component={
 					// 	getRole === 'backline'
 					// 		? BackLineAgentDashboard
@@ -146,8 +163,34 @@ const Routes = () => {
 				/>
 				<RouteWithLayout
 					exact
+					// path='/agents/frontline/produ/cts-details'
+					path='/agents/frontline/product/checkout'
+					component={Checkout}
+					layout={MainLayout}
+				/>
+				<RouteWithLayout
+					exact
+					// path='/agents/frontline/produ/cts-details'
+					path='/agents/frontline/registration'
+					component={RegistrationForm}
+					layout={MinimalLayout}
+				/>
+				<RouteWithLayout
+					exact
 					path='/agents/frontline/wallet'
 					component={FrontLineAgentWallet}
+					layout={MainLayout}
+				/>
+				<RouteWithLayout
+					exact
+					path='/agents/frontline/add-downlines'
+					component={AddDownLines}
+					layout={MainLayout}
+				/>
+				<RouteWithLayout
+					exact
+					path='/agents/frontline/choose-downline'
+					component={ChooseDownLine}
 					layout={MainLayout}
 				/>
 				<RouteWithLayout
@@ -156,12 +199,7 @@ const Routes = () => {
 					component={FrontLineAgentDashboard}
 					layout={MainLayout}
 				/>
-				<RouteWithLayout
-					component={TypographyView}
-					exact
-					layout={MainLayout}
-					path='/typography'
-				/>
+		
 				<RouteWithLayout
 					component={AccountView}
 					exact

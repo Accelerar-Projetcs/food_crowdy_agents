@@ -1,0 +1,112 @@
+@import './theme';
+
+
+.cart {
+	display: flex;
+	position: relative;
+	justify-content: center;
+	align-items: center;
+	flex-flow: column nowrap;
+	.cart-checkout {
+		&-total {
+			font-weight: 500;
+			font-size: 1.3rem;
+		}
+	}
+	.close-cart {
+		display: none;
+		position: absolute;
+		right: 0;
+		top: 0;
+		margin: 0.5rem 2rem 0 0;
+		color: $primary;
+		font-weight: 600;
+	}
+
+	h3 {
+		margin: 1.3rem 0.8rem;
+	}
+	&-empty {
+		margin: 1rem auto;
+		text-align: center;
+		p {
+			margin: 1rem 0;
+		}
+		button {
+			margin: 1rem 0;
+		}
+	}
+
+	&-checkout {
+		& > * {
+			margin: 1rem 0.7rem;
+			display: block;
+		}
+		a {
+			button {
+				width: 100%;
+			}
+		}
+	}
+}
+
+//***Mobile cart Cards*****//
+
+.mobile-card {
+	box-shadow: $box-shadow;
+	margin: 0.8rem 0.6rem;
+	border-radius: $border-radius;
+}
+
+.mobile-cart {
+	padding: 0.5rem 0;
+	margin: 0.8rem 0.6rem;
+	&-grid {
+		display: grid;
+		grid-template-columns: 1fr 2fr;
+		.block2 {
+			margin: 0.4rem;
+			.head {
+				display: flex;
+				justify-content: space-between;
+
+				h5 {
+					margin-bottom: 0.5rem;
+				}
+			}
+
+			.buttons button {
+				background: $primary;
+				color: $white;
+				text-align: center;
+				border: none;
+				border-radius: $border-radius;
+				margin: 0 0.3rem;
+				box-shadow: $box-shadow;
+				outline: none;
+				cursor: pointer;
+			}
+			p {
+				margin: 0.3rem 0;
+				color: $primary;
+				font-weight: 500;
+				span {
+					color: $black;
+				}
+
+				&:nth-child(4) {
+					font-size: 1rem;
+				}
+			}
+			& > * {
+				margin: 1.4rem 7;
+			}
+		}
+	}
+	&-bottom {
+		border-top: 0.4px solid $light2;
+		padding: 0.3rem 0;
+		margin: 0rem 0.3rem;
+		color: $danger;
+	}
+}

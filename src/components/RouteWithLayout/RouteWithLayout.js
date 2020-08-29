@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import SignIn from '../../views/SignIn/SignIn';
@@ -8,13 +8,17 @@ const RouteWithLayout = (props) => {
 	const { layout: Layout, component: Component, ...rest } = props;
 	const token = localStorage.getItem('_token');
 	// const token = true;
-	const verfied = true;
+	let verfied;
+	// useEffect(() => {
+	// 	verfied = true;
+	// 	console.log('Email Stiuffs');
+	// }, []);
 
-	if (!verfied) {
+	if (verfied) {
 		return (
 			<Layout>
 				<Component />
-				<EmailVerification />
+				<EmailVerification /> 
 			</Layout>
 		);
 	}

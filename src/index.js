@@ -1,18 +1,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
+import { Provider } from 'react-redux';
+import Store from './Redux/Store';
 import App from './App';
 import ContextProvider from './components/context/Context';
 import * as serviceWorker from './serviceWorker';
+import './index.css';
 
 ReactDOM.render(
-	<ContextProvider>
-		<App />
-	</ContextProvider>,
+	<Provider store={Store}>
+		<ContextProvider>
+			<App />
+		</ContextProvider>
+	</Provider>,
 	document.getElementById('root')
 );
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
 serviceWorker.unregister();

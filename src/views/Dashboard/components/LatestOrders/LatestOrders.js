@@ -21,9 +21,7 @@ import {
 	TableSortLabel
 } from '@material-ui/core';
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
-
-// import mockData from './data';
-// import { StatusBullet } from 'co';
+import PersonAdd from '@material-ui/icons/PersonAdd';
 
 const useStyles = makeStyles((theme) => ({
 	root: {},
@@ -62,8 +60,12 @@ const LatestOrders = (props) => {
 		<Card {...rest} className={clsx(classes.root, className)}>
 			<CardHeader
 				action={
-					<Button color='primary' size='small' variant='outlined'>
-						New entry
+					<Button
+						href='/agents/frontline/add-downlines'
+						color='primary'
+						size='small'
+						variant='outlined'>
+						<PersonAdd /> Add New
 					</Button>
 				}
 				title='Users Network'

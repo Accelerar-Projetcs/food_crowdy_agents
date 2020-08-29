@@ -33,14 +33,8 @@ import { toast } from 'react-toastify';
 /**
  *  implementing React FilePond
  *  */
-import { FilePond, registerPlugin } from 'react-filepond';
-import FilePondPluginImageExifOrientation from 'filepond-plugin-image-exif-orientation';
-import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
-import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css';
-import 'filepond/dist/filepond.min.css';
+import { FilePond } from 'react-filepond';
 
-// filepond plugin registration
-registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
 const useStyles = makeStyles((theme) => Styles(theme));
 
 const AccountDetails = () => {
@@ -302,17 +296,6 @@ const AccountDetails = () => {
 													});
 												}}
 											/>
-											{/* <TextField
-												className={classes.textField}
-												fullWidth
-												// hidden={true}
-												label='Agent id'
-												name='agentId'
-												// onChange={handleChange}
-												value={agentId}
-												variant='outlined'
-												disabled
-											/> */}
 										</Grid>
 										<Grid item md={6} xs={12}>
 											<TextField

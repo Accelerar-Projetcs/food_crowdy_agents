@@ -5,6 +5,7 @@ import { makeStyles, useTheme } from '@material-ui/styles';
 import { useMediaQuery } from '@material-ui/core';
 
 import { Sidebar, Topbar, Footer } from './components';
+import StickyFooter from './components/Footers/Footer'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -18,7 +19,10 @@ const useStyles = makeStyles(theme => ({
     paddingLeft: 240
   },
   content: {
-    height: '100%'
+    // height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    minHeight: '100vh',
   }
 }));
 
@@ -58,7 +62,7 @@ const Main = props => {
       />
       <main className={classes.content}>
         {children}
-        <Footer />
+        <StickyFooter />
       </main>
     </div>
   );
