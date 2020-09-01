@@ -1,11 +1,11 @@
-export const saveUserDetails = (newUser) => {
+export const saveUserDetails = (user) => {
 	const currentUser = {};
-	currentUser.id = newUser._id;
-	currentUser.name = newUser.name;
-	currentUser.uniqueId = newUser.uniqueId;
-	currentUser.email = newUser.email;
-	currentUser.role = newUser.role;
-	localStorage.setItem('_user', JSON.stringify(currentUser));
+	currentUser.id = user._id;
+	currentUser.firstName = user.firstName;
+	currentUser.lastName = user.lastName;
+	currentUser.email = user.email;
+	currentUser.role = user.role;
+	localStorage.setItem('_FCAgent_', JSON.stringify(currentUser));
 };
 
 

@@ -3,7 +3,7 @@ let BASE_URL = {};
 const DEV_URL_SERVICES = {
 	AGENTUSERS: 'https://m2.foodcrowdy.com/agent/user1',
 	PRODUCT: 'https://foodcrowdyproducttest.herokuapp.com/products',
-	AGENTS: 'https://m2.foodcrowdy.com/1',
+	AGENTS: 'http://35.153.51.202:3002/api',
 	ADMIN: 'https://m1.foodcrowdy.com/admin1'
 };
 

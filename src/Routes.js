@@ -3,8 +3,6 @@ import logo from './assets/images/logoFood_1.svg';
 import { Switch, Route } from 'react-router-dom';
 import { contextApi } from './components/context/Context';
 
-import { getRole as getAgentRoles } from './utils/localStore';
-
 import { RouteWithLayout } from './components';
 import { Main as MainLayout, Minimal as MinimalLayout } from './layouts';
 
@@ -16,6 +14,7 @@ import SettingsView from './views/Settings/Settings';
 import NotFoundView from './views/NotFound/NotFound';
 import BackLineAgentDashboard from './views/DashboardBL/Dashboard';
 import FrontLineAgentDashboard from './views/Dashboard/Dashboard';
+import { userData } from './utils/GetUserData';
 
 //**** BackLine Agents ******//
 
@@ -53,6 +52,9 @@ const RegistrationForm = lazy(() =>
 const AccountConfirmation = lazy(() =>
 	import('./views/EmailVerification/AccountConfirmation/AccountConfirmation')
 );
+const CreatePassowrdForAgents = lazy(() =>
+	import('./views/CreatePassword/CreatePassword')
+);
 
 //*****Marketers  Dashboard******//
 const MarkertersDashBoard = lazy(() =>
@@ -66,22 +68,11 @@ const FallBack = (
 	</div>
 );
 
-const user = {
-	id: '209023kcjkjvkdf',
-	name: 'agent test',
-	uniqueId: 'FGRT0098',
-	role: 'frontline',
-	// role: 'backline',
-	email: 'inifr@gmail.com'
-};
-
-// localStorage.setItem('_user', JSON.stringify(user));
-// localStorage.setItem('_token', JSON.stringify('sddscjdskjk'));
 
 const Routes = () => {
 	const { authUpdate } = useContext(contextApi);
-	//***Function to Display specific Home Dashboard by Roles *****//
-	const agentRole = getAgentRoles();
+	const role = userData('role');
+
 	const getRole = (roles) => {
 		switch (String(roles)) {
 			case 'frontline':
@@ -102,7 +93,7 @@ const Routes = () => {
 			<Switch>
 				<RouteWithLayout
 					// component={BackLineAgentDashboard}
-					component={getRole('frontline')}
+					component={getRole(role)}
 					// component={
 					// 	getRole === 'backline'
 					// 		? BackLineAgentDashboard
@@ -177,6 +168,13 @@ const Routes = () => {
 				/>
 				<RouteWithLayout
 					exact
+					// path='/agents/frontline/produ/cts-details'
+					path='/create-new-password'
+					component={CreatePassowrdForAgents}
+					layout={MinimalLayout}
+				/>
+				<RouteWithLayout
+					exact
 					path='/agents/frontline/wallet'
 					component={FrontLineAgentWallet}
 					layout={MainLayout}
@@ -199,7 +197,7 @@ const Routes = () => {
 					component={FrontLineAgentDashboard}
 					layout={MainLayout}
 				/>
-		
+
 				<RouteWithLayout
 					component={AccountView}
 					exact

@@ -5,6 +5,9 @@ import ActivityChart from './components/ActivityChart/ActivityChart';
 import OtherMarketers from './components/OtherMarketers/OtherMarketers';
 import TotalUsers from './components/TotalUsers/TotalUsers';
 import TotalAgents from './components/TotalAgents/TotalAgents';
+import ReferralLinks from './components/ReferralLinks/ReferralLinks';
+import DownLine from './components/DownLines/Downlines';
+
 const useStyles = makeStyles((theme) => ({
 	root: {
 		padding: theme.spacing(4)
@@ -26,7 +29,13 @@ const Dashboard = () => {
 			</Grid>
 			<Grid container spacing={4}>
 				<Grid item lg={12} sm={12} xl={8} xs={12}>
-					<ActivityChart />
+					<ReferralLinks />
+				</Grid>
+			</Grid>
+			<Grid container spacing={4}>
+				<Grid item lg={12} sm={12} xl={8} xs={12}>
+					<DownLine />
+					{/* <ActivityChart /> */}
 				</Grid>
 			</Grid>
 			<Grid container spacing={4}>
