@@ -100,11 +100,11 @@ const Sidebar = (props) => {
 			href: '/account',
 			icon: <AccountBoxIcon />
 		},
-		{
-			title: 'Settings',
-			href: '/settings',
-			icon: <SettingsIcon />
-		}
+		// {
+		// 	title: 'Settings',
+		// 	href: '/settings',
+		// 	icon: <SettingsIcon />
+		// }
 	];
 	const getRole = (roles) => {
 		switch (roles) {

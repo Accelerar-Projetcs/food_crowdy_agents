@@ -11,13 +11,11 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-const Footer = (props) => {
-	const { className, ...rest } = props;
-
+const Footer = () => {
 	const classes = useStyles();
 
 	return (
-		<div {...rest} className={clsx(classes.root, className)}>
+		<div className={classes.root}>
 			<Typography variant='body1'>
 				&copy;{' '}
 				<Link component='a' href='https://foodcrowdy.com' target='_blank'>
@@ -30,8 +28,5 @@ const Footer = (props) => {
 	);
 };
 
-Footer.propTypes = {
-	className: PropTypes.string
-};
 
 export default Footer;

@@ -55,6 +55,9 @@ const AccountConfirmation = lazy(() =>
 const CreatePassowrdForAgents = lazy(() =>
 	import('./views/CreatePassword/CreatePassword')
 );
+const ForgotPassword = lazy(() =>
+	import('./views/ForgotPassword/ForgotPassword')
+);
 
 //*****Marketers  Dashboard******//
 const MarkertersDashBoard = lazy(() =>
@@ -67,7 +70,6 @@ const FallBack = (
 		<img width='200' src={logo} alt='Food Crowdy Agents' />
 	</div>
 );
-
 
 const Routes = () => {
 	const { authUpdate } = useContext(contextApi);
@@ -92,13 +94,7 @@ const Routes = () => {
 		<Suspense fallback={FallBack}>
 			<Switch>
 				<RouteWithLayout
-					// component={BackLineAgentDashboard}
 					component={getRole(role)}
-					// component={
-					// 	getRole === 'backline'
-					// 		? BackLineAgentDashboard
-					// 		: FrontLineAgentDashboard
-					// }
 					exact
 					layout={MainLayout}
 					path='/'
@@ -147,30 +143,32 @@ const Routes = () => {
 				/>
 				<RouteWithLayout
 					exact
-					// path='/agents/frontline/produ/cts-details'
 					path='/agents/frontline/products-details/:category/:title/:id'
 					component={ProductsDetails}
 					layout={MainLayout}
 				/>
 				<RouteWithLayout
 					exact
-					// path='/agents/frontline/produ/cts-details'
 					path='/agents/frontline/product/checkout'
 					component={Checkout}
 					layout={MainLayout}
 				/>
 				<RouteWithLayout
 					exact
-					// path='/agents/frontline/produ/cts-details'
 					path='/agents/frontline/registration'
 					component={RegistrationForm}
 					layout={MinimalLayout}
 				/>
-				<RouteWithLayout
+				<Route
 					exact
-					// path='/agents/frontline/produ/cts-details'
 					path='/create-new-password'
 					component={CreatePassowrdForAgents}
+					layout={MinimalLayout}
+				/>
+				<Route
+					exact
+					path='/forgot-password'
+					component={ForgotPassword}
 					layout={MinimalLayout}
 				/>
 				<RouteWithLayout

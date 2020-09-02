@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/styles';
 import { useMediaQuery } from '@material-ui/core';
 
-import { Sidebar, Topbar, Footer } from './components';
+import { Sidebar, Topbar } from './components';
 import StickyFooter from './components/Footers/Footer'
 
 const useStyles = makeStyles(theme => ({
@@ -19,7 +19,6 @@ const useStyles = makeStyles(theme => ({
     paddingLeft: 240
   },
   content: {
-    // height: '100%',
     display: 'flex',
     flexDirection: 'column',
     minHeight: '100vh',
