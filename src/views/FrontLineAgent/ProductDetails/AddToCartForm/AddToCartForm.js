@@ -14,7 +14,7 @@ import { Close as CloseIcon } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/styles';
 import { Alert, AlertTitle } from '@material-ui/lab';
 import { addToCart } from '../../../../Redux/Reducers/Cart/';
-import { toast } from 'react-toastify';
+// import { toast } from 'react-toastify';
 import { useDispatch } from 'react-redux';
 // import { getPriceByLocation } from '../../utils/product/getUserLocationPrice';
 import { CartStyles } from './Styles';

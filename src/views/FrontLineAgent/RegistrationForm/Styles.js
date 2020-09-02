@@ -6,7 +6,6 @@ export default (theme) => ({
 	},
 	layout: {
 		width: 'auto',
-		background: Palette.background.default,
 		marginLeft: theme.spacing(2),
 		marginRight: theme.spacing(2),
 		background: Palette.background.default,

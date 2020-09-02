@@ -11,7 +11,6 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import {
 	handleNext,
-	pictureUpload
 } from '../../../../Redux/Reducers/FLRegistration/index';
 import UploadInfo from './UploadInfo';
 import { FilePond } from 'react-filepond';
@@ -29,9 +28,9 @@ const PersonalDetails = () => {
 	const dispatch = useDispatch();
 
 	const handleNextAction = () => {
-		const {
-			files: { file }
-		} = imageFile;
+		// const {
+		// 	files: { file }
+		// } = imageFile;
 		if (imageFile) {
 			const number = activeStep + 1;
 			dispatch(handleNext(number));

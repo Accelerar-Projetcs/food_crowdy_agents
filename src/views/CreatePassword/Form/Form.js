@@ -63,6 +63,9 @@ const Password = ({ location }) => {
 				setCookie('x-auth-token', res.headers['x-auth-token']);
 				setauthUpdate(!authUpdate);
 				setloading(false);
+				if (cookies['x-auth-token']) {
+					
+				}
 				history.push(`/`);
 			} catch (error) {
 				const errorMgs = errorHandler(error);

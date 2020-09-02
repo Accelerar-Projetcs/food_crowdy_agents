@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
 	Button,
 	CardContent,
@@ -32,7 +32,6 @@ const useStyles = makeStyles((theme) => Styles(theme));
 
 const PersonalDetails = () => {
 	const [selectedLga, setselectedLga] = useState([]);
-	const [selectedState, setselectedState] = useState('');
 	const [date, setDate] = useState(new Date());
 	const { handleSubmit, register, errors } = useForm({
 		resolver: yupResolver(PersonalInfoSchema)
@@ -42,14 +41,13 @@ const PersonalDetails = () => {
 	const dispatch = useDispatch();
 	const classes = useStyles();
 
-	const getReleventLga = (e) => {
+	const getReleventLga = useCallback((e) => {
 		const id = e.target.value;
-		setselectedState(id);
 		const relevantLga = States_Lga.filter((list) =>
 			list.state.name === id ? list : null
 		);
 		setselectedLga(relevantLga[0].state.locals);
-	};
+	}, []);
 
 	const handleNextAction = (data) => {
 		data.dateOfBirth = JSON.stringify(date);
@@ -59,7 +57,11 @@ const PersonalDetails = () => {
 		console.log(data);
 	};
 
-	useEffect(() => {}, [selectedLga, getReleventLga]);
+	/**
+	 * Resolve with useCallback
+	 */
+	// useEffect(() => {}, [selectedLga, getReleventLga]);
+	useEffect(() => {}, [selectedLga]);
 
 	return (
 		<>

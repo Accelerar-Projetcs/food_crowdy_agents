@@ -14,6 +14,7 @@ import {
 } from '@material-ui/core';
 import Style from './Styles';
 import DownLineForm from './DownLineForm';
+import { Alert } from '@material-ui/lab';
 
 const useStyles = makeStyles((theme) => Style(theme));
 
@@ -30,8 +31,8 @@ const AddDownLines = () => {
 
 	const sendPasswordResetLink = async (e) => {
 		e.preventDefault();
-    setLoading(true);
-    setregister(true);
+		setLoading(true);
+		setregister(true);
 		try {
 			await (`/forgot`, { email });
 			setregister(true);
@@ -63,6 +64,13 @@ const AddDownLines = () => {
 							height='50'
 						/>
 					</div>
+					{message && (
+						<div>
+							<span>
+								<Alert color='error'>{message}</Alert>
+							</span>
+						</div>
+					)}
 					<div>
 						<span>
 							Enter the <strong>OTP</strong> sent to this number{' '}

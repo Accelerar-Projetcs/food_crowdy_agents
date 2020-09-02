@@ -8,7 +8,6 @@ const BusinessInfoSchema = yup.object().shape({
 	businessLGA: yup.string().required(),
 	businessCity: yup.string().required(),
 	storeNumber: yup.string().required(),
-	businessLGA: yup.string().required(),
 	businessPhoneNumber: yup.string().required().matches(/[0-9]/).min(11).max(11),
 });
 

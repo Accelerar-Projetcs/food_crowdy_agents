@@ -154,24 +154,24 @@ const SuccessFulPurchase = ({ title, Products = [], loading }) => {
 		setSelected([]);
 	};
 
-	const handleClick = (id) => {
-		// const selectedIndex = selected.indexOf(
-		// history.push(`/sales/customers/orders-details/${id}`);
-		// let newSelected = [];
-		// if (selectedIndex === -1) {
-		// 	newSelected = newSelected.concat(selected, name);
-		// } else if (selectedIndex === 0) {
-		// 	newSelected = newSelected.concat(selected.slice(1));
-		// } else if (selectedIndex === selected.length - 1) {
-		// 	newSelected = newSelected.concat(selected.slice(0, -1));
-		// } else if (selectedIndex > 0) {
-		// 	newSelected = newSelected.concat(
-		// 		selected.slice(0, selectedIndex),
-		// 		selected.slice(selectedIndex + 1)
-		// 	);
-		// }
-		// setSelected(newSelected);
-	};
+	// const handleClick = (id) => {
+	// 	// const selectedIndex = selected.indexOf(
+	// 	// history.push(`/sales/customers/orders-details/${id}`);
+	// 	// let newSelected = [];
+	// 	// if (selectedIndex === -1) {
+	// 	// 	newSelected = newSelected.concat(selected, name);
+	// 	// } else if (selectedIndex === 0) {
+	// 	// 	newSelected = newSelected.concat(selected.slice(1));
+	// 	// } else if (selectedIndex === selected.length - 1) {
+	// 	// 	newSelected = newSelected.concat(selected.slice(0, -1));
+	// 	// } else if (selectedIndex > 0) {
+	// 	// 	newSelected = newSelected.concat(
+	// 	// 		selected.slice(0, selectedIndex),
+	// 	// 		selected.slice(selectedIndex + 1)
+	// 	// 	);
+	// 	// }
+	// 	// setSelected(newSelected);
+	// };
 
 	const handleChangePage = (event, newPage) => {
 		setPage(newPage);

@@ -1,9 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { addToCart } from '../../../Redux/Reducers/Cart';
+import React, { useState } from 'react';
 import { Grid, Typography, Chip, Divider, Button } from '@material-ui/core';
 import AddToCartForm from './AddToCartForm/AddToCartForm';
-import Rating from '../../../components/Rating/Rating';
 import DialogToAddUser from './DialogForAdding';
 import { AlertTitle, Alert } from '@material-ui/lab';
 import StorefrontIcon from '@material-ui/icons/Storefront';
@@ -16,15 +13,8 @@ const useStyles = makeStyles((theme) => productsDataStyles(theme));
 const ProductDetailData = ({ data }) => {
 	const [open, setOpen] = useState(false);
 	const [addmodal, setaddModal] = useState(false);
-	const cart = useSelector((state) => state.Cart.cart);
 	const classes = useStyles();
-	// const dispatch = useDispatch();
 
-	const handleClickOpen = () => {
-		setOpen(!open);
-	};
-
-	// useEffect(() => {}, [cart]);
 
 	return (
 		<React.Fragment>

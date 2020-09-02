@@ -59,7 +59,7 @@ const TotalUsers = () => {
 
 	useEffect(() => {
 		dispatch(getData(url, getCustomers, setLoader, headers));
-	}, []);
+	}, [dispatch, headers]);
 
 	return (
 		<Card className={classes.root}>

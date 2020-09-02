@@ -59,7 +59,7 @@ const TotalAgents = () => {
 
 	useEffect(() => {
 		dispatch(getData(url, getFrontLineAgents, setLoader, headers));
-	}, [dispatch]);
+	}, [dispatch, headers]);
 
 	return (
 		<Card className={classes.root}>

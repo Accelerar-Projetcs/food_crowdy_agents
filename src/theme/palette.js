@@ -23,7 +23,7 @@ export default {
 	tetiary: {
 		contrastText: white,
 		main: tetiaryColor,
-		contrastText: colors.orange[900],
+		// contrastText: colors.orange[900],
 		dark: colors.orange[900],
 		light: colors.orange[400]
 	},

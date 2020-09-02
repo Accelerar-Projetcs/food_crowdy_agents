@@ -1,4 +1,3 @@
-import Palette from '../../../../theme/palette';
 
 export default (theme) => ({
 	img: {

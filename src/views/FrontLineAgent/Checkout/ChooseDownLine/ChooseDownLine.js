@@ -1,6 +1,5 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
-	Paper,
 	Divider,
 	Typography,
 	FormControl,
@@ -10,22 +9,16 @@ import {
 	Select,
 	InputLabel,
 	Button,
-	MenuItem
+	MenuItem,
+	makeStyles
 } from '@material-ui/core';
-import {
-	PersonAdd as PersonAddIcon,
-	LocationOn as LocationIcon
-} from '@material-ui/icons';
-import PropTypes from 'prop-types';
-import { Alert, AlertTitle } from '@material-ui/lab';
-import { makeStyles } from '@material-ui/core/styles';
-// import { formatter } from '../../../utils/localStorageItems';
+import { PersonAdd as PersonAddIcon } from '@material-ui/icons';
 import Style from './Styles';
 import { BootstrapInput } from './Boostrap';
 
 const useStyles = makeStyles((theme) => Style(theme));
 
-const DeliveryMethod = ({ totalAmount }) => {
+const DeliveryMethod = () => {
 	const classes = useStyles();
 	const [textDisplay, setTextDisplay] = useState(false);
 	const [adduser, setaddUser] = useState(false);
@@ -33,15 +26,7 @@ const DeliveryMethod = ({ totalAmount }) => {
 	const [nameOfLandmark, setnameOfLandmark] = useState('');
 	const [users, setUsers] = useState(false);
 	const [age, setAge] = useState('');
-	const handleChange = (event) => {
-		setAge(event.target.value);
-	};
-	// const {
-	// 	addressForm,
-	// 	setAddressForm,
-	// 	deliveryFee,
-	// 	setdeliveryFee
-	// } = useContext(productContext);
+
 
 	const deliveryOption = (e) => {
 		if (e.target.value === 'doorDelivery') {
@@ -54,22 +39,17 @@ const DeliveryMethod = ({ totalAmount }) => {
 	};
 
 	const selectState = (e) => {
-		// if (e.target.value === '') {
-		// 	setdeliveryNotice(false);
-		// 	setTextDisplay(false);
-		// 	return;
-		// }
-		// const locationId = e.target.value;
-		// const filteredItem = locationList.filter(
-		// 	(list) => list.location === locationId
-		// );
-		// setdeliveryNotice(true);
-		// setdeliveryFee(filteredItem[0].price);
-		// setnameOfLandmark(filteredItem[0].location);
-		// setTextDisplay(true);
+		setAge(e.target.value);
+		if (e.target.value === '') {
+			setdeliveryNotice(false);
+			setTextDisplay(false);
+			return;
+		}
+		const filteredItem = [{location:'dkdkdk'}]
+		setdeliveryNotice(true);
+		setnameOfLandmark(filteredItem[0].location);
+		setTextDisplay(true);
 	};
-
-	// useEffect(() => {}, [deliveryNotice, deliveryFee]);
 
 	return (
 		<div className={classes.paper}>
@@ -98,18 +78,20 @@ const DeliveryMethod = ({ totalAmount }) => {
 								labelId='demo-customized-select-label'
 								id='demo-customized-select'
 								value={age}
-								onChange={handleChange}
+								onChange={selectState}
 								input={<BootstrapInput />}>
 								<MenuItem value=''>
 									<em>None</em>
 								</MenuItem>
-								<MenuItem value={10}>Ten</MenuItem>
-								<MenuItem value={20}>Twenty</MenuItem>
-								<MenuItem value={30}>Thirty</MenuItem>
+								{['abia'].map((state) => (
+									<MenuItem value={state} key={state}>
+										{state}
+									</MenuItem>
+								))}
 							</Select>
 						</FormControl>
 					)}
-					{deliveryNotice && (
+					{deliveryNotice && textDisplay && (
 						<>
 							{/* <Divider /> */}
 							<Typography className={classes.text} variant='h6'>
@@ -156,10 +138,6 @@ const DeliveryMethod = ({ totalAmount }) => {
 			</div>
 		</div>
 	);
-};
-
-DeliveryMethod.prototype = {
-	totalAmount: PropTypes.number.isRequired
 };
 
 export default DeliveryMethod;

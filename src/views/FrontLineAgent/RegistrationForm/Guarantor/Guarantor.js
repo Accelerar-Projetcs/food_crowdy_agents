@@ -1,8 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
-	Box,
 	Button,
-	Card,
 	CardContent,
 	CardHeader,
 	CardActions,
@@ -22,34 +20,21 @@ import { GuarantorInfoSchema } from '../Validators/';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers';
 import ScrollTop from '../../../../ScrollToTop';
-import { Alert } from '@material-ui/lab';
 import Styles from '../Styles';
 
 const useStyles = makeStyles((theme) => Styles(theme));
 
 const ProfileDetails = () => {
 	const classes = useStyles();
-	const [value, setValue] = useState('female');
 	const { handleSubmit, register, errors } = useForm({
 		resolver: yupResolver(GuarantorInfoSchema)
 	});
 	const formState = useSelector((state) => state.FLRegistration.step);
 	const activeStep = formState.activeStep;
 	const dispatch = useDispatch();
-	const handleChange2 = (event) => {
-		setValue(event.target.value);
-	};
-	const [values, setValues] = useState({});
 
-	const handleChange = (event) => {
-		setValues({
-			...values,
-			[event.target.name]: event.target.value
-		});
-	};
 
 	const handleNextAction = (data) => {
-		console.log(data);
 		const number = activeStep + 1;
 		dispatch(handleNext(number));
 		dispatch(getDetails(data));
