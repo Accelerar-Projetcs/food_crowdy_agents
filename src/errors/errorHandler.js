@@ -15,10 +15,16 @@ export const errorHandler = (error) => {
 			toast.error(error.response.statusText, {
 				toastId: error.response.statusText
 			});
-		} else {
-			toast.error(error.response.data, {
-				toastId: error.response.data
+		} else if (error.response.status === 422) {
+			toast.error(error.response.data.message, {
+				toastId: error.response.data.message
 			});
+			return error.response.data.message;
+		} else if (error.response.status === 401) {
+			toast.error(error.response.data.message, {
+				toastId: error.response.data.message
+			});
+			return error.response.data.message;
 		}
 	}
 };
