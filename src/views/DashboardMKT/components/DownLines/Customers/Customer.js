@@ -1,28 +1,14 @@
 import React from 'react';
-import Table from '../Table/Table';
+import { useSelector } from 'react-redux';
+import Table from '../Table/Customers';
 
 const Customer = () => {
+	const state = useSelector((state) => state.Marketers.customers);
 	return (
 		<div>
 			<Table
 				title='Customers'
-				Products={[
-					{
-						id: 1,
-						name: 'michael chiboy',
-						noOfPurchase: 300
-					},
-					{
-						id: 2,
-						name: 'michael chiboy',
-						noOfPurchase: 300
-					},
-					{
-						id: 3,
-						name: 'michael chiboy',
-						noOfPurchase: 300
-					},
-				]}
+				Products={state}
 			/>
 		</div>
 	);

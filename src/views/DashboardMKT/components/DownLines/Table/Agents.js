@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import moment from 'moment';
 import PerfectScroll from 'react-perfect-scrollbar';
 import LoadingCenter from '../../../../../components/BackDrop/BackDrop';
+import EmptyList from '../../../../../components/EmptyList/EmptyList';
 import {
 	Card,
 	CardHeader,
@@ -50,12 +51,17 @@ function stableSort(array, comparator) {
 }
 
 const headCells = [
-	{ id: 'Name', numeric: true, disablePadding: false, label: 'Name' },
 	{
-		id: 'No of Purchase',
+		id: 'First Name',
 		numeric: true,
 		disablePadding: false,
-		label: 'No of Purchase'
+		label: 'First Name'
+	},
+	{
+		id: 'Last Name',
+		numeric: true,
+		disablePadding: false,
+		label: 'Last Name'
 	},
 	{
 		id: 'Registration Date',
@@ -187,44 +193,55 @@ const SuccessFulPurchase = ({ title, Products = [], loading }) => {
 				<Divider />
 				<PerfectScroll>
 					<CardContent className={classes.content}>
-						<TableContainer>
-						<Table
-							className={classes.table}
-							aria-labelledby='tableTitle'
-							aria-label='enhanced table'>
-							<EnhancedTableHead
-								classes={classes}
-								numSelected={selected.length}
-								order={order}
-								orderBy={orderBy}
-								onSelectAllClick={handleSelectAllClick}
-								onRequestSort={handleRequestSort}
-								rowCount={Products.length}
-							/>
-							{Products && (
-								<TableBody>
-									{stableSort(Products, getComparator(order, orderBy))
-										.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-										.map((row, index) => (
-											<TableRow hover key={row._id}>
-												<TableCell>{row.name}</TableCell>
-												<TableCell>{row.noOfPurchase}</TableCell>
-												<TableCell>{moment('39239').format('LLL')}</TableCell>
-											</TableRow>
-										))}
-								</TableBody>
-							)}
-						</Table>
-						</TableContainer>
-						<TablePagination
-							rowsPerPageOptions={[5, 10, 25]}
-							component='div'
-							count={Products.length}
-							rowsPerPage={rowsPerPage}
-							page={page}
-							onChangePage={handleChangePage}
-							onChangeRowsPerPage={handleChangeRowsPerPage}
-						/>
+						{!Products.length ? (
+							<EmptyList />
+						) : (
+							<>
+								<TableContainer>
+									<Table
+										className={classes.table}
+										aria-labelledby='tableTitle'
+										aria-label='enhanced table'>
+										<EnhancedTableHead
+											classes={classes}
+											numSelected={selected.length}
+											order={order}
+											orderBy={orderBy}
+											onSelectAllClick={handleSelectAllClick}
+											onRequestSort={handleRequestSort}
+											rowCount={Products.length}
+										/>
+										{Products && (
+											<TableBody>
+												{stableSort(Products, getComparator(order, orderBy))
+													.slice(
+														page * rowsPerPage,
+														page * rowsPerPage + rowsPerPage
+													)
+													.map((row) => (
+														<TableRow hover key={row._id}>
+															<TableCell>{row.firstName}</TableCell>
+															<TableCell>{row.lastName}</TableCell>
+															<TableCell>
+																{moment(row.createdAt).format('LLL')}
+															</TableCell>
+														</TableRow>
+													))}
+											</TableBody>
+										)}
+									</Table>
+								</TableContainer>
+								<TablePagination
+									rowsPerPageOptions={[5, 10, 25]}
+									component='div'
+									count={Products.length}
+									rowsPerPage={rowsPerPage}
+									page={page}
+									onChangePage={handleChangePage}
+									onChangeRowsPerPage={handleChangeRowsPerPage}
+								/>
+							</>
+						)}
 					</CardContent>
 				</PerfectScroll>
 			</Card>

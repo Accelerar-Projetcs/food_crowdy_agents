@@ -1,11 +1,9 @@
-import palette from "../../theme/palette";
+import palette from '../../theme/palette';
 
 export const Style = (theme) => ({
-	root: {
-		// height: '100%'
-	},
+	root: {},
 	grid: {
-		// height: '100%'
+		// margin: theme.spacing(4, 0, 0, 0)
 	},
 	quoteContainer: {
 		[theme.breakpoints.down('md')]: {
@@ -24,46 +22,14 @@ export const Style = (theme) => ({
 		backgroundRepeat: 'no-repeat',
 		backgroundPosition: 'center'
 	},
-	quoteInner: {
-		textAlign: 'center',
-		flexBasis: '600px'
-	},
-	quoteText: {
-		color: theme.palette.white,
-		fontWeight: 300
-	},
-	name: {
-		marginTop: theme.spacing(3),
-		color: theme.palette.white
-	},
-	bio: {
-		color: theme.palette.white
-	},
-	contentContainer: {},
+
 	content: {
 		height: '100%',
 		display: 'flex',
-		flexDirection: 'column'
+		flexDirection: 'column',
+		margin: theme.spacing(6, 0, 0, 0)
 	},
-	contentHeader: {
-		display: 'flex',
-		alignItems: 'center',
-		paddingTop: theme.spacing(5),
-		paddingBototm: theme.spacing(2),
-		paddingLeft: theme.spacing(2),
-		paddingRight: theme.spacing(2)
-	},
-	logoImage: {
-		marginLeft: theme.spacing(4)
-	},
-	contentBody: {
-		flexGrow: 1,
-		display: 'flex',
-		alignItems: 'center',
-		[theme.breakpoints.down('md')]: {
-			justifyContent: 'center'
-		}
-	},
+
 	form: {
 		paddingLeft: 100,
 		paddingRight: 100,
@@ -73,15 +39,6 @@ export const Style = (theme) => ({
 			paddingLeft: theme.spacing(2),
 			paddingRight: theme.spacing(2)
 		}
-	},
-	title: {
-		marginTop: theme.spacing(3)
-	},
-	socialButtons: {
-		marginTop: theme.spacing(3)
-	},
-	socialIcon: {
-		marginRight: theme.spacing(1)
 	},
 	sugestion: {
 		marginTop: theme.spacing(2),

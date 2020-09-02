@@ -1,6 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/styles';
-import DialogBlock from '../DisableUser/DisableUser';
+import DialogBlock from '../../../components/DisableUser/DisableUser';
 import { Link } from 'react-router-dom';
 import {
 	Card,
@@ -14,6 +14,9 @@ import {
 	ErrorOutline as ErrorOutlineIcon
 } from '@material-ui/icons/';
 import Style from '../Styles/Styles';
+
+
+
 
 const useStyles = makeStyles((theme) => Style(theme));
 

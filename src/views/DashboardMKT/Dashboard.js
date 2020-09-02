@@ -1,7 +1,7 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/styles';
 import { Grid } from '@material-ui/core';
-import ActivityChart from './components/ActivityChart/ActivityChart';
+// import ActivityChart from './components/ActivityChart/ActivityChart';
 import OtherMarketers from './components/OtherMarketers/OtherMarketers';
 import TotalUsers from './components/TotalUsers/TotalUsers';
 import TotalAgents from './components/TotalAgents/TotalAgents';

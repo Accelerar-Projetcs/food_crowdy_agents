@@ -65,7 +65,8 @@ const Password = ({ location }) => {
 				setloading(false);
 				history.push(`/`);
 			} catch (error) {
-				errorHandler(error);
+				const errorMgs = errorHandler(error);
+				setMessage(errorMgs);
 				setloading(false);
 			}
 		}
