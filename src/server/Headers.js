@@ -1,8 +1,14 @@
-import { getAuthToken } from '../utils/AuthToken';
+import { useCookies } from 'react-cookie';
 
-const token = getAuthToken();
+const Headers = () => {
+	const [cookies] = useCookies(['x-auth-token']);
 
-export const headers = {
-	'content-Type': 'application/json',
-	Authorization: `Bearer ${token}`
+	return {
+		headers: {
+			'content-Type': 'application/json',
+			'x-auth-token': `${cookies['x-auth-token']}`
+		}
+	};
 };
+
+export default Headers;

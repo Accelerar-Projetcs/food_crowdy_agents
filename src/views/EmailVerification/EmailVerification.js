@@ -1,5 +1,5 @@
 import React from 'react';
-import DisableUser from './DisableUser/DisableUser';
+import DisableUser from '../../components/DisableUser/DisableUser';
 import VerifyEmail from './VerifiEmail/VerifyEmail';
 
 const EmailVerification = () => {

@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
 import { Avatar, Typography } from '@material-ui/core';
-import { getUserName } from '../../../../../../utils/localStore';
+import { userData } from '../../../../../../utils/GetUserData';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
 const Profile = (props) => {
 	const { className, ...rest } = props;
 
-	const userName = getUserName();
+	const userName = userData('firstName');
 	const classes = useStyles();
 
 	const user = {

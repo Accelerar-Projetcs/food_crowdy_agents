@@ -8,8 +8,8 @@ export default [
 		customer: {
 			name: 'Ekaterina Tankova'
 		},
-		createdAt: 1555016400000,
-		status: 'pending'
+		createdAt: 15,
+		status: 2920
 	},
 	{
 		id: v1(),
@@ -18,8 +18,8 @@ export default [
 		customer: {
 			name: 'Cao Yu'
 		},
-		createdAt: 1555016400000,
-		status: 'delivered'
+		createdAt: 15,
+		status: 33
 	},
 	{
 		id: v1(),
@@ -28,7 +28,7 @@ export default [
 		customer: {
 			name: 'Alexa Richardson'
 		},
-		createdAt: 1554930000000,
+		createdAt: 15,
 		status: 'refunded'
 	},
 	{
@@ -38,8 +38,8 @@ export default [
 		customer: {
 			name: 'Anje Keizer'
 		},
-		createdAt: 1554757200000,
-		status: 'pending'
+		createdAt: 15,
+		status: 2920
 	},
 	{
 		id: v1(),
@@ -48,8 +48,8 @@ export default [
 		customer: {
 			name: 'Clarke Gillebert'
 		},
-		createdAt: 1554670800000,
-		status: 'delivered'
+		createdAt: 15,
+		status: 33
 	},
 	{
 		id: v1(),
@@ -58,7 +58,7 @@ export default [
 		customer: {
 			name: 'Adam Denisov'
 		},
-		createdAt: 1554670800000,
-		status: 'delivered'
+		createdAt: 15,
+		status: 33
 	}
 ];

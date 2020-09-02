@@ -3,8 +3,6 @@ import logo from './assets/images/logoFood_1.svg';
 import { Switch, Route } from 'react-router-dom';
 import { contextApi } from './components/context/Context';
 
-import { getRole as getAgentRoles } from './utils/localStore';
-
 import { RouteWithLayout } from './components';
 import { Main as MainLayout, Minimal as MinimalLayout } from './layouts';
 
@@ -16,6 +14,7 @@ import SettingsView from './views/Settings/Settings';
 import NotFoundView from './views/NotFound/NotFound';
 import BackLineAgentDashboard from './views/DashboardBL/Dashboard';
 import FrontLineAgentDashboard from './views/Dashboard/Dashboard';
+import { userData } from './utils/GetUserData';
 
 //**** BackLine Agents ******//
 
@@ -53,6 +52,12 @@ const RegistrationForm = lazy(() =>
 const AccountConfirmation = lazy(() =>
 	import('./views/EmailVerification/AccountConfirmation/AccountConfirmation')
 );
+const CreatePassowrdForAgents = lazy(() =>
+	import('./views/CreatePassword/CreatePassword')
+);
+const ForgotPassword = lazy(() =>
+	import('./views/ForgotPassword/ForgotPassword')
+);
 
 //*****Marketers  Dashboard******//
 const MarkertersDashBoard = lazy(() =>
@@ -66,22 +71,10 @@ const FallBack = (
 	</div>
 );
 
-const user = {
-	id: '209023kcjkjvkdf',
-	name: 'agent test',
-	uniqueId: 'FGRT0098',
-	role: 'frontline',
-	// role: 'backline',
-	email: 'inifr@gmail.com'
-};
-
-// localStorage.setItem('_user', JSON.stringify(user));
-// localStorage.setItem('_token', JSON.stringify('sddscjdskjk'));
-
 const Routes = () => {
 	const { authUpdate } = useContext(contextApi);
-	//***Function to Display specific Home Dashboard by Roles *****//
-	const agentRole = getAgentRoles();
+	const role = userData('role');
+
 	const getRole = (roles) => {
 		switch (String(roles)) {
 			case 'frontline':
@@ -101,13 +94,7 @@ const Routes = () => {
 		<Suspense fallback={FallBack}>
 			<Switch>
 				<RouteWithLayout
-					// component={BackLineAgentDashboard}
-					component={getRole('frontline')}
-					// component={
-					// 	getRole === 'backline'
-					// 		? BackLineAgentDashboard
-					// 		: FrontLineAgentDashboard
-					// }
+					component={getRole(role)}
 					exact
 					layout={MainLayout}
 					path='/'
@@ -156,23 +143,32 @@ const Routes = () => {
 				/>
 				<RouteWithLayout
 					exact
-					// path='/agents/frontline/produ/cts-details'
 					path='/agents/frontline/products-details/:category/:title/:id'
 					component={ProductsDetails}
 					layout={MainLayout}
 				/>
 				<RouteWithLayout
 					exact
-					// path='/agents/frontline/produ/cts-details'
 					path='/agents/frontline/product/checkout'
 					component={Checkout}
 					layout={MainLayout}
 				/>
 				<RouteWithLayout
 					exact
-					// path='/agents/frontline/produ/cts-details'
 					path='/agents/frontline/registration'
 					component={RegistrationForm}
+					layout={MinimalLayout}
+				/>
+				<Route
+					exact
+					path='/create-new-password'
+					component={CreatePassowrdForAgents}
+					layout={MinimalLayout}
+				/>
+				<Route
+					exact
+					path='/forgot-password'
+					component={ForgotPassword}
 					layout={MinimalLayout}
 				/>
 				<RouteWithLayout
@@ -199,7 +195,7 @@ const Routes = () => {
 					component={FrontLineAgentDashboard}
 					layout={MainLayout}
 				/>
-		
+
 				<RouteWithLayout
 					component={AccountView}
 					exact

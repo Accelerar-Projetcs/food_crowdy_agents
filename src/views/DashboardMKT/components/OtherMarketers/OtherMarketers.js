@@ -13,7 +13,7 @@ import {
 	TableBody,
 	TableCell,
 	TableHead,
-	TableRow,
+	TableRow
 } from '@material-ui/core';
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 
@@ -72,14 +72,12 @@ const OtherMarketers = () => {
 									<TableRow hover key={order.id}>
 										<TableCell>{order.ref}</TableCell>
 										<TableCell>{order.customer.name}</TableCell>
-										<TableCell>
-											{moment(order.createdAt).format('DD/MM/YYYY')}
-										</TableCell>
+										<TableCell>{order.createdAt}</TableCell>
 										<TableCell>
 											<div className={classes.statusContainer}>
 												<StatusBullet
 													className={classes.status}
-													color={statusColors[order.status]}
+													color={statusColors['pending']}
 													size='sm'
 												/>
 												{order.status}

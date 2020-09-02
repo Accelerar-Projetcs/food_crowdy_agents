@@ -1,8 +1,7 @@
 import { agentApi, ProductsApi, AdminApi } from '../server/Server';
-import { headers } from '../server/Headers';
 
 export const agentProducts = async (url) => {
-	const res = await agentApi.get(url, { headers });
+	const res = await agentApi.get(url);
 	return res;
 };
 

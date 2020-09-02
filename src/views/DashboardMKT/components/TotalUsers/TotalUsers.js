@@ -1,6 +1,20 @@
-import React from 'react';
-import { Card, CardContent, Grid, Typography, Avatar,makeStyles } from '@material-ui/core';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+	Card,
+	CardContent,
+	Grid,
+	Typography,
+	Avatar,
+	makeStyles
+} from '@material-ui/core';
 import PeopleIcon from '@material-ui/icons/PeopleOutlined';
+import {
+	getCustomers,
+	setLoader,
+	getData
+} from '../../../../Redux/Reducers/Marketers';
+import useHeaders from '../../../../server/Headers';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -36,8 +50,16 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-const TotalUsers = (props) => {
+const url = `/marketer/downline-users`;
+const TotalUsers = () => {
 	const classes = useStyles();
+	const { headers } = useHeaders();
+	const dispatch = useDispatch();
+	const state = useSelector((state) => state.Marketers.customers);
+
+	useEffect(() => {
+		dispatch(getData(url, getCustomers, setLoader, headers));
+	}, []);
 
 	return (
 		<Card className={classes.root}>
@@ -51,7 +73,7 @@ const TotalUsers = (props) => {
 							variant='body2'>
 							TOTAL USERS
 						</Typography>
-						<Typography variant='h3'>50</Typography>
+						<Typography variant='h3'>{state.length}</Typography>
 					</Grid>
 					<Grid item>
 						<Avatar className={classes.avatar}>
@@ -63,6 +85,5 @@ const TotalUsers = (props) => {
 		</Card>
 	);
 };
-
 
 export default TotalUsers;

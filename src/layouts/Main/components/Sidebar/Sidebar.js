@@ -10,7 +10,7 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import People from '@material-ui/icons/People';
 import Wallet from '@material-ui/icons/AccountBalanceWallet';
 import { Profile, SidebarNav } from './components';
-import { getRole as getAgentRoles } from '../../../../utils/localStore';
+import { userData } from '../../../../utils/GetUserData';
 
 const useStyles = makeStyles((theme) => ({
 	drawer: {
@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
 const Sidebar = (props) => {
 	const { open, variant, onClose, className, ...rest } = props;
 	const classes = useStyles();
-	const userRole = getAgentRoles();
+	const userRole = userData('role');
 
 	const BackLineAgent = [
 		{
@@ -89,27 +89,22 @@ const Sidebar = (props) => {
 			icon: <SettingsIcon />
 		}
 	];
-	const Farmers = [
+	const Marketers = [
 		{
 			title: 'Dashboard',
 			href: '/',
 			icon: <DashboardIcon />
 		},
 		{
-			title: 'Products',
-			href: '/products',
-			icon: <ShoppingBasketIcon />
-		},
-		{
 			title: 'Account',
 			href: '/account',
 			icon: <AccountBoxIcon />
 		},
-		{
-			title: 'Settings',
-			href: '/settings',
-			icon: <SettingsIcon />
-		}
+		// {
+		// 	title: 'Settings',
+		// 	href: '/settings',
+		// 	icon: <SettingsIcon />
+		// }
 	];
 	const getRole = (roles) => {
 		switch (roles) {
@@ -117,13 +112,10 @@ const Sidebar = (props) => {
 				return FrontLine;
 			case 'backline':
 				return BackLineAgent;
-			case 'Farmers':
-				return Farmers;
+			case 'marketer':
+				return Marketers;
 			default:
-				// BackLineAgent;
-				// return BackLineAgent;
-				return FrontLine;
-				// return [];
+				return [];
 		}
 	};
 

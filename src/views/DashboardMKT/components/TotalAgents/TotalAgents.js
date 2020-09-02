@@ -1,6 +1,20 @@
-import React from 'react';
-import { Card, CardContent, Grid, Typography, Avatar,makeStyles } from '@material-ui/core';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+	Card,
+	CardContent,
+	Grid,
+	Typography,
+	Avatar,
+	makeStyles
+} from '@material-ui/core';
 import PeopleIcon from '@material-ui/icons/PeopleOutlined';
+import useHeaders from '../../../../server/Headers';
+import {
+	getFrontLineAgents,
+	setLoader,
+	getData
+} from '../../../../Redux/Reducers/Marketers';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -36,8 +50,16 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-const TotalAgents = (props) => {
+const url = `marketer/downline-agents`;
+const TotalAgents = () => {
 	const classes = useStyles();
+	const dispatch = useDispatch();
+	const { headers } = useHeaders();
+	const state = useSelector((state) => state.Marketers.frontlineAgents);
+
+	useEffect(() => {
+		dispatch(getData(url, getFrontLineAgents, setLoader, headers));
+	}, [dispatch]);
 
 	return (
 		<Card className={classes.root}>
@@ -51,7 +73,7 @@ const TotalAgents = (props) => {
 							variant='body2'>
 							TOTAL AGENTS
 						</Typography>
-						<Typography variant='h3'>66</Typography>
+						<Typography variant='h3'>{state.length}</Typography>
 					</Grid>
 					<Grid item>
 						<Avatar className={classes.avatar}>
@@ -63,6 +85,5 @@ const TotalAgents = (props) => {
 		</Card>
 	);
 };
-
 
 export default TotalAgents;
