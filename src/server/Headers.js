@@ -6,7 +6,7 @@ const Headers = () => {
 	return {
 		headers: {
 			'content-Type': 'application/json',
-			Authorization: `Bearer ${cookies['x-auth-token']}`
+			'x-auth-token': `${cookies['x-auth-token']}`
 		}
 	};
 };
