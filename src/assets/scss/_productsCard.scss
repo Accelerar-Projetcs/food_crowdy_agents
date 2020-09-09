@@ -1,0 +1,97 @@
+@import './theme';
+
+.product-card {
+	position: relative;
+	box-shadow: none;
+	margin: 0.5rem auto;
+	border-radius: 0.3rem;
+	border: 1px solid $light;
+
+	&:hover {
+		box-shadow: 2px 2px 3px $light;
+	}
+}
+
+.badge {
+	position: absolute;
+	left: 0;
+	top: 20px;
+	text-transform: uppercase;
+	font-size: 13px;
+	font-weight: 700;
+	background: $tetiaryColor;
+	color: $white;
+	padding: 3px 10px;
+	margin: 0.3rem;
+	border-radius: 0.2rem;
+}
+
+.product-tumb {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	// height: 300px;
+	padding: 50px;
+	background: #f0f0f0;
+}
+
+.product-tumb img {
+	width: 10rem;
+	height: 7rem;
+}
+
+.product-details {
+	padding: 30px;
+}
+
+.product-catagory {
+	display: block;
+	font-size: 12px;
+	font-weight: 700;
+	text-transform: uppercase;
+	color: #ccc;
+	margin-bottom: 18px;
+}
+
+.product-details h4 {
+	font-weight: 500;
+	display: block;
+	margin: 0.4rem 0;
+	text-transform: uppercase;
+	color: #363636;
+	text-decoration: none;
+	transition: 0.3s;
+}
+
+.product-details h4 a:hover {
+	color: #fbb72c;
+}
+
+.product-bottom-details {
+	display: flex;
+	justify-content: space-between;
+	overflow: hidden;
+	border-top: 1px solid #eee;
+	padding-top: 1rem;
+}
+
+.product-price {
+	font-size: 18px;
+	color: $primary;
+	font-weight: 600;
+}
+
+.product-price small {
+	font-size: 80%;
+	font-weight: 400;
+	color: $tetiaryColor;
+	text-decoration: line-through;
+	display: block;
+	margin-right: 5px;
+}
+
+.product-links {
+	display: inline;
+	margin: 1rem 0 0 0;
+	color: $primary;
+}
