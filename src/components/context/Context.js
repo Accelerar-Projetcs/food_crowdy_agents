@@ -1,7 +1,4 @@
-import React, { useState, createContext, useEffect } from 'react';
-import { getUserId, getUniqueId } from '../../utils/localStore';
-// import { useHistory } from 'react-router-dom';
-import { agentProducts } from '../../utils/FetchData';
+import React, { useState, createContext } from 'react';
 
 export const contextApi = createContext();
 
@@ -10,6 +7,9 @@ const ContextProvider = ({ children }) => {
 	const [dealTosend, setDealToSend] = useState([]);
 	const [loading, setLoading] = useState(false);
 
+	//****Frontline Agents image State***//
+	const [imageFile, setImageFile] = useState({ files: '' });
+
 	//****Cart****//
 	const [cartState, setCartState] = useState({
 		right: false
@@ -17,31 +17,13 @@ const ContextProvider = ({ children }) => {
 
 	//*****Email Verifaction State****//
 	const [mailCheck, setmailCheck] = useState(true);
-	const agentId = getUserId();
-	const agentUnId = getUniqueId();
 
 	//****Agent Approved and pending products ******//
 	const [approvedProducts] = useState([]);
-	const [pendingProducts, setPendingProducts] = useState([]);
+	const [pendingProducts] = useState([]);
 
 	//****Regsitration state ******//
 	const [authUpdate, setauthUpdate] = useState(false);
-
-	useEffect(() => {
-		if (agentUnId) {
-			agentProducts(`/agent/myupload/pending/${agentUnId}`)
-				.then((data) => {
-					setPendingProducts(data.data);
-				})
-				.catch((err) => {});
-
-			// agentProducts(`/agent/myupload/approved/${agentUnId}`).then((data) => {
-			// 	setApprovedProducts(data.data);
-			// });
-		}
-	}, [agentId, loading, agentUnId]);
-
-	//||----Search Context Manipulation for filtering Products------||
 
 	return (
 		<contextApi.Provider
@@ -60,7 +42,9 @@ const ContextProvider = ({ children }) => {
 				authUpdate,
 				setauthUpdate,
 				cartState,
-				setCartState
+				setCartState,
+				imageFile,
+				setImageFile
 			}}>
 			{children}
 		</contextApi.Provider>

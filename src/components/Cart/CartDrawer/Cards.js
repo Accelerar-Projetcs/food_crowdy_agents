@@ -10,6 +10,7 @@ import { Chip, Divider, Button } from '@material-ui/core';
 import { formatter } from '../../../utils/localStore';
 import { Block as BlockIcon } from '@material-ui/icons';
 import Style from './Style';
+import { toast } from 'react-toastify';
 
 const useStyles = makeStyles((theme) => Style(theme));
 const CartMobile = ({ cartDisplay, dispatch }) => {
@@ -45,16 +46,21 @@ const CartMobile = ({ cartDisplay, dispatch }) => {
 										) : (
 											<div className='buttons'>
 												<button
-													onClick={(e) => {
-														e.preventDefault();
+													onClick={() => {
 														dispatch(incrementCartItem(cart.productId));
+														toast.success(
+															`Cart item successfully incremented by 1`
+														);
 													}}>
 													<Add />
 												</button>
 												<button
-													onClick={() =>
-														dispatch(decrementCartItem(cart.productId))
-													}>
+													onClick={() => {
+														dispatch(decrementCartItem(cart.productId));
+														toast.success(
+															`Cart item successfully decremented by 1`
+														);
+													}}>
 													<Minimize />
 												</button>
 											</div>
@@ -79,9 +85,9 @@ const CartMobile = ({ cartDisplay, dispatch }) => {
 							<Button
 								variant='outlined'
 								color='inherit'
-								onClick={(e) => {
-									e.preventDefault();
+								onClick={() => {
 									dispatch(removeCartItem(cart.productId));
+									toast.success(`1 item successfully removed from cart`);
 								}}
 								size='small'
 								className={classes.button}

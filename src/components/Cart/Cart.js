@@ -11,7 +11,7 @@ import { makeStyles } from '@material-ui/styles';
 
 const useStyles = makeStyles((theme) => ({
 	btn: {
-		margin: theme.spacing(1, 0)
+		margin: theme.spacing(1, 0.5)
 	}
 }));
 
@@ -23,7 +23,6 @@ export default function Cart({ toggleDrawer }) {
 	const cart = useSelector((state) => state.Cart.cart);
 
 	useEffect(() => {
-		console.log(cart);
 		if (cart.length) {
 			const totalAmount = cart.reduce((a, b) => a + b.totalPrice, 0);
 			setTotalPrice(totalAmount);
@@ -72,26 +71,22 @@ export default function Cart({ toggleDrawer }) {
 							)}
 						</div>
 						<div className='cart-checkout-btn'>
-							<Link to={`/agents/frontline/products`}>
-								<Button
-									className={classes.btn}
-									onClick={toggleDrawer}
-									variant='outlined'
-									// size='medium'
-									color='inherit'>
-									<strong>CONTINUE SHOPPING</strong>
-								</Button>
-							</Link>
-							<Link to={`/agents/frontline/choose-downline`}>
-								<Button
-									onClick={toggleDrawer}
-									className={classes.btn}
-									variant='contained'
-									// size='medium'
-									color='primary'>
-									<strong>PROCEED TO CHECKOUT</strong>
-								</Button>
-							</Link>
+							<Button
+								href={`/agents/frontline/products`}
+								className={classes.btn}
+								onClick={toggleDrawer}
+								variant='outlined'
+								color='default'>
+								<strong>CONTINUE SHOPPING</strong>
+							</Button>
+							<Button
+								onClick={toggleDrawer}
+								className={classes.btn}
+								variant='contained'
+								href={`/agents/frontline/choose-downline`}
+								color='primary'>
+								<strong>PROCEED TO CHECKOUT</strong>
+							</Button>
 						</div>
 					</div>
 				</div>
