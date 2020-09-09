@@ -1,8 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { toast } from 'react-toastify';
+import {
+	getCartItemFromLocalStore,
+	saveCartItemInLocalStore
+} from './localStorage';
 
+const cartProducts = getCartItemFromLocalStore();
 const initialState = {
-	cart: []
+	cart: cartProducts
 };
 const cartActions = createSlice({
 	name: 'Cart',
@@ -14,9 +18,7 @@ const cartActions = createSlice({
 				(item) => item.productId === productId
 			);
 
-			toast.success('Item added to cart');
 			if (cartItems.length) {
-				console.log(cartItems);
 				const addedItem = state.cart.map((item) =>
 					item.productId === productId
 						? {
@@ -30,8 +32,10 @@ const cartActions = createSlice({
 						: item
 				);
 				state.cart = addedItem;
+				saveCartItemInLocalStore(state.cart);
 			} else {
-				state.cart.push(action.payload)
+				state.cart.push(action.payload);
+				saveCartItemInLocalStore(state.cart);
 			}
 			return state;
 		},
@@ -51,6 +55,7 @@ const cartActions = createSlice({
 					  }
 					: item
 			);
+			saveCartItemInLocalStore(state.cart);
 			return state;
 		},
 
@@ -66,17 +71,18 @@ const cartActions = createSlice({
 					  }
 					: item
 			);
+			saveCartItemInLocalStore(state.cart);
 			return state;
 		},
 
 		removeCartItem(state, action) {
 			const id = action.payload;
-			console.log(id);
+
 			const remainingCartItems = state.cart.filter(
 				(item) => item.productId !== id
 			);
 			state.cart = remainingCartItems;
-			console.log('aslckjl');
+			saveCartItemInLocalStore(state.cart);
 			return state;
 		}
 	}

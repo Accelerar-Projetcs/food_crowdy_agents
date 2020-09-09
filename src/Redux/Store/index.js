@@ -6,12 +6,8 @@ const store = configureStore({
 	reducer: rootReducer,
 	middleware: getDefaultMiddleware({
 		serializableCheck: {
-			// Ignore these action types
-			ignoredActions: ['pictureUpload'],
-			// Ignore these field paths in all actions
-			ignoredActionPaths: ['meta.arg', 'payload.files'],
-			// // Ignore these paths in the state
-			// ignoredPaths: ['items.dates']
+			ignoredActions: ['FrontlineAgents/pictureUpload'],
+			ignoredActionPaths: ['meta.arg', 'FrontlineAgents/pictureUpload'],
 		}
 	})
 });
