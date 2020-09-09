@@ -47,6 +47,9 @@ const ChooseDownLine = lazy(() =>
 const RegistrationForm = lazy(() =>
 	import('./views/FrontLineAgent/RegistrationForm/RegistrationForm')
 );
+const Orders = lazy(() =>
+	import('./views/FrontLineAgent/Orders/Orders')
+);
 
 //***Account Verification*********//
 const AccountConfirmation = lazy(() =>
@@ -62,6 +65,11 @@ const ForgotPassword = lazy(() =>
 //*****Marketers  Dashboard******//
 const MarkertersDashBoard = lazy(() =>
 	import('./views/DashboardMKT/Dashboard')
+);
+
+//****Payment Verifictaion Page *****//
+const PaymentVerification = lazy(() =>
+	import('./views/PaymentVerification/PaymentVerification')
 );
 
 //****FallBack Loader  Components ****//
@@ -143,13 +151,25 @@ const Routes = () => {
 				/>
 				<RouteWithLayout
 					exact
+					path='/agents/frontline/orders'
+					component={Orders}
+					layout={MainLayout}
+				/>
+				<RouteWithLayout
+					exact
 					path='/agents/frontline/products-details/:category/:title/:id'
 					component={ProductsDetails}
 					layout={MainLayout}
 				/>
 				<RouteWithLayout
 					exact
-					path='/agents/frontline/product/checkout'
+					path='/payment-vefication/'
+					component={PaymentVerification}
+					layout={MainLayout}
+				/>
+				<RouteWithLayout
+					exact
+					path='/agents/frontline/product/checkout/:id'
 					component={Checkout}
 					layout={MainLayout}
 				/>

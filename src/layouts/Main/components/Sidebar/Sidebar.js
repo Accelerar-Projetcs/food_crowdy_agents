@@ -3,12 +3,16 @@ import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
 import { Divider, Drawer } from '@material-ui/core';
-import DashboardIcon from '@material-ui/icons/Dashboard';
-import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket';
-import AccountBoxIcon from '@material-ui/icons/AccountBox';
-import SettingsIcon from '@material-ui/icons/Settings';
-import People from '@material-ui/icons/People';
-import Wallet from '@material-ui/icons/AccountBalanceWallet';
+import {
+	Dashboard as DashboardIcon,
+	ShoppingBasket as ShoppingBasketIcon,
+	AccountBox as AccountBoxIcon,
+	Settings as SettingsIcon,
+	ShowChart as ShowChartIcon,
+	LineStyleOutlined as OrdersIcon,
+	AccountBalanceWallet as WalletIcon
+} from '@material-ui/icons/';
+
 import { Profile, SidebarNav } from './components';
 import { userData } from '../../../../utils/GetUserData';
 
@@ -69,14 +73,19 @@ const Sidebar = (props) => {
 			icon: <DashboardIcon />
 		},
 		{
-			title: 'Add user',
+			title: 'Shopping',
 			href: '/agents/frontline/products',
-			icon: <People />
+			icon: <ShowChartIcon />
+		},
+		{
+			title: 'Orders',
+			href: '/agents/frontline/orders',
+			icon: <OrdersIcon />
 		},
 		{
 			title: 'Wallet',
 			href: '/agents/frontline/wallet',
-			icon: <Wallet />
+			icon: <WalletIcon />
 		},
 		{
 			title: 'Account',
@@ -99,7 +108,7 @@ const Sidebar = (props) => {
 			title: 'Account',
 			href: '/account',
 			icon: <AccountBoxIcon />
-		},
+		}
 		// {
 		// 	title: 'Settings',
 		// 	href: '/settings',

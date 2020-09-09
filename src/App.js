@@ -16,6 +16,7 @@ import FilePondPluginImageExifOrientation from 'filepond-plugin-image-exif-orien
 import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
 import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css';
 import 'filepond/dist/filepond.min.css';
+import Cart from './components/Cart/CartDrawer/CartDrawer';
 registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
 
 const browserHistory = createBrowserHistory();
@@ -25,6 +26,7 @@ export default () => {
 		<CookiesProvider>
 			<ThemeProvider theme={theme}>
 				<Router history={browserHistory}>
+					<Cart/>
 					<Routes />
 					<ToastContainer hideProgressBar={true} />
 				</Router>
