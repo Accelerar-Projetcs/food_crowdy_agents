@@ -47,34 +47,34 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-const steps = ['Shipping address', 'Delivery Method', 'Review your order'];
+const steps = ['Delivery Method', 'Review your order'];
 
-
-
-export default function Checkout() {
+export default function Checkout({ match }) {
 	const classes = useStyles();
 	const [activeStep, setActiveStep] = useState(0);
+	const [checkoutData, setcheckoutData] = useState({});
+	const { id } = match.params;
+	console.log(checkoutData);
+	console.log(id);
 
-	function getStepContent(step) {
+	function getStepContent(id, step, activeStep, setActiveStep, checkoutData) {
 		switch (step) {
 			case 0:
-				return <AddressForm />;
+				return (
+					<DeliveryMethod
+						userId={id}
+						checkoutData={checkoutData}
+						setcheckoutData={setcheckoutData}
+						activeStep={activeStep}
+						setActiveStep={setActiveStep}
+					/>
+				);
 			case 1:
-				return <DeliveryMethod />;
-			case 2:
-				return <Review />;
+				return <Review checkoutData={checkoutData} />;
 			default:
 				return 'unknown';
 		}
 	}
-
-	const handleNext = () => {
-		setActiveStep(activeStep + 1);
-	};
-
-	const handleBack = () => {
-		setActiveStep(activeStep - 1);
-	};
 
 	return (
 		<React.Fragment>
@@ -104,21 +104,13 @@ export default function Checkout() {
 							</React.Fragment>
 						) : (
 							<React.Fragment>
-								{getStepContent(activeStep)}
-								<div className={classes.buttons}>
-									{activeStep !== 0 && (
-										<Button onClick={handleBack} className={classes.button}>
-											Back
-										</Button>
-									)}
-									<Button
-										variant='contained'
-										color='primary'
-										onClick={handleNext}
-										className={classes.button}>
-										{activeStep === steps.length - 1 ? 'Place order' : 'Next'}
-									</Button>
-								</div>
+								{getStepContent(
+									id,
+									activeStep,
+									setActiveStep,
+									checkoutData,
+									setcheckoutData
+								)}
 							</React.Fragment>
 						)}
 					</React.Fragment>

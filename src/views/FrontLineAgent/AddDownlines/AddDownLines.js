@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/styles';
 import { Alert } from '@material-ui/lab/';
-// import BackDrop from '../../components/backdrop/Backdrop';
+import { agentApi } from '../../../server/Server';
+import BackDrop from '../../../components/BackDrop/BackDrop';
 import {
 	Card,
 	CardHeader,
@@ -14,93 +15,98 @@ import {
 	Avatar
 } from '@material-ui/core';
 import Style from './Styles';
-import ConfirmOTP from './ConfirmOTP'
+import ConfirmOTP from './ConfirmOTP';
+import { errorHandler } from '../../../errors/errorHandler';
 
 const useStyles = makeStyles((theme) => Style(theme));
 
 const AddDownLines = () => {
 	const classes = useStyles();
-	const [email, setemail] = useState('');
+	const [phoneNumber, setphoneNumber] = useState('');
 	const [mailCheck, setmailCheck] = useState(false);
 	const [message, setMessage] = useState('');
 	const [loading, setLoading] = useState(false);
 
 	const handleChange = (event) => {
-		setemail(event.target.value);
+		setphoneNumber(event.target.value);
 	};
 
-	const sendPasswordResetLink = async (e) => {
+	const sendOTP = async (e) => {
 		e.preventDefault();
 		setLoading(true);
+		const data = {
+			phoneNumber: `234${Number(phoneNumber)}`
+		};
+
 		try {
-			await (`/forgot`, { email });
+			await agentApi.post(`/fla/user-auth/generate-otp`, data);
 			setmailCheck(true);
 		} catch (error) {
-			const { response } = error;
-			if (response === undefined) {
-				setMessage(error.message);
-			} else if (response.data) {
-				setMessage(response.data.message);
-			}
+			const errorMgs = errorHandler(error);
+			setMessage(errorMgs);
 		}
 		setLoading(false);
 	};
 
 	return (
-		<Paper className={classes.paper}>
-			{/* {loading && <BackDrop load={true} />} */}
-			{mailCheck ? (
-				<ConfirmOTP />
-			) : (
-				<Card className={classes.checkMail}>
-					<Divider />
-					<CardContent>
-						{message && (
-							<Alert variant='outlined' severity='error'>
-								{message}
-							</Alert>
-						)}
+		<>
 
-						<CardHeader
-							title={<Typography variant='h3'> Add DownLine</Typography>}
-						/>
+			<Paper className={classes.paper}>
+				{loading && <BackDrop />}
 
+				{mailCheck ? (
+					<ConfirmOTP phoneNumber={phoneNumber} />
+				) : (
+					<Card className={classes.checkMail}>
 						<Divider />
-						<div>
-							<Avatar
-								// style={{ textAlign: 'center' }}
-								className={classes.avatar}
-								src={'/wepowewe/qwioqwi'}
-							/>
-						</div>
 						<CardContent>
-							<span>Enter the phone of the downline you want to add</span>
-							<form onSubmit={sendPasswordResetLink}>
-								<TextField
-									fullWidth
-									label='Phone Number'
-									name='email'
-									onChange={handleChange}
-									style={{ marginTop: '1rem' }}
-									type='number'
-									variant='outlined'
-									required
+							{message && (
+								<Alert variant='outlined' severity='error'>
+									{message}
+								</Alert>
+							)}
+
+							<CardHeader
+								title={<Typography variant='h3'> Add DownLine</Typography>}
+							/>
+
+							<Divider />
+							<div>
+								<Avatar
+									// style={{ textAlign: 'center' }}
+									className={classes.avatar}
+									src={'/wepowewe/qwioqwi'}
 								/>
-								<Button
-									className={classes.btn}
-									color='primary'
-									type='submit'
-									disabled={loading ? true : false}
-									variant='contained'>
-									Proceed
-								</Button>
-							</form>
+							</div>
+							<CardContent>
+								<span>Enter the phone of the downline you want to add</span>
+								<form onSubmit={sendOTP}>
+									<TextField
+										fullWidth
+										label='Phone Number'
+										name='phoneNumber'
+										onChange={handleChange}
+										style={{ marginTop: '1rem' }}
+										type='number'
+										variant='outlined'
+										required
+									/>
+									<Button
+										className={classes.btn}
+										color='primary'
+										type='submit'
+										disabled={loading ? true : false}
+										variant='contained'>
+										Proceed
+									</Button>
+								</form>
+							</CardContent>
+							<Divider />
 						</CardContent>
-						<Divider />
-					</CardContent>
-				</Card>
-			)}
-		</Paper>
+					</Card>
+				)}
+			</Paper>
+		</>
 	);
 };
 

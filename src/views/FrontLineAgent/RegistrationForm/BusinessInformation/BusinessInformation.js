@@ -1,4 +1,4 @@
-import React  from 'react';
+import React, { useCallback, useState } from 'react';
 import {
 	Button,
 	CardContent,
@@ -9,6 +9,7 @@ import {
 	makeStyles,
 	Typography
 } from '@material-ui/core';
+import { ArrowRightAltSharp as ForwardIcon } from '@material-ui/icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers';
@@ -17,13 +18,17 @@ import {
 	getDetails
 } from '../../../../Redux/Reducers/FLRegistration/index';
 import ScrollTop from '../../../../ScrollToTop';
+import BusinessTypesList from '../../../../utils/BusinessTypes';
+import States_Lga from '../../../../utils/NigeriaStateLga';
 import Styles from '../Styles';
 import { BusinessInfoSchema } from '../Validators';
+import { gender } from '../../../../utils/Gender';
 
 const useStyles = makeStyles((theme) => Styles(theme));
 
-const ProfileDetails = () => {
+const BusinessDetails = () => {
 	const classes = useStyles();
+	const [selectedLga, setselectedLga] = useState([]);
 	const { handleSubmit, register, errors } = useForm({
 		resolver: yupResolver(BusinessInfoSchema)
 	});
@@ -31,13 +36,49 @@ const ProfileDetails = () => {
 	const activeStep = formState.activeStep;
 	const dispatch = useDispatch();
 
-	const handleNextAction = () => {
+	const getReleventLga = useCallback((e) => {
+		const id = e.target.value;
+		if (id !== '') {
+			const id = e.target.value;
+			const relevantLga = States_Lga.filter((list) =>
+				list.state.name === id ? list : null
+			);
+			setselectedLga(relevantLga[0].state.locals);
+		} else {
+			setselectedLga([]);
+		}
+	}, []);
+
+	const handleNextAction = (data) => {
+		const {
+			name,
+			type,
+			state,
+			lga,
+			city,
+			address,
+			storeNumber,
+			phoneNumber
+		} = data;
+
+		const business = {
+			name,
+			type,
+			state,
+			lga,
+			city,
+			address,
+			storeNumber,
+			phoneNumber
+		};
+		const businessForm = {
+			business
+		};
+		
 		const number = activeStep + 1;
-
 		dispatch(handleNext(number));
-		dispatch(getDetails({ name: 'mike', age: 25 }));
+		dispatch(getDetails(businessForm));
 	};
-
 
 	return (
 		<form onSubmit={handleSubmit(handleNextAction)} className={classes.root}>
@@ -63,53 +104,39 @@ const ProfileDetails = () => {
 							<TextField
 								fullWidth
 								label='Business Name'
-								name='businessName'
+								name='name'
 								variant='outlined'
 								inputRef={register}
-								helperText={
-									errors && errors.businessName
-										? errors.businessName.message
-										: ''
-								}
-								error={errors && errors.businessName ? true : false}
+								helperText={errors && errors.name ? errors.name.message : ''}
+								error={errors && errors.name ? true : false}
 							/>
 						</Grid>
 						<Grid item md={6} xs={12}>
 							<TextField
 								fullWidth
 								label='Business Phone Number'
-								name='businessPhoneNumber'
+								name='phoneNumber'
 								variant='outlined'
+								type='number'
 								inputRef={register}
 								helperText={
-									errors && errors.businessPhoneNumber
-										? errors.businessPhoneNumber.message
-										: ''
+									errors && errors.phoneNumber ? errors.phoneNumber.message : ''
 								}
-								error={errors && errors.businessPhoneNumber ? true : false}
+								error={errors && errors.phoneNumber ? true : false}
 							/>
 						</Grid>
 						<Grid item md={12} xs={12}>
 							<TextField
 								fullWidth
-								label='Business Type'
-								name='businessType'
+								name='type'
 								select
 								SelectProps={{ native: true }}
 								variant='outlined'
 								inputRef={register}
-								helperText={
-									errors && errors.businessType
-										? errors.businessType.message
-										: ''
-								}
-								error={errors && errors.businessType ? true : false}>
-								{[
-									'Nationa ID',
-									'International Passport',
-									'Drivers License',
-									'INEC Voters Card'
-								].map((option) => (
+								helperText={errors && errors.type ? errors.type.message : ''}
+								error={errors && errors.type ? true : false}>
+								<option value={''}>Business Type</option>
+								{BusinessTypesList.map((option) => (
 									<option key={option} value={option}>
 										{option}
 									</option>
@@ -120,37 +147,32 @@ const ProfileDetails = () => {
 							<TextField
 								fullWidth
 								label='Business Address'
-								name='businessAddress'
+								name='address'
 								variant='outlined'
 								multiline
 								rows={5}
 								inputRef={register}
 								helperText={
-									errors && errors.businessAddress
-										? errors.businessAddress.message
-										: ''
+									errors && errors.address ? errors.address.message : ''
 								}
-								error={errors && errors.businessAddress ? true : false}
+								error={errors && errors.address ? true : false}
 							/>
 						</Grid>
 						<Grid item md={6} xs={12}>
 							<TextField
 								fullWidth
-								label='State'
-								name='businessState'
+								name='state'
 								select
 								SelectProps={{ native: true }}
 								variant='outlined'
+								onChange={getReleventLga}
 								inputRef={register}
-								helperText={
-									errors && errors.businessState
-										? errors.businessState.message
-										: ''
-								}
-								error={errors && errors.businessState ? true : false}>
-								{['Male', 'Females'].map((option) => (
-									<option key={option} value={option}>
-										{option}
+								helperText={errors && errors.state ? errors.state.message : ''}
+								error={errors && errors.state ? true : false}>
+								<option value={''}>State</option>
+								{States_Lga.map((option) => (
+									<option key={option.state.id} value={option.state.name}>
+										{option.state.name}
 									</option>
 								))}
 							</TextField>
@@ -159,19 +181,17 @@ const ProfileDetails = () => {
 						<Grid item md={6} xs={12}>
 							<TextField
 								fullWidth
-								label='L.G.A'
-								name='businessLGA'
+								name='lga'
 								select
 								SelectProps={{ native: true }}
 								variant='outlined'
 								inputRef={register}
-								helperText={
-									errors && errors.businessLGA ? errors.businessLGA.message : ''
-								}
-								error={errors && errors.businessLGA ? true : false}>
-								{['Male', 'Females'].map((option) => (
-									<option key={option} value={option}>
-										{option}
+								helperText={errors && errors.lga ? errors.lga.message : ''}
+								error={errors && errors.lGsA ? true : false}>
+								<option value={''}>L.G.A</option>
+								{selectedLga.map((option) => (
+									<option key={option.id} value={option.name}>
+										{option.name}
 									</option>
 								))}
 							</TextField>
@@ -179,21 +199,17 @@ const ProfileDetails = () => {
 						<Grid item md={6} xs={12}>
 							<TextField
 								fullWidth
-								label='City'
-								name='businessCity'
+								name='city'
 								select
 								SelectProps={{ native: true }}
 								variant='outlined'
 								inputRef={register}
-								helperText={
-									errors && errors.businessCity
-										? errors.businessCity.message
-										: ''
-								}
-								error={errors && errors.businessCity ? true : false}>
-								{['Male', 'Females'].map((option) => (
-									<option key={option} value={option}>
-										{option}
+								helperText={errors && errors.city ? errors.city.message : ''}
+								error={errors && errors.city ? true : false}>
+								<option value={''}>City</option>
+								{gender.map((option) => (
+									<option key={option.id} value={option.value}>
+										{option.value}
 									</option>
 								))}
 							</TextField>
@@ -219,6 +235,7 @@ const ProfileDetails = () => {
 						variant='contained'
 						color='primary'
 						type='submit'
+						endIcon={<ForwardIcon />}
 						className={classes.button}>
 						Continue
 					</Button>
@@ -228,4 +245,4 @@ const ProfileDetails = () => {
 	);
 };
 
-export default ProfileDetails;
+export default BusinessDetails;

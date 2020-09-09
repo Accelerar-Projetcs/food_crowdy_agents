@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useCallback } from 'react';
 import {
 	Button,
 	CardContent,
@@ -10,39 +10,83 @@ import {
 	makeStyles,
 	Typography
 } from '@material-ui/core';
+import { ArrowRightAltSharp as ForwardIcon } from '@material-ui/icons';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-	handleBack,
 	handleNext,
 	getDetails
 } from '../../../../Redux/Reducers/FLRegistration/index';
+import States_Lga from '../../../../utils/NigeriaStateLga';
 import { GuarantorInfoSchema } from '../Validators/';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers';
 import ScrollTop from '../../../../ScrollToTop';
 import Styles from '../Styles';
+import { gender } from '../../../../utils/Gender';
 
 const useStyles = makeStyles((theme) => Styles(theme));
 
-const ProfileDetails = () => {
-	const classes = useStyles();
+const Guarantor = () => {
+	const [selectedLga, setselectedLga] = useState([]);
 	const { handleSubmit, register, errors } = useForm({
 		resolver: yupResolver(GuarantorInfoSchema)
 	});
 	const formState = useSelector((state) => state.FLRegistration.step);
 	const activeStep = formState.activeStep;
 	const dispatch = useDispatch();
+	const classes = useStyles();
 
+	const getReleventLga = useCallback((e) => {
+		const id = e.target.value;
+		if (id !== '') {
+			const id = e.target.value;
+			const relevantLga = States_Lga.filter((list) =>
+				list.state.name === id ? list : null
+			);
+			setselectedLga(relevantLga[0].state.locals);
+		} else {
+			setselectedLga([]);
+		}
+	}, []);
 
 	const handleNextAction = (data) => {
-		const number = activeStep + 1;
-		dispatch(handleNext(number));
-		dispatch(getDetails(data));
-	};
+		const {
+			lga,
+			email,
+			gender,
+			address,
+			surName,
+			stateOfOrigin,
+			firstName,
+			occupation,
+			phoneNumber,
+			otherNames,
+			relationship,
+			nationality
+		} = data;
 
-	const handleBackAction = () => {
-		const number = activeStep - 1;
-		dispatch(handleBack(number));
+		const guarantor = {
+			lga,
+			email,
+			address,
+			gender,
+			surName,
+			firstName,
+			stateOfOrigin,	
+			occupation,
+			phoneNumber,
+			otherNames,
+			relationship,
+			nationality
+		};
+
+		const guarantorData = {
+			guarantor
+		};
+
+		const number = activeStep + 1;
+		dispatch(getDetails(guarantorData));
+		dispatch(handleNext(number));
 	};
 
 	return (
@@ -73,111 +117,100 @@ const ProfileDetails = () => {
 									className={classes.textField}
 									fullWidth
 									label='Surname '
-									name='guarantorSurName'
+									name='surName'
 									type='text'
 									variant='outlined'
 									inputRef={register}
 									helperText={
-										errors && errors.guarantorSurName
-											? errors.guarantorSurName.message.toLowerCase()
-											: ''
+										errors && errors.surName ? errors.surName.message : ''
 									}
-									error={errors && errors.guarantorSurName ? true : false}
+									error={errors && errors.surName ? true : false}
 								/>
 							</Grid>
 							<Grid item md={6} xs={12}>
 								<TextField
 									fullWidth
 									label='First name'
-									name='guarantorFirstName'
+									name='firstName'
 									variant='outlined'
 									inputRef={register}
 									helperText={
-										errors && errors.guarantorFirstName
-											? errors.guarantorFirstName.message.toLowerCase()
-											: ''
+										errors && errors.firstName ? errors.firstName.message : ''
 									}
-									error={errors && errors.guarantorFirstName ? true : false}
+									error={errors && errors.firstName ? true : false}
 								/>
 							</Grid>
 							<Grid item md={6} xs={12}>
 								<TextField
 									fullWidth
 									label='Other Names'
-									name='guarantorOtherNames'
+									name='otherNames'
 									variant='outlined'
 									inputRef={register}
 									helperText={
-										errors && errors.guarantorOtherNames
-											? errors.guarantorOtherNames.message.toLowerCase()
-											: ''
+										errors && errors.otherNames ? errors.otherNames.message : ''
 									}
-									error={errors && errors.guarantorOtherNames ? true : false}
+									error={errors && errors.otherNames ? true : false}
 								/>
 							</Grid>
 							<Grid item md={6} xs={12}>
 								<TextField
 									fullWidth
 									label='Email Address'
-									name='quarantorEmail'
+									name='email'
 									variant='outlined'
 									inputRef={register}
 									helperText={
-										errors && errors.quarantorEmail
-											? errors.quarantorEmail.message.toLowerCase()
-											: ''
+										errors && errors.email ? errors.email.message : ''
 									}
-									error={errors && errors.quarantorEmail ? true : false}
+									error={errors && errors.email ? true : false}
 								/>
 							</Grid>
 							<Grid item md={6} xs={12}>
 								<TextField
 									fullWidth
 									label='Phone Number'
-									name='guarantorPhoneNumber'
+									name='phoneNumber'
+									type='number'
 									variant='outlined'
 									inputRef={register}
 									helperText={
-										errors && errors.guarantorPhoneNumber
-											? errors.guarantorPhoneNumber.message.toLowerCase()
+										errors && errors.phoneNumber
+											? errors.phoneNumber.message
 											: ''
 									}
-									error={errors && errors.guarantorPhoneNumber ? true : false}
+									error={errors && errors.phoneNumber ? true : false}
 								/>
 							</Grid>
 							<Grid item md={6} xs={12}>
 								<TextField
 									fullWidth
 									label='Occupation'
-									name='guarantorOccupation'
+									name='occupation'
 									variant='outlined'
 									inputRef={register}
 									helperText={
-										errors && errors.guarantorOccupation
-											? errors.guarantorOccupation.message.toLowerCase()
-											: ''
+										errors && errors.occupation ? errors.occupation.message : ''
 									}
-									error={errors && errors.guarantorOccupation ? true : false}
+									error={errors && errors.occupation ? true : false}
 								/>
 							</Grid>
 							<Grid item md={6} xs={12}>
 								<TextField
 									fullWidth
-									label='Gender'
-									name='quarantorGender'
+									name='gender'
 									select
 									SelectProps={{ native: true }}
 									variant='outlined'
 									inputRef={register}
 									helperText={
-										errors && errors.quarantorGender
-											? errors.quarantorGender.message.toLowerCase()
-											: ''
+										errors && errors.gender ? errors.gender.message : ''
 									}
-									error={errors && errors.quarantorGender ? true : false}>
-									{['Male', 'Female'].map((option) => (
-										<option key={option} value={option}>
-											{option}
+									error={errors && errors.gender ? true : false}>
+									<option value={''}>Gender</option>
+									{gender.map((option) => (
+										<option key={option.id} value={option.value}>
+											{option.value}
 										</option>
 									))}
 								</TextField>
@@ -186,52 +219,51 @@ const ProfileDetails = () => {
 								<TextField
 									fullWidth
 									label='Relationship'
-									name='guarantorRelationship'
+									name='relationship'
 									variant='outlined'
 									inputRef={register}
 									helperText={
-										errors && errors.guarantorRelationship
-											? errors.guarantorRelationship.message.toLowerCase()
+										errors && errors.relationship
+											? errors.relationship.message
 											: ''
 									}
-									error={errors && errors.guarantorRelationship ? true : false}
+									error={errors && errors.relationship ? true : false}
 								/>
 							</Grid>
 							<Grid item md={6} xs={12}>
 								<TextField
 									fullWidth
 									label='Nationality'
-									name='guarantorNationality'
+									name='nationality'
 									variant='outlined'
 									inputRef={register}
 									helperText={
-										errors && errors.guarantorNationality
-											? errors.guarantorNationality.message.toLowerCase()
+										errors && errors.nationality
+											? errors.nationality.message
 											: ''
 									}
-									error={errors && errors.guarantorNationality ? true : false}
+									error={errors && errors.nationality ? true : false}
 								/>
 							</Grid>
 							<Grid item md={6} xs={12}>
 								<TextField
 									fullWidth
-									label='State of origin'
-									name='guarantorStateOfOrigin'
+									name='stateOfOrigin'
 									select
 									SelectProps={{ native: true }}
+									onChange={getReleventLga}
 									variant='outlined'
 									inputRef={register}
 									helperText={
-										errors && errors.guarantorStateOfOrigin
-											? errors.guarantorStateOfOrigin.message.toLowerCase()
+										errors && errors.stateOfOrigin
+											? errors.stateOfOrigin.message
 											: ''
 									}
-									error={
-										errors && errors.guarantorStateOfOrigin ? true : false
-									}>
-									{['Abia', 'Imo'].map((option) => (
-										<option key={option} value={option}>
-											{option}
+									error={errors && errors.stateOfOrigin ? true : false}>
+									<option value={''}>State of origin</option>
+									{States_Lga.map((option) => (
+										<option key={option.state.id} value={option.state.name}>
+											{option.state.name}
 										</option>
 									))}
 								</TextField>
@@ -239,17 +271,20 @@ const ProfileDetails = () => {
 							<Grid item md={12} xs={12}>
 								<TextField
 									fullWidth
-									label='City/Town'
-									name='guarantorCity'
+									name='lga'
+									select
+									SelectProps={{ native: true }}
 									variant='outlined'
 									inputRef={register}
-									helperText={
-										errors && errors.guarantorCity
-											? errors.guarantorCity.message.toLowerCase()
-											: ''
-									}
-									error={errors && errors.guarantorCity ? true : false}
-								/>
+									helperText={errors && errors.lga ? errors.lga.message : ''}
+									error={errors && errors.lga ? true : false}>
+									<option value={''}>Choose L.G.A</option>
+									{selectedLga.map((option) => (
+										<option key={option.name} value={option.name}>
+											{option.name}
+										</option>
+									))}
+								</TextField>
 							</Grid>
 							<Grid item md={12} xs={12}>
 								<TextField
@@ -257,33 +292,24 @@ const ProfileDetails = () => {
 									multiline
 									rows={5}
 									label='Residential Address'
-									name='gaurantorsAddress'
+									name='address'
 									variant='outlined'
 									inputRef={register}
 									helperText={
-										errors && errors.gaurantorsAddress
-											? errors.gaurantorsAddress.message.toLowerCase()
-											: ''
+										errors && errors.address ? errors.address.message : ''
 									}
-									error={errors && errors.gaurantorsAddress ? true : false}
+									error={errors && errors.address ? true : false}
 								/>
 							</Grid>
 						</Grid>
 					</CardContent>
 					<Divider />
 					<CardActions>
-						<div className={classes.buttons}>
-							{activeStep !== 0 && (
-								<Button onClick={handleBackAction} className={classes.button}>
-									Back
-								</Button>
-							)}
-						</div>
 						<Button
 							variant='contained'
 							color='primary'
 							type='submit'
-							// onClick={handleNextAction}
+							endIcon={<ForwardIcon />}
 							className={classes.button}>
 							Continue
 						</Button>
@@ -294,4 +320,4 @@ const ProfileDetails = () => {
 	);
 };
 
-export default ProfileDetails;
+export default Guarantor;

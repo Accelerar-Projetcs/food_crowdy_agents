@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/styles';
 // import { Alert } from '@material-ui/lab/';
 // import BackDrop from '../../components/backdrop/Backdrop';
@@ -15,37 +15,53 @@ import {
 import Style from './Styles';
 import DownLineForm from './DownLineForm';
 import { Alert } from '@material-ui/lab';
+import { agentApi } from '../../../server/Server';
+import { errorHandler } from '../../../errors/errorHandler';
 
 const useStyles = makeStyles((theme) => Style(theme));
 
-const AddDownLines = () => {
+const AddDownLines = ({ phoneNumber }) => {
 	const classes = useStyles();
-	const [email, setemail] = useState('');
+	const [code, setCode] = useState('');
 	const [register, setregister] = useState(false);
 	const [message, setMessage] = useState('');
 	const [loading, setLoading] = useState(false);
+	const [second, setSecond] = useState(300);
+	const [minutes, setMinites] = useState(5);
 
 	const handleChange = (event) => {
-		setemail(event.target.value);
+		setCode(event.target.value);
 	};
 
 	const sendPasswordResetLink = async (e) => {
 		e.preventDefault();
 		setLoading(true);
-		setregister(true);
+		const data = {
+			phoneNumber: `234${Number(phoneNumber)}`,
+			code
+		};
+		console.log(data);
 		try {
-			await (`/forgot`, { email });
+			const res = await agentApi.post(
+				`fla/user-auth/verify-otp
+			`,
+				data
+			);
+			console.log(res);
 			setregister(true);
 		} catch (error) {
-			const { response } = error;
-			if (response === undefined) {
-				setMessage(error.message);
-			} else if (response.data) {
-				setMessage(response.data.message);
-			}
+			const errorMessage = errorHandler(error);
+			setMessage(errorMessage);
 		}
 		setLoading(false);
 	};
+
+	useEffect(() => {
+		// second > 0 && setTimeout(() => setSecond(second - 1), 1000);
+		// if (second === 60 || 120 || 180 || 240 || 300) {
+		// 	setMinites(minutes - 1);
+		// }
+	}, [second]);
 
 	return (
 		<>
@@ -72,16 +88,18 @@ const AddDownLines = () => {
 						</div>
 					)}
 					<div>
+						{second}
+						{minutes}
 						<span>
 							Enter the <strong>OTP</strong> sent to this number{' '}
-							<strong>+2348165084064</strong>
+							<strong>{phoneNumber}</strong>
 						</span>
 						<br />
 						<form onSubmit={sendPasswordResetLink}>
 							<TextField
 								fullWidth
-								label='Phone Number'
-								name='email'
+								label='Enter OTP Code'
+								name='code'
 								onChange={handleChange}
 								style={{ marginTop: '1rem' }}
 								type='number'

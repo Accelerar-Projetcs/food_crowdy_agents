@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/styles';
 import { ProductsApiHooks } from '../../../server/Server';
 import AllProducts from './AllProducts';
@@ -14,22 +14,53 @@ import {
 	FormControlLabel,
 	Radio
 } from '@material-ui/core';
+import ctimage from '../../../assets/images/category.svg';
+import { category as productCategory } from '../../../utils/ProductsCategory';
 import { categoryStyles } from './styles/Styles';
 
 const useStyles = makeStyles((theme) => categoryStyles(theme));
 
 const ProductCategory = () => {
-	const classes = useStyles();
+	const [category, setcategory] = useState('');
+	const [searchQuery, setsearchQuery] = useState('');
 	const [{ data, loading }] = ProductsApiHooks(`/search/all`);
+	const classes = useStyles();
+
+	const searchCategoryHandle = (e) => {
+		setcategory(e.target.value);
+	};
+	const searchQueryHandle = (e) => {
+		setsearchQuery(e.target.value);
+	};
+	const filteredData = (data) => {
+		let modifiedData = data;
+		if (data) {
+			if (category) {
+				modifiedData = modifiedData.filter(
+					(item) => item.category === category
+				);
+			}
+			if (searchQuery) {
+				modifiedData = modifiedData.filter((item) =>
+					item.title.toLowerCase().includes(searchQuery.toLowerCase())
+				);
+			}
+		}
+		return modifiedData;
+	};
 
 	return (
 		<div className={classes.root}>
-			<Grid container spacing={4}>
-				<Grid item lg={4} md={6} xl={4} xs={12}>
+			<Grid container spacing={1}>
+				<Grid item lg={3} md={6} xl={4} xs={12}>
 					<Card>
 						<CardHeader
-							subheader='you can search by category and sort by price'
-							title='Search For Products'
+							title={
+								<h5 style={{ margin: '.2rem 0' }}>
+									<img src={ctimage} height='30' alt='categories' />
+									Search By Category
+								</h5>
+							}
 						/>
 						<Divider />
 						<CardContent>
@@ -37,50 +68,38 @@ const ProductCategory = () => {
 								fullWidth
 								label='Search content'
 								margin='dense'
+								onChange={searchQueryHandle}
 								name='searchitem'
 								variant='outlined'
 							/>
 						</CardContent>
 						<CardContent>
 							<FormControl component='fieldset'>
-								<RadioGroup aria-label='foodCategory' name='foodCatergory1'>
+								<RadioGroup
+									aria-label='foodCategory'
+									name='category'
+									value={category}
+									onChange={searchCategoryHandle}>
 									<FormControlLabel
-										value='RICE'
+										value={''}
 										control={<Radio />}
-										label='Fish & SeaFood'
+										label='All Product'
 									/>
-									<FormControlLabel
-										value='FRUITS'
-										control={<Radio />}
-										label='Friuts & Nuts'
-									/>
-									<FormControlLabel
-										value='VEGETABLE'
-										control={<Radio />}
-										label='Vegetables'
-									/>
-									<FormControlLabel
-										value='CONDIMENTS'
-										control={<Radio />}
-										label='Condiments'
-									/>
-									<FormControlLabel
-										value='COW'
-										control={<Radio />}
-										label='Cow,Goat,Chicken'
-									/>
-									<FormControlLabel
-										value='FOODSTUFFS'
-										control={<Radio />}
-										label='FoodStuffs'
-									/>
+									{productCategory.map((category) => (
+										<FormControlLabel
+											value={category.value}
+											key={category.value}
+											control={<Radio />}
+											label={category.label}
+										/>
+									))}
 								</RadioGroup>
 							</FormControl>
 						</CardContent>
 					</Card>
 				</Grid>
-				<Grid item lg={8} md={6} xl={8} xs={12}>
-					<AllProducts data={data} loading={loading} />
+				<Grid item lg={9} md={6} xl={8} xs={12}>
+					<AllProducts data={filteredData(data)} loading={loading} />
 				</Grid>
 			</Grid>
 		</div>

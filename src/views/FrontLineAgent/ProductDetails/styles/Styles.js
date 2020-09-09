@@ -1,41 +1,41 @@
 export const dialogStyles =(theme)=>({
-	root: {
-		margin: 0,
-		padding: theme.spacing(2)
-	},
-	close: {
-		display: `flex`,
-		justifyContent: 'space-between'
-	},
-	btnOrange: {
-		background: theme.palette.tetiary.main,
-		color: theme.palette.white,
-		'&:hover': {
-			background: theme.palette.tetiary.light
-		}
-	},
-	closeButton: {
-		position: 'absolute',
-		right: theme.spacing(1),
-		top: theme.spacing(1),
-		color: theme.palette.grey[500]
-	}
+	// root: {
+	// 	margin: 0,
+	// 	padding: theme.spacing(2)
+	// },
+	// close: {
+	// 	display: `flex`,
+	// 	justifyContent: 'space-between'
+	// },
+	// btnOrange: {
+	// 	background: theme.palette.tetiary.main,
+	// 	color: theme.palette.white,
+	// 	'&:hover': {
+	// 		background: theme.palette.tetiary.light
+	// 	}
+	// },
+	// closeButton: {
+	// 	position: 'absolute',
+	// 	right: theme.spacing(1),
+	// 	top: theme.spacing(1),
+	// 	color: theme.palette.grey[500]
+	// }
 })
 
 export const productDetailStyle =(theme)=>({
   root: {
-		margin: theme.spacing(0.5)
+		// margin: theme.spacing(0.5)
 	}
 })
 
 export const productsDataStyles =(theme)=>({
   root: {
-		margin: `.4rem`
+		margin: `.4rem 0`
 	},
 	content: {
 		background: theme.palette.background.paper,
 		margin: theme.spacing(2, 0),
-		padding: theme.spacing(1)
+		// padding: theme.spacing(1)
 		// width: '95%'
 	},
 	description: {

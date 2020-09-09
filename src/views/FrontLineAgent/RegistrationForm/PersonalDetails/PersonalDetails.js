@@ -26,13 +26,16 @@ import {
 	getDetails
 } from '../../../../Redux/Reducers/FLRegistration/index';
 import ScrollTop from '../../../../ScrollToTop';
-import Styles from '../Styles';
+import Styles from './Styles';
+import { gender, relationshipStatus } from '../../../../utils/Gender';
 
 const useStyles = makeStyles((theme) => Styles(theme));
 
 const PersonalDetails = () => {
 	const [selectedLga, setselectedLga] = useState([]);
-	const [date, setDate] = useState(new Date());
+	const [date, setDate] = useState(
+		new Date('Tue Sep 04 1990 10:41:14 GMT+0100 (West Africa Standard Time)')
+	);
 	const { handleSubmit, register, errors } = useForm({
 		resolver: yupResolver(PersonalInfoSchema)
 	});
@@ -43,24 +46,74 @@ const PersonalDetails = () => {
 
 	const getReleventLga = useCallback((e) => {
 		const id = e.target.value;
-		const relevantLga = States_Lga.filter((list) =>
-			list.state.name === id ? list : null
-		);
-		setselectedLga(relevantLga[0].state.locals);
+		if (id !== '') {
+			const id = e.target.value;
+			const relevantLga = States_Lga.filter((list) =>
+				list.state.name === id ? list : null
+			);
+			setselectedLga(relevantLga[0].state.locals);
+		} else {
+			setselectedLga([]);
+		}
 	}, []);
 
 	const handleNextAction = (data) => {
-		data.dateOfBirth = JSON.stringify(date);
+		const dateOfBirth = JSON.stringify(date);
+		const {
+			bvn,
+			city,
+			lga,
+			state,
+			email,
+			gender,
+			address,
+			lastName,
+			firstName,
+			otherNames,
+			nationality,
+			phoneNumber,
+			relationship,
+			stateOfOrigin,
+			nameOfnextOfKin,
+			indentificationType,
+			phoneNumberNextOfKin,
+			indentificationNumber
+		} = data;
+
+		const nextOfKin = {
+			name: nameOfnextOfKin,
+			phoneNumber: phoneNumberNextOfKin
+		};
+
+		const identification = {
+			type: indentificationNumber,
+			number: indentificationType
+		};
+
+		const form = {
+			bvn,
+			lga,
+			city,
+			email,
+			address,
+			lastName,
+			nextOfKin,
+			firstName,
+			dateOfBirth,
+			otherNames,
+			relationship,
+			phoneNumber,
+			nationality,
+			identification,
+			stateOfOrigin,
+			gender,
+			state
+		};
 		const number = activeStep + 1;
+		dispatch(getDetails(form));
 		dispatch(handleNext(number));
-		dispatch(getDetails(data));
-		console.log(data);
 	};
 
-	/**
-	 * Resolve with useCallback
-	 */
-	// useEffect(() => {}, [selectedLga, getReleventLga]);
 	useEffect(() => {}, [selectedLga]);
 
 	return (
@@ -96,9 +149,7 @@ const PersonalDetails = () => {
 									variant='outlined'
 									inputRef={register}
 									helperText={
-										errors && errors.firstName
-											? errors.firstName.message.toLowerCase()
-											: ''
+										errors && errors.firstName ? errors.firstName.message : ''
 									}
 									error={errors && errors.firstName ? true : false}
 								/>
@@ -148,6 +199,7 @@ const PersonalDetails = () => {
 									label='Phone Number'
 									name='phoneNumber'
 									variant='outlined'
+									type='number'
 									inputRef={register}
 									helperText={
 										errors && errors.phoneNumber
@@ -160,7 +212,7 @@ const PersonalDetails = () => {
 							<Grid item md={6} xs={12}>
 								<TextField
 									fullWidth
-									label='Gender'
+									// label='Gender'
 									name='gender'
 									select
 									SelectProps={{ native: true }}
@@ -170,9 +222,10 @@ const PersonalDetails = () => {
 										errors && errors.gender ? errors.gender.message : ''
 									}
 									error={errors && errors.gender ? true : false}>
-									{['Male', 'Females'].map((option) => (
-										<option key={option} value={option}>
-											{option}
+									<option value={''}>Choose gender</option>
+									{gender.map((option) => (
+										<option key={option.id} value={option.value}>
+											{option.value}
 										</option>
 									))}
 								</TextField>
@@ -180,8 +233,9 @@ const PersonalDetails = () => {
 							<Grid item md={6} xs={12}>
 								<TextField
 									fullWidth
-									label='Relationship'
 									name='relationship'
+									select
+									SelectProps={{ native: true }}
 									variant='outlined'
 									inputRef={register}
 									helperText={
@@ -189,26 +243,27 @@ const PersonalDetails = () => {
 											? errors.relationship.message
 											: ''
 									}
-									error={errors && errors.relationship ? true : false}
-								/>
+									error={errors && errors.relationship ? true : false}>
+									<option value={''}>Relationship Status</option>
+									{relationshipStatus.map((option) => (
+										<option key={option.id} value={option.value}>
+											{option.value}
+										</option>
+									))}
+								</TextField>
 							</Grid>
 							<Grid item md={6} xs={12}>
 								<MuiPickersUtilsProvider utils={DateFnsUtil}>
 									<KeyboardDatePicker
-										margin='normal'
-										variant={'inline'}
+										margin='none'
+										variant={'dialog'}
+										value={date}
+										fullWidth
 										name='dateOfBirth'
 										id='date-picker-dialog'
 										label='Date of birth'
-										format='MM/dd/yyyy'
-										// inputRef={register}
+										format='MM-dd-yyyy'
 										onChange={(date) => setDate(date)}
-										helperText={
-											errors && errors.dateOfBirth
-												? errors.dateOfBirth.message
-												: ''
-										}
-										error={errors && errors.dateOfBirth ? true : false}
 										KeyboardButtonProps={{
 											'aria-label': 'change date'
 										}}
@@ -233,19 +288,19 @@ const PersonalDetails = () => {
 							<Grid item md={6} xs={12}>
 								<TextField
 									fullWidth
-									label='State of origin'
-									name='stateOfOrgin'
+									name='stateOfOrigin'
 									select
 									SelectProps={{ native: true }}
 									variant='outlined'
 									onChange={getReleventLga}
 									inputRef={register}
 									helperText={
-										errors && errors.stateOfOrgin
-											? errors.stateOfOrgin.message
+										errors && errors.stateOfOrigin
+											? errors.stateOfOrigin.message
 											: ''
 									}
-									error={errors && errors.stateOfOrgin ? true : false}>
+									error={errors && errors.stateOfOrigin ? true : false}>
+									<option value={''}>Choose state of origin</option>
 									{States_Lga.map((option) => (
 										<option key={option.state.id} value={option.state.name}>
 											{option.state.name}
@@ -253,7 +308,7 @@ const PersonalDetails = () => {
 									))}
 								</TextField>
 							</Grid>
-							<Grid item md={6} xs={12}>
+							<Grid item md={12} xs={12}>
 								<TextField
 									fullWidth
 									name='lga'
@@ -263,7 +318,7 @@ const PersonalDetails = () => {
 									inputRef={register}
 									helperText={errors && errors.lga ? errors.lga.message : ''}
 									error={errors && errors.lga ? true : false}>
-									<option value={''}>Select LGA</option>
+									<option value={''}>Choose (L.G.A)</option>
 									{selectedLga.map((option) => (
 										<option key={option.id} value={option.name}>
 											{option.name}
@@ -289,18 +344,16 @@ const PersonalDetails = () => {
 							<Grid item md={6} xs={12}>
 								<TextField
 									fullWidth
-									label='State'
-									name='currentState'
+									name='state'
 									select
 									SelectProps={{ native: true }}
 									variant='outlined'
 									inputRef={register}
 									helperText={
-										errors && errors.currentState
-											? errors.currentState.message
-											: ''
+										errors && errors.state ? errors.state.message : ''
 									}
-									error={errors && errors.currentState ? true : false}>
+									error={errors && errors.state ? true : false}>
+									<option value={''}>Choose current state</option>
 									{States_Lga.map((option) => (
 										<option key={option.state.id} value={option.state.name}>
 											{option.state.name}
@@ -325,6 +378,7 @@ const PersonalDetails = () => {
 									fullWidth
 									label='BVN'
 									name='bvn'
+									type='number'
 									variant='outlined'
 									inputRef={register}
 									helperText={errors && errors.bvn ? errors.bvn.message : ''}
@@ -335,7 +389,6 @@ const PersonalDetails = () => {
 							<Grid item md={6} xs={12}>
 								<TextField
 									fullWidth
-									label='Means of Identity'
 									name='indentificationType'
 									select
 									SelectProps={{ native: true }}
@@ -347,6 +400,7 @@ const PersonalDetails = () => {
 											: ''
 									}
 									error={errors && errors.indentificationType ? true : false}>
+									<option value={''}>Means of Identity</option>
 									{[
 										'Nationa ID',
 										'International Passport',
@@ -391,7 +445,7 @@ const PersonalDetails = () => {
 									error={errors && errors.nameOfnextOfKin ? true : false}
 								/>
 							</Grid>
-							<Grid item md={6} xs={12}>
+							<Grid item md={12} xs={12}>
 								<TextField
 									fullWidth
 									label='Phone number (Next of kin)'

@@ -8,38 +8,70 @@ import {
 	FormControlLabel,
 	TextField,
 	Select,
-	InputLabel
+	InputLabel,
+	Button
 } from '@material-ui/core';
 import {
 	CardTravel as CardTravelIcon,
 	LocationOn as LocationIcon
 } from '@material-ui/icons';
-import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 import { Alert, AlertTitle } from '@material-ui/lab';
+import BackDrop from '../../../../components/BackDrop/BackDrop';
 import { makeStyles } from '@material-ui/core/styles';
 import { formatter } from '../../../../utils/localStore';
-import Style from './Styles';
+import { agentApi } from '../../../../server/Server';
+import useHeaders from '../../../../server/Headers';
 import locationList from './Location';
+import { errorHandler } from '../../../../errors/errorHandler';
+import Style from './Styles';
+import { toast } from 'react-toastify';
 
 const useStyles = makeStyles((theme) => Style(theme));
 
-const DeliveryMethod = ({ totalAmount }) => {
-	const classes = useStyles();
+const DeliveryMethod = (props) => {
+	const { activeStep, setActiveStep, setcheckoutData, userId } = props;
 	const [textDisplay, setTextDisplay] = useState(false);
+	const [loading, setLoading] = useState(false);
 	const [deliveryNotice, setdeliveryNotice] = useState(false);
 	const [nameOfLandmark, setnameOfLandmark] = useState('');
 	const [location, setLocation] = useState(false);
-	const [addressForm, setAddressForm] = useState(' The');
+	const [address, setAddress] = useState(' ');
 	const [deliveryFee, setdeliveryFee] = useState(0);
+	const cart = useSelector((state) => state.Cart.cart);
+	const { headers } = useHeaders();
+	const classes = useStyles();
 
-	console.log(locationList);
+	const products = cart.map((item) => ({
+		id: item.productId,
+		quantity: Math.abs(item.quantity)
+	}));
+	const handleNext = async () => {
+		if (!address) {
+			toast.error('please enter your address');
+		}
+		const data = {
+			products,
+			address,
+			userId
+		};
+		setLoading(true);
+		try {
+			const res = await agentApi.post(`/fla/checkout-user`, data, { headers });
+			setcheckoutData(res.data);
+			setActiveStep(activeStep + 1);
+		} catch (error) {
+			errorHandler(error);
+		}
+		setLoading(false);
+	};
 
 	const deliveryOption = (e) => {
 		if (e.target.value === 'doorDelivery') {
 			setLocation(true);
 		} else {
 			setLocation(false);
-			setAddressForm('pickup');
+			setAddress('pickup');
 			setdeliveryNotice(false);
 			setTextDisplay(false);
 			setdeliveryFee(0);
@@ -66,6 +98,7 @@ const DeliveryMethod = ({ totalAmount }) => {
 
 	return (
 		<div>
+			{loading && <BackDrop />}
 			<Typography variant='h6' className={classes.typograghyTitle}>
 				<CardTravelIcon color='primary' /> DELIVERY METHOD
 			</Typography>
@@ -145,8 +178,8 @@ const DeliveryMethod = ({ totalAmount }) => {
 							rows={7}
 							variant='outlined'
 							fullWidth
-							value={addressForm}
-							onChange={(e) => setAddressForm(e.target.value)}
+							value={address}
+							onChange={(e) => setAddress(e.target.value)}
 						/>
 					)}
 					<Divider className={classes.TextField} />
@@ -166,12 +199,20 @@ const DeliveryMethod = ({ totalAmount }) => {
 				No 4 Eliada Close, Off Okporo Road Artillery, Port Harcourt, Rivers Ng
 				<Divider />
 			</FormControl>
+			<div className={classes.buttons}>
+				<Button
+					variant='contained'
+					color='primary'
+					disabled={loading ? true : false}
+					onClick={handleNext}
+					className={classes.button}>
+					Next
+				</Button>
+			</div>
 		</div>
 	);
 };
 
-DeliveryMethod.prototype = {
-	totalAmount: PropTypes.number.isRequired
-};
+DeliveryMethod.prototype = {};
 
 export default DeliveryMethod;

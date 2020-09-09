@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import {
 	Button,
 	CardContent,
@@ -11,45 +11,105 @@ import {
 	FormControlLabel,
 	Checkbox
 } from '@material-ui/core';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-	handleBack,
-	handleNext,
-	getDetails
-} from '../../../../Redux/Reducers/FLRegistration/index';
+import { handleNext } from '../../../../Redux/Reducers/FLRegistration/index';
+import BackDrop from '../../../../components/BackDrop/BackDrop';
 import ScrollTop from '../../../../ScrollToTop';
+import queryString from 'query-string';
 import Styles from '../Styles';
+import { errorHandler } from '../../../../errors/errorHandler';
+import { agentApi } from '../../../../server/Server';
+import { toast } from 'react-toastify';
+import { contextApi } from '../../../../components/context/Context';
 
 const useStyles = makeStyles((theme) => Styles(theme));
 
-const ProfileDetails = () => {
+const Declaration = (props) => {
 	const classes = useStyles();
-	const [state, setState] = useState({
-		checkedB: true
-	});
-	const formState = useSelector((state) => state.FLRegistration.step);
-	const activeStep = formState.activeStep;
+	const [state, setState] = useState({ acceptPolicy: false });
+	const { imageFile } = useContext(contextApi);
+	const [loading, setLoading] = useState(false);
+	const formState = useSelector((state) => state.FLRegistration);
+	const registrationForm = formState.form;
+	const activeStep = formState.step.activeStep;
 	const dispatch = useDispatch();
+	const location = useLocation();
 
 	const handleChange = (event) => {
 		setState({ [event.target.name]: event.target.checked });
 	};
 
-	const handleNextAction = () => {
+	const SubmitForm = async () => {
 		const number = activeStep + 1;
+		const referralId = queryString.parse(location.search).referral || null;
 
-		dispatch(handleNext(number));
-		dispatch(getDetails({ name: 'mike', age: 25 }));
-	};
+		if (state.acceptPolicy && referralId) {
+			const {
+				files: { file }
+			} = imageFile;
 
-	const handleBackAction = () => {
-		const number = activeStep - 1;
-		dispatch(handleBack(number));
+			const {
+				lga,
+				bvn,
+				city,
+				state,
+				email,
+				gender,
+				address,
+				lastName,
+				business,
+				guarantor,
+				nextOfKin,
+				firstName,
+				phoneNumber,
+				otherNames,
+				nationality,
+				relationship,
+				stateOfOrigin,
+				identification
+			} = registrationForm;
+
+			setLoading(true);
+			const formData = new FormData();
+			formData.append('lga', lga);
+			formData.append('bvn', bvn);
+			formData.append('city', city);
+			formData.append('image', file);
+			formData.append('state', state);
+			formData.append('email', email);
+			formData.append('gender', gender);
+			formData.append('address', address);
+			formData.append('lastName', lastName);
+			formData.append('firstName', firstName);
+			formData.append('otherNames', otherNames);
+			formData.append('referralId', referralId);
+			formData.append('nationality', nationality);
+			formData.append('phoneNumber', phoneNumber);
+			formData.append('relationship', relationship);
+			formData.append('stateOfOrigin', stateOfOrigin);
+			formData.append('business', JSON.stringify(business));
+			formData.append('guarantor', JSON.stringify(guarantor));
+			formData.append('nextOfKin', JSON.stringify(nextOfKin));
+			formData.append('identification', JSON.stringify(identification));
+
+			try {
+				await agentApi.post(`/auth/signup-frontline-agent`, formData);
+
+				setLoading(false);
+				dispatch(handleNext(number));
+			} catch (error) {
+				errorHandler(error);
+			}
+			setLoading(false);
+		} else {
+			toast.error('something went wrong');
+		}
 	};
 
 	return (
 		<form autoComplete='off' noValidate className={classes.root}>
+			{loading && <BackDrop />}
 			<ScrollTop />
 			<div className={classes.Card}>
 				<CardHeader
@@ -74,9 +134,8 @@ const ProfileDetails = () => {
 						<FormControlLabel
 							control={
 								<Checkbox
-									checked={state.checkedB}
 									onChange={handleChange}
-									name='checkedB'
+									name='acceptPolicy'
 									color='primary'
 								/>
 							}
@@ -88,18 +147,12 @@ const ProfileDetails = () => {
 					</Link>
 				</CardActions>
 				<div className={classes.buttons}>
-					{activeStep !== 0 && (
-						<Button onClick={handleBackAction} className={classes.button}>
-							Back
-						</Button>
-					)}
 					<Button
 						variant='contained'
 						color='primary'
-						onClick={handleNextAction}
+						onClick={SubmitForm}
 						className={classes.button}>
-						{/* {activeStep === steps.length - 1 ? 'Place order' : 'Next'} */}
-						Continue
+						Finish
 					</Button>
 				</div>
 			</div>
@@ -107,4 +160,4 @@ const ProfileDetails = () => {
 	);
 };
 
-export default ProfileDetails;
+export default Declaration;

@@ -12,42 +12,55 @@ import {
 	MenuItem,
 	makeStyles
 } from '@material-ui/core';
-import { PersonAdd as PersonAddIcon } from '@material-ui/icons';
+import { PersonAdd as PersonAddIcon, Person, Phone } from '@material-ui/icons';
 import Style from './Styles';
 import { BootstrapInput } from './Boostrap';
+import { toast } from 'react-toastify';
 
 const useStyles = makeStyles((theme) => Style(theme));
 
-const DeliveryMethod = () => {
+const downlines = [
+	{
+		id: '5f57c9978d2c0a327cf0b832',
+		isVerified: false,
+		name: 'bigboydev',
+		email: 'infinity_michael55@yahoo.com',
+		phoneNumber: '2348035745638',
+		location: 'Borno ',
+		userName: 'bigbo23',
+		uniqueId: 'FCUSR1008',
+		referralId: 'FCFL1003',
+		createdAt: { $date: '2020-09-08T18:12:39.969Z' },
+		updatedAt: { $date: '2020-09-08T18:12:39.969Z' },
+		__v: 0
+	}
+];
+const ChooseDownLine = () => {
 	const classes = useStyles();
 	const [textDisplay, setTextDisplay] = useState(false);
 	const [adduser, setaddUser] = useState(false);
-	const [deliveryNotice, setdeliveryNotice] = useState(false);
-	const [nameOfLandmark, setnameOfLandmark] = useState('');
+	const [selectedUser, setselectedUser] = useState('');
+
 	const [users, setUsers] = useState(false);
-	const [age, setAge] = useState('');
 
-
-	const deliveryOption = (e) => {
-		if (e.target.value === 'doorDelivery') {
+	const chooseDownLineToCheckout = (e) => {
+		if (e.target.value === 'userList') {
 			setUsers(true);
 			setaddUser(false);
+			setselectedUser('');
 		} else {
 			setaddUser(true);
 			setUsers(false);
 		}
 	};
 
-	const selectState = (e) => {
-		setAge(e.target.value);
+	const selectUser = (e) => {
 		if (e.target.value === '') {
-			setdeliveryNotice(false);
-			setTextDisplay(false);
-			return;
+			toast.error('please choose your downline or you can signup a new user');
 		}
-		const filteredItem = [{location:'dkdkdk'}]
-		setdeliveryNotice(true);
-		setnameOfLandmark(filteredItem[0].location);
+		const value = e.target.value;
+		const filteredItem = downlines.filter((list) => list.id === value);
+		setselectedUser(filteredItem[0]);
 		setTextDisplay(true);
 	};
 
@@ -62,46 +75,41 @@ const DeliveryMethod = () => {
 			<Divider />
 			<FormControl component='fieldset'>
 				<RadioGroup
-					aria-label='foodCategory'
+					aria-label='checkoutUser'
 					name='category'
-					onChange={deliveryOption}>
+					onChange={chooseDownLineToCheckout}>
 					<FormControlLabel
-						value={'doorDelivery'}
+						value={'userList'}
 						control={<Radio />}
 						label='1. Choose from downlines'
 					/>
-					{/* <Divider /> */}
 					{users && (
 						<FormControl fullWidth className={classes.margin}>
-							<InputLabel id='demo-customized-select-label'>Age</InputLabel>
+							{/* <InputLabel id='demo-customized-select-label'>Age</InputLabel> */}
 							<Select
 								labelId='demo-customized-select-label'
 								id='demo-customized-select'
-								value={age}
-								onChange={selectState}
+								onChange={selectUser}
 								input={<BootstrapInput />}>
 								<MenuItem value=''>
 									<em>None</em>
 								</MenuItem>
-								{['abia'].map((state) => (
-									<MenuItem value={state} key={state}>
-										{state}
+								{downlines.map((user) => (
+									<MenuItem value={user.id} key={user.id}>
+										{user.name}
 									</MenuItem>
 								))}
 							</Select>
 						</FormControl>
 					)}
-					{deliveryNotice && textDisplay && (
+					{textDisplay && (
 						<>
-							{/* <Divider /> */}
 							<Typography className={classes.text} variant='h6'>
-								You will be charged
-								<strong> {'formatter.format(deliveryFee)'}</strong> for your
-								Delivery to {nameOfLandmark}
+								<Person /> {selectedUser.name}
 							</Typography>
 							<Divider />
 							<Typography className={classes.text} variant='body1'>
-								Please provide us your delivery Address
+								<Phone /> {selectedUser.phoneNumber}
 							</Typography>
 						</>
 					)}
@@ -127,17 +135,19 @@ const DeliveryMethod = () => {
 				<Divider />
 			</FormControl>
 			<div>
-				<Button
-					type='submit'
-					// fullWidth
-					variant='contained'
-					href='/agents/frontline/product/checkout'
-					color='primary'>
-					Proceed to checkout
-				</Button>
+				{!adduser && users && selectedUser && (
+					<Button
+						type='submit'
+						// fullWidths
+						variant='contained'
+						href={`/agents/frontline/product/checkout/${selectedUser.id}`}
+						color='primary'>
+						Proceed to checkout
+					</Button>
+				)}
 			</div>
 		</div>
 	);
 };
 
-export default DeliveryMethod;
+export default ChooseDownLine;

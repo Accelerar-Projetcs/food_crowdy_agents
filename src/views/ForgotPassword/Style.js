@@ -12,10 +12,11 @@ export default (theme) => {
 			margin: theme.spacing(1, 0)
 		},
 		paper: {
+			width: 'auto',
+			margin: theme.spacing(1, 'auto'),
 			[theme.breakpoints.up('sm')]: {
-				width: '40%'
-			},
-			margin: theme.spacing(5, 'auto')
+				width: '30%'
+			}
 		}
 	};
 };

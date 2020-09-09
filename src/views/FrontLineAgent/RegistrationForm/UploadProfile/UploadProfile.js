@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
 import {
 	Button,
 	CardContent,
@@ -9,34 +9,33 @@ import {
 	CardActions
 } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-	handleNext,
-} from '../../../../Redux/Reducers/FLRegistration/index';
 import UploadInfo from './UploadInfo';
 import { FilePond } from 'react-filepond';
 import ScrollTop from '../../../../ScrollToTop';
 import { Alert } from '@material-ui/lab';
+import {
+	handleNext,
+} from '../../../../Redux/Reducers/FLRegistration/index';
 import Styles from './Styles';
+import { contextApi } from '../../../../components/context/Context';
+import { ArrowRightAltSharp as ForwardIcon } from '@material-ui/icons';
+import { toast } from 'react-toastify';
 
 const useStyles = makeStyles((theme) => Styles(theme));
-
 const PersonalDetails = () => {
 	const classes = useStyles();
-	const [imageFile, setImageFile] = useState({ files: '' });
+	const { imageFile, setImageFile } = useContext(contextApi);
 	const formState = useSelector((state) => state.FLRegistration.step);
 	const activeStep = formState.activeStep;
 	const dispatch = useDispatch();
 
 	const handleNextAction = () => {
-		// const {
-		// 	files: { file }
-		// } = imageFile;
-		if (imageFile) {
+		if (imageFile && imageFile.files.file) {
 			const number = activeStep + 1;
 			dispatch(handleNext(number));
-			// dispatch(pictureUpload(file));
+		} else {
+			toast.error('please upload your picture');
 		}
-		return;
 	};
 
 	return (
@@ -57,14 +56,13 @@ const PersonalDetails = () => {
 					}
 				/>
 				<Divider />
-
 				<form className={classes.root}>
 					<CardContent>
 						<div>
 							<FilePond
 								className={classes.img}
 								allowMultiple={true}
-								maxFiles={10}
+								maxFiles={1}
 								name={'file'}
 								required={true}
 								allowFileSizeValidation={true}
@@ -97,6 +95,7 @@ const PersonalDetails = () => {
 							variant='contained'
 							color='primary'
 							onClick={handleNextAction}
+							endIcon={<ForwardIcon />}
 							className={classes.button}>
 							Continue
 						</Button>

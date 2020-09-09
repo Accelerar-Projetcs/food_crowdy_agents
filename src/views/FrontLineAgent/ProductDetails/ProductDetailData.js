@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Grid, Typography, Chip, Divider, Button } from '@material-ui/core';
 import AddToCartForm from './AddToCartForm/AddToCartForm';
-import DialogToAddUser from './DialogForAdding';
 import { AlertTitle, Alert } from '@material-ui/lab';
 import StorefrontIcon from '@material-ui/icons/Storefront';
 import { makeStyles } from '@material-ui/styles';
@@ -12,16 +11,17 @@ const useStyles = makeStyles((theme) => productsDataStyles(theme));
 
 const ProductDetailData = ({ data }) => {
 	const [open, setOpen] = useState(false);
-	const [addmodal, setaddModal] = useState(false);
 	const classes = useStyles();
 
+	const handleOpen = () => {
+		setOpen(true);
+	};
 
 	return (
 		<React.Fragment>
-			<DialogToAddUser open={open} setOpen={setOpen} />
-			{addmodal && <AddToCartForm data={data} />}
+			<AddToCartForm data={data} open={open} setOpen={setOpen} />
 			{data && (
-				<Grid container className={classes.content} spacing={8}>
+				<Grid container className={classes.content} spacing={3}>
 					<Grid item lg={4} md={12} xl={6} xs={10}>
 						<div className={classes.imageCard}>
 							<img
@@ -78,7 +78,7 @@ const ProductDetailData = ({ data }) => {
 									<Button
 										variant='contained'
 										className={classes.buyBtn}
-										onClick={() => setaddModal(!addmodal)}
+										onClick={handleOpen}
 										color='primary'>
 										Add To Cart
 									</Button>

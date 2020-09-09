@@ -5,18 +5,19 @@ import {
 	Stepper,
 	Step,
 	StepLabel,
-	Typography,
+	Typography
 } from '@material-ui/core/';
 import { useSelector } from 'react-redux';
 
 import PersonalInformation from './PersonalDetails/PersonalDetails';
 import Businessinformation from './BusinessInformation/BusinessInformation';
-import Guarantorsinformation from './Guarantor/Guarantor';
+import GuarantorsInformation from './Guarantor/Guarantor';
 import Declaration from './Declaration/Declaration';
 
 import imgLogo from '../../../assets/images/logoFood.svg';
 import Styles from './Styles';
 import UploadPicture from './UploadProfile/UploadProfile';
+import Acknowledgement from './Acknowledgement/Acknowledge';
 
 const useStyles = makeStyles((theme) => Styles(theme));
 
@@ -30,16 +31,15 @@ const steps = [
 
 export default function Checkout() {
 	const formState = useSelector((state) => state.FLRegistration.step);
-	const formState2 = useSelector((state) => state.FLRegistration);
+	// const formState2 = useSelector((state) => state.FLRegistration);
 	const activeStep = formState.activeStep;
 	const classes = useStyles();
-	console.log(formState2);
 
-	function getStepContent(step) {
+	const getStepContent = (step) => {
 		switch (step) {
 			case 0:
 				return <PersonalInformation />;
-			// return <Guarantorsinformation />;
+			// return <GuarantorsInformation />;
 			// return <Declaration />;
 			// return <Businessinformation />;
 			// return <UploadPicture />;
@@ -48,13 +48,13 @@ export default function Checkout() {
 			case 2:
 				return <Businessinformation />;
 			case 3:
-				return <Guarantorsinformation />;
+				return <GuarantorsInformation />;
 			case 4:
 				return <Declaration />;
 			default:
 				return;
 		}
-	}
+	};
 
 	return (
 		<React.Fragment>
@@ -67,20 +67,13 @@ export default function Checkout() {
 					<Stepper activeStep={activeStep} className={classes.stepper}>
 						{steps.map((label) => (
 							<Step key={label}>
-								<StepLabel>{label}</StepLabel>
+								<StepLabel className={classes.stepperList}>{label}</StepLabel>
 							</Step>
 						))}
 					</Stepper>
 					<React.Fragment>
 						{activeStep === steps.length ? (
-							<React.Fragment>
-								<Typography variant='h5' gutterBottom>
-									Thank you for your registration
-								</Typography>
-								<Typography variant='subtitle1'>
-									Your registration is been processed
-								</Typography>
-							</React.Fragment>
+							<Acknowledgement />
 						) : (
 							<React.Fragment>{getStepContent(activeStep)}</React.Fragment>
 						)}

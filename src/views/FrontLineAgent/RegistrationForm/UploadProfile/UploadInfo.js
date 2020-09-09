@@ -29,7 +29,7 @@ export default function AlignItemsList() {
 			<Typography variant={'h5'}>
 				Take a picture of yourself holding the following visibly
 			</Typography>
-			<ListItem alignItems='flex-start'>
+			<ListItem alignItems='center'>
 				<ListItemIcon>
 					<InfoIcon />
 				</ListItemIcon>

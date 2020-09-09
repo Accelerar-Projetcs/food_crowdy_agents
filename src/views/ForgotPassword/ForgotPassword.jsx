@@ -35,7 +35,7 @@ const Password = () => {
 	const sendPasswordResetLink = async (e) => {
 		e.preventDefault();
 		setLoading(true);
-		setCheckMail(true);
+
 		try {
 			await agentApi.post(`/auth/forgotten-password`, { email });
 			setCheckMail(true);
@@ -74,7 +74,6 @@ const Password = () => {
 									</span>
 								</div>
 							</CardContent>
-							3
 						</Card>
 					) : (
 						<Card>
@@ -96,13 +95,14 @@ const Password = () => {
 											onChange={handleChange}
 											style={{ marginTop: '1rem' }}
 											type='email'
-											variant='filled'
+											variant='outlined'
 											required
 										/>
 										<Button
 											className={classes.btn}
 											color='secondary'
 											type='submit'
+											fullWidth
 											disabled={loading ? true : false}
 											variant='contained'>
 											Reset Password

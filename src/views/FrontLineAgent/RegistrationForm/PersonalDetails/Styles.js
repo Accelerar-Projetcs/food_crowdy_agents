@@ -1,4 +1,4 @@
-export default () => ({
+export default (theme) => ({
 	root: {
 		margin: theme.spacing(2, 3)
 	},
@@ -10,7 +10,7 @@ export default () => ({
 		display: 'block'
 	},
 	CardHeader: {
-		backgroundColor: theme.palette.tetiary.main,
+		// backgroundColor: theme.palette.tetiary.main,
 		color: theme.palette.white
 	},
 	text: {
@@ -21,5 +21,8 @@ export default () => ({
 	},
 	radioformflex: {
 		display: 'flex'
+	},
+	button: {
+		textAlign: 'right'
 	}
 });
