@@ -46,12 +46,10 @@ const cartActions = createSlice({
 				item.productId === id
 					? {
 							...item,
-							totalPrice: 10 * item.unitPrice,
 							quantity:
 								item.quantity === item.availableUnits
 									? item.quantity
 									: item.quantity++
-							// totalPrice: (item.quantity + 1) * item.unitPrice
 					  }
 					: item
 			);
@@ -65,9 +63,7 @@ const cartActions = createSlice({
 				item.productId === id
 					? {
 							...item,
-							quantity: item.quantity === 1 ? item.quantity : item.quantity--,
-							// totalPrice: (item.quantity - 1) * item.unitPrice
-							totalPrice: 110 * item.unitPrice
+							quantity: item.quantity === 1 ? item.quantity : item.quantity--
 					  }
 					: item
 			);
@@ -84,6 +80,11 @@ const cartActions = createSlice({
 			state.cart = remainingCartItems;
 			saveCartItemInLocalStore(state.cart);
 			return state;
+		},
+		removeAllCartItem(state, action) {
+			state.cart = [];
+			saveCartItemInLocalStore(state.cart);
+			return state;
 		}
 	}
 });
@@ -92,6 +93,7 @@ export const {
 	addToCart,
 	decrementCartItem,
 	incrementCartItem,
+	removeAllCartItem,
 	removeCartItem
 } = cartActions.actions;
 
