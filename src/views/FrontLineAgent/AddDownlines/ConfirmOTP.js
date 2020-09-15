@@ -1,7 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/styles';
-// import { Alert } from '@material-ui/lab/';
-// import BackDrop from '../../components/backdrop/Backdrop';
 import ContactPhone from '../../../assets/images/contact.svg';
 import {
 	Card,
@@ -10,7 +8,8 @@ import {
 	Divider,
 	Button,
 	TextField,
-	Typography
+	Typography,
+	Paper
 } from '@material-ui/core';
 import Style from './Styles';
 import DownLineForm from './DownLineForm';
@@ -26,8 +25,6 @@ const AddDownLines = ({ phoneNumber }) => {
 	const [register, setregister] = useState(false);
 	const [message, setMessage] = useState('');
 	const [loading, setLoading] = useState(false);
-	const [second, setSecond] = useState(300);
-	const [minutes, setMinites] = useState(5);
 
 	const handleChange = (event) => {
 		setCode(event.target.value);
@@ -56,15 +53,12 @@ const AddDownLines = ({ phoneNumber }) => {
 		setLoading(false);
 	};
 
-	useEffect(() => {
-		// second > 0 && setTimeout(() => setSecond(second - 1), 1000);
-		// if (second === 60 || 120 || 180 || 240 || 300) {
-		// 	setMinites(minutes - 1);
-		// }
-	}, [second]);
+	const resendOTP = () => {
+		window.location.reload(false);
+	};
 
 	return (
-		<>
+		<Paper className={classes.paper}>
 			{register && <DownLineForm />}
 			<Card className={classes.checkMail}>
 				<CardHeader
@@ -88,8 +82,6 @@ const AddDownLines = ({ phoneNumber }) => {
 						</div>
 					)}
 					<div>
-						{second}
-						{minutes}
 						<span>
 							Enter the <strong>OTP</strong> sent to this number{' '}
 							<strong>{phoneNumber}</strong>
@@ -109,6 +101,7 @@ const AddDownLines = ({ phoneNumber }) => {
 							<Button
 								className={classes.btn}
 								color='primary'
+								fullWidth
 								type='submit'
 								disabled={loading ? true : false}
 								variant='contained'>
@@ -116,18 +109,15 @@ const AddDownLines = ({ phoneNumber }) => {
 							</Button>
 						</form>
 						<span>
-							Didn't get a mail
-							<Button
-								onClick={() => setregister(false)}
-								variant='text'
-								color='primary'>
+							Didn't get an OTP
+							<Button onClick={resendOTP} variant='text' color='primary'>
 								Resend
 							</Button>
 						</span>
 					</div>
 				</CardContent>
 			</Card>
-		</>
+		</Paper>
 	);
 };
 

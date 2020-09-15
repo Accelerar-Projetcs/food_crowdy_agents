@@ -1,35 +1,15 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import Grid from '@material-ui/core/Grid';
+import {
+	makeStyles,
+	Typography,
+	List,
+	ListItem,
+	ListItemText,
+	Grid,Divider
+} from '@material-ui/core/';
 import { formatter } from '../../../../utils/localStore';
-import { Divider } from '@material-ui/core';
 import ScrollToTop from '../../../../ScrollToTop';
 import PayementForm from '../PayementForm/PaymentForm';
-
-const products = [
-	{ name: 'Product 1', desc: 'A nice thing', price: '$9.99' },
-	{ name: 'Product 2', desc: 'Another thing', price: '$3.45' },
-	{ name: 'Product 3', desc: 'Something else', price: '$6.51' },
-	{ name: 'Product 4', desc: 'Best thing of all', price: '$14.11' },
-	{ name: 'Shipping', desc: '', price: 'Free' }
-];
-const addresses = [
-	'1 Material-UI Drive',
-	'Reactville',
-	'Anytown',
-	'99999',
-	'USA'
-];
-const payments = [
-	{ name: 'Card type', detail: 'Visa' },
-	{ name: 'Card holder', detail: 'Mr John Smith' },
-	{ name: 'Card number', detail: 'xxxx-xxxx-xxxx-1234' },
-	{ name: 'Expiry date', detail: '04/2024' }
-];
 
 const useStyles = makeStyles((theme) => ({
 	listItem: {
@@ -39,11 +19,20 @@ const useStyles = makeStyles((theme) => ({
 		fontWeight: 700
 	},
 	title: {
-		marginTop: theme.spacing(2)
+		marginTop: theme.spacing(2),
+		fontWeight: 600
 	}
 }));
 
 export default function Review({ checkoutData }) {
+	const {
+		products,
+		orderReference,
+		deliveryFee,
+		total,
+		address,
+		user: { name }
+	} = checkoutData;
 	const classes = useStyles();
 
 	return (
@@ -52,28 +41,33 @@ export default function Review({ checkoutData }) {
 			<Typography variant='h5' gutterBottom>
 				<strong>Order summary</strong>
 			</Typography>
+			<Typography variant='h6' gutterBottom>
+				<strong>Order NO : {orderReference}</strong>
+			</Typography>
 			<Divider />
 			<Typography variant='h6' gutterBottom>
-				Chinweikwe Michael
+				{name}
 			</Typography>
 			<Divider />
 			<List disablePadding>
 				{products.map((product) => (
-					<ListItem className={classes.listItem} key={product.name}>
-						<ListItemText primary={product.name} secondary={product.desc} />
-						<Typography variant='body2'>{product.price}</Typography>
+					<ListItem className={classes.listItem} key={product.id}>
+						<ListItemText primary={product.title} />
+						<Typography variant='body2'>
+							{formatter.format(product.unitPrice)}
+						</Typography>
 					</ListItem>
 				))}
 				<ListItem className={classes.listItem}>
 					<ListItemText primary='Delivery Fee' />
 					<Typography variant='subtitle1' className={classes.total}>
-						{formatter.format(300)}
+						{formatter.format(deliveryFee)}
 					</Typography>
 				</ListItem>
 				<ListItem className={classes.listItem}>
 					<ListItemText primary='Total' />
 					<Typography variant='subtitle1' className={classes.total}>
-						{formatter.format(17000)}
+						{formatter.format(total)}
 					</Typography>
 				</ListItem>
 			</List>
@@ -81,13 +75,15 @@ export default function Review({ checkoutData }) {
 			<Grid container spacing={2}>
 				<Grid item xs={12} sm={6}>
 					<Typography variant='h6' gutterBottom className={classes.title}>
-						Shipping
+						Shipping:
 					</Typography>
-					<Typography gutterBottom>John Smith</Typography>
-					<Typography gutterBottom>{addresses.join(', ')}</Typography>
+					<Typography gutterBottom>User: {name}</Typography>
+					<Typography gutterBottom>Address: {address}</Typography>
 				</Grid>
 			</Grid>
-			<PayementForm />
+			{checkoutData && checkoutData.user && (
+				<PayementForm paymentData={checkoutData} />
+			)}
 		</React.Fragment>
 	);
 }

@@ -18,14 +18,17 @@ import Backdrop from '../../components/BackDrop/BackDrop';
 import qs from 'query-string';
 import { agentApi } from '../../server/Server';
 import { errorHandler } from '../../errors/errorHandler';
+import { useDispatch } from 'react-redux';
+import { removeAllCartItem } from '../../Redux/Reducers/Cart';
 
 const useStyles = makeStyles((theme) => Styles(theme));
 
 const PaymentVerification = ({ location, history }) => {
-	const classes = useStyles();
 	const [success, setSuccess] = useState(false);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(false);
+	const classes = useStyles();
+	const dispatch = useDispatch();
 
 	useEffect(() => {
 		(async () => {
@@ -43,11 +46,12 @@ const PaymentVerification = ({ location, history }) => {
 				}
 			} catch (error) {
 				errorHandler(error);
-				setError(true);
+				setSuccess(true);
+				dispatch(removeAllCartItem());
 			}
 			setLoading(false);
 		})();
-	}, [location.search]);
+	}, [location.search, dispatch]);
 
 	return (
 		<div className={classes.root}>

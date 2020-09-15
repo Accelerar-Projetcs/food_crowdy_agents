@@ -53,7 +53,6 @@ const AddDownLines = () => {
 
 			<Paper className={classes.paper}>
 				{loading && <BackDrop />}
-
 				{mailCheck ? (
 					<ConfirmOTP phoneNumber={phoneNumber} />
 				) : (
@@ -95,6 +94,7 @@ const AddDownLines = () => {
 										className={classes.btn}
 										color='primary'
 										type='submit'
+										fullWidth
 										disabled={loading ? true : false}
 										variant='contained'>
 										Proceed

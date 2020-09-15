@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => allProductsStyles(theme));
 
 export default function AllProducts({ data = [], loading }) {
 	const [offset, setOffset] = useState(0);
-	const [open, setOpen] = useState(0);
+	const [open, setOpen] = useState(false);
 	const [cartItem, setCartItem] = useState('');
 	const [currentPage, setCurrentPage] = useState(1);
 	const classes = useStyles();
@@ -57,7 +57,7 @@ export default function AllProducts({ data = [], loading }) {
 								<div className='product-details'>
 									<span className='product-catagory'>{item.category}</span>
 									<h4>{item.title}</h4>
-									<Rating value={5} />
+									<Rating name={item.title} value={5} />
 									<div className='product-bottom-details'>
 										<div className='product-price'>
 											<small>{formatter.format(item.marketPrice)}</small>

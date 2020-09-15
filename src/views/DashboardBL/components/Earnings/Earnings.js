@@ -80,7 +80,7 @@ const Earnings = (props) => {
 						{/* 12% */}
 					</Typography>
 					<Typography className={classes.caption} variant='caption'>
-						Since last month
+						{/* Since last month */}
 					</Typography>
 				</div>
 			</CardContent>
