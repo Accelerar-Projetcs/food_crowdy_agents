@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { formatter } from '../../utils/localStore';
+import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import MobileCartView from './CartDrawer/Cards';
-import { Link } from 'react-router-dom';
 import { IconButton, Button } from '@material-ui/core/';
-import { Close } from '@material-ui/icons';
+import { ArrowForward } from '@material-ui/icons';
 import ProgressBar from '../LoadingCenter/LoadingCenter';
 import cartImage from '../../assets/images/commerce.png';
 import { makeStyles } from '@material-ui/styles';
+import { saveCartItemInLocalStore } from '../../Redux/Reducers/Cart/localStorage';
 
 const useStyles = makeStyles((theme) => ({
 	btn: {
@@ -24,7 +25,12 @@ export default function Cart({ toggleDrawer }) {
 
 	useEffect(() => {
 		if (cart.length) {
-			const totalAmount = cart.reduce((a, b) => a + b.totalPrice, 0);
+			const newCart = cart.map((item) => ({
+				...item,
+				totalPrice: item.quantity * item.unitPrice
+			}));
+			saveCartItemInLocalStore(newCart);
+			const totalAmount = newCart.reduce((a, b) => a + b.totalPrice, 0);
 			setTotalPrice(totalAmount);
 		}
 	}, [cart]);
@@ -35,7 +41,7 @@ export default function Cart({ toggleDrawer }) {
 				aria-label='close'
 				className={'close-cart'}
 				onClick={toggleDrawer}>
-				<Close />
+				<ArrowForward />
 			</IconButton>
 			{!cart.length ? (
 				<div className='cart-empty'>
@@ -53,7 +59,7 @@ export default function Cart({ toggleDrawer }) {
 							</>
 						)}
 					</div>
-					<Link onClick={toggleDrawer} to={`/products/all`}>
+					<Link onClick={toggleDrawer} to={`/agents/frontline/products`}>
 						<Button variant='contained' size='large' color='primary'>
 							<strong>{loading ? 'LOADING CART' : 'START SHOPPING'}</strong>
 						</Button>

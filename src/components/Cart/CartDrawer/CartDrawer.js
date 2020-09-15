@@ -1,19 +1,23 @@
-import React, { useEffect, useContext, Fragment } from 'react';
+import React, {  useContext, Fragment } from 'react';
 import clsx from 'clsx';
-import { makeStyles } from '@material-ui/core/styles';
-import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
-import { Button } from '@material-ui/core/';
+import {
+	Button,
+	IconButton,
+	makeStyles,
+	SwipeableDrawer
+} from '@material-ui/core/';
 import Cart from '../Cart';
 
 import Styles from './Style';
 import { contextApi } from '../../context/Context';
+import { ArrowBack } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme) => Styles(theme));
 
 export default function SwipeableTemporaryDrawer({ icon, open }) {
 	const classes = useStyles();
 	const { cartState, setCartState } = useContext(contextApi);
-	
+
 	const toggleDrawer = (anchor, open) => (event) => {
 		if (
 			event &&
@@ -38,9 +42,11 @@ export default function SwipeableTemporaryDrawer({ icon, open }) {
 		</div>
 	);
 
-	useEffect(() => {}, []);
 	return (
 		<div>
+			<IconButton onClick={toggleDrawer('right', false)}>
+				<ArrowBack />
+			</IconButton>
 			{['right'].map((anchor) => (
 				<Fragment key={anchor}>
 					<Button onClick={toggleDrawer('right', true)}>{icon}</Button>

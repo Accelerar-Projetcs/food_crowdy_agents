@@ -1,12 +1,11 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import {
 	decrementCartItem,
 	incrementCartItem,
 	removeCartItem
 } from '../../../Redux/Reducers/Cart/';
 import { Delete as DeleteIcon, Add, Minimize } from '@material-ui/icons/';
-import { Chip, Divider, Button } from '@material-ui/core';
+import { Chip, Divider, Button ,makeStyles} from '@material-ui/core';
 import { formatter } from '../../../utils/localStore';
 import { Block as BlockIcon } from '@material-ui/icons';
 import Style from './Style';
@@ -49,7 +48,8 @@ const CartMobile = ({ cartDisplay, dispatch }) => {
 													onClick={() => {
 														dispatch(incrementCartItem(cart.productId));
 														toast.success(
-															`Cart item successfully incremented by 1`
+															`Cart item successfully incremented by 1`,
+															{ toastId: 'cart' }
 														);
 													}}>
 													<Add />
@@ -58,7 +58,8 @@ const CartMobile = ({ cartDisplay, dispatch }) => {
 													onClick={() => {
 														dispatch(decrementCartItem(cart.productId));
 														toast.success(
-															`Cart item successfully decremented by 1`
+															`Cart item successfully decremented by 1`,
+															{ toastId: 'cart' }
 														);
 													}}>
 													<Minimize />
@@ -87,12 +88,13 @@ const CartMobile = ({ cartDisplay, dispatch }) => {
 								color='inherit'
 								onClick={() => {
 									dispatch(removeCartItem(cart.productId));
-									toast.success(`1 item successfully removed from cart`);
+									toast.success(`1 item successfully removed from cart`, {
+										toastId: 'cart'
+									});
 								}}
 								size='small'
 								className={classes.button}
 								startIcon={<DeleteIcon />}>
-								{/* */}
 								Remove
 							</Button>
 						</div>
