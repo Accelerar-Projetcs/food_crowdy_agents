@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useContext } from 'react';
 import { useSelector } from 'react-redux';
 import { useCookies } from 'react-cookie';
 import { Link as RouterLink, useHistory } from 'react-router-dom';
@@ -17,6 +17,7 @@ import clsx from 'clsx';
 import Logo from '../../../../assets/images/logoFood.svg';
 import { ShoppingCartOutlined } from '@material-ui/icons';
 import { contextApi } from '../../../../components/context/Context';
+import { userData, clearUserData } from '../../../../utils/GetUserData';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -38,16 +39,16 @@ const Topbar = (props) => {
 	const { className, onSidebarOpen, ...rest } = props;
 	const { setCartState } = useContext(contextApi);
 	const cart = useSelector((state) => state.Cart.cart);
-	const [cookies, removeCookie] = useCookies(['x-auth-token']);
+	const [, , removeCookie] = useCookies(['x-auth-token']);
 	const classes = useStyles();
 	const history = useHistory();
+	const role = userData('role');
+	const frontline = 'frontline';
 
-	const logoutOutUser = () => {;
-		localStorage.clear();
-		removeCookie('x-auth-token', { path: '/' });
-		if (!cookies['x-auth-token']) {
-			history.push('/sign-in');
-		}
+	const logoutOutUser = () => {
+		clearUserData();
+		removeCookie(['x-auth-token']);
+		history.push('/sign-in');
 	};
 
 	const openCart = () => setCartState({ right: true });
@@ -60,15 +61,16 @@ const Topbar = (props) => {
 				</RouterLink>
 				<h3 className={classes.header}>AGENTS DASHBOARD</h3>
 				<div className={classes.flexGrow} />
-
-				<IconButton onClick={openCart} color='inherit'>
-					<Badge
-						badgeContent={cart.length}
-						color='secondary'
-						variant='standard'>
-						<ShoppingCartOutlined />
-					</Badge>
-				</IconButton>
+				{role === frontline && (
+					<IconButton onClick={openCart} color='inherit'>
+						<Badge
+							badgeContent={cart.length}
+							color='secondary'
+							variant='standard'>
+							<ShoppingCartOutlined />
+						</Badge>
+					</IconButton>
+				)}
 				<Hidden mdDown>
 					<IconButton
 						onClick={logoutOutUser}

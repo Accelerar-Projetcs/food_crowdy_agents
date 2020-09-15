@@ -48,7 +48,7 @@
 	display: block;
 	font-size: 12px;
 	font-weight: 700;
-	text-transform: uppercase;
+	text-transform: lowercase;
 	color: #ccc;
 	margin-bottom: 18px;
 }
@@ -57,7 +57,7 @@
 	font-weight: 500;
 	display: block;
 	margin: 0.4rem 0;
-	text-transform: uppercase;
+	text-transform: capitalizes;
 	color: #363636;
 	text-decoration: none;
 	transition: 0.3s;
@@ -92,6 +92,7 @@
 
 .product-links {
 	display: inline;
+	cursor: pointer;
 	margin: 1rem 0 0 0;
 	color: $primary;
 }
