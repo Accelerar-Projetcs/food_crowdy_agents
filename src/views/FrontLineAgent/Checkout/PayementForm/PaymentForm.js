@@ -9,6 +9,13 @@ import {
 } from '../../../../constants/Payments';
 
 const PayementForm = ({ paymentData }) => {
+	const {
+		total,
+		deliveryFee,
+		orderReference,
+		user: { email, name, phoneNumber }
+	} = paymentData;
+
 	return (
 		<form method='POST' action={FLUTTER_CHECKOUT_URL}>
 			<input
@@ -16,32 +23,18 @@ const PayementForm = ({ paymentData }) => {
 				name='public_key'
 				defaultValue={FLUTTER_WAVE_PLUBIC_KEY}
 			/>
-			<input
-				type='hidden'
-				name='customer[email]'
-				defaultValue={('paymentData.user', '.email')}
-			/>
+			<input type='hidden' name='customer[email]' defaultValue={email} />
 			<input
 				type='hidden'
 				name='customer[phone_number]'
-				defaultValue={('paymentData.user', '.phoneNumber')}
+				defaultValue={phoneNumber}
 			/>
-			<input
-				type='hidden'
-				name='customer[name]'
-				defaultValue={('paymentData.user', '.name')}
-			/>
-			<input
-				type='hidden'
-				name='tx_ref'
-				defaultValue={'paymentData.orderReference'}
-			/>
+			<input type='hidden' name='customer[name]' defaultValue={name} />
+			<input type='hidden' name='tx_ref' defaultValue={orderReference} />
 			<input
 				type='hidden'
 				name='amount'
-				defaultValue={
-					'paymentData.total' + 'paymentData.deliveryFee' + FOOD_CROWDY_CHARGE
-				}
+				defaultValue={total + deliveryFee + FOOD_CROWDY_CHARGE}
 			/>
 			<input type='hidden' name='currency' defaultValue='NGN' />
 			<input type='hidden' name='meta[token]' defaultValue='54' />

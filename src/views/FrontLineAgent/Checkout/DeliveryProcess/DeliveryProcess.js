@@ -29,8 +29,8 @@ import { toast } from 'react-toastify';
 
 const useStyles = makeStyles((theme) => Style(theme));
 
-const DeliveryMethod = (props) => {
-	const { activeStep, setActiveStep, setcheckoutData, userId } = props;
+const DeliveryMethod = (prop) => {
+	const { setActiveStep, setcheckoutData, userId } = prop;
 	const [textDisplay, setTextDisplay] = useState(false);
 	const [loading, setLoading] = useState(false);
 	const [deliveryNotice, setdeliveryNotice] = useState(false);
@@ -53,13 +53,16 @@ const DeliveryMethod = (props) => {
 		const data = {
 			products,
 			address,
-			userId
+			userId,
+			deliveryFee
 		};
 		setLoading(true);
 		try {
 			const res = await agentApi.post(`/fla/checkout-user`, data, { headers });
 			setcheckoutData(res.data);
-			setActiveStep(activeStep + 1);
+			console.log(res.data);
+			setLoading(false);
+			setActiveStep(1);
 		} catch (error) {
 			errorHandler(error);
 		}

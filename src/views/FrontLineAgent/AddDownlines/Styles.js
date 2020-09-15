@@ -21,14 +21,13 @@ export default (theme) => {
 			flexDirection: 'column'
 		},
 		btn: {
-			margin: theme.spacing(1)
+			margin: theme.spacing(1, 0)
 		},
 		paper: {
-      width: 800,
-      display: 'flex',
+			display: 'flex',
 			justifyContent: 'center',
-      flexFlow: 'column nowrap',
-      alignItems: 'center',
+			flexFlow: 'column nowrap',
+			alignItems: 'center',
 			// display: 'none',
 			// [theme.breakpoints.up('sm')]: {
 			// 	width: '100%'
@@ -56,7 +55,7 @@ export default (theme) => {
 		avatar: {
 			height: '5rem',
 			width: '5rem',
-      margin: theme.spacing(3, 'auto')
+			margin: theme.spacing(3, 'auto')
 		}
 	};
 };

@@ -4,9 +4,7 @@ import Paper from '@material-ui/core/Paper';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
-import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import AddressForm from './AddressForm/AddressForm';
 import Review from './ReviewOrder/ReviewOrder';
 import DeliveryMethod from './DeliveryProcess/DeliveryProcess';
 
@@ -54,10 +52,8 @@ export default function Checkout({ match }) {
 	const [activeStep, setActiveStep] = useState(0);
 	const [checkoutData, setcheckoutData] = useState({});
 	const { id } = match.params;
-	console.log(checkoutData);
-	console.log(id);
 
-	function getStepContent(id, step, activeStep, setActiveStep, checkoutData) {
+	function getStepContent(step, id) {
 		switch (step) {
 			case 0:
 				return (
@@ -65,7 +61,6 @@ export default function Checkout({ match }) {
 						userId={id}
 						checkoutData={checkoutData}
 						setcheckoutData={setcheckoutData}
-						activeStep={activeStep}
 						setActiveStep={setActiveStep}
 					/>
 				);
@@ -105,11 +100,11 @@ export default function Checkout({ match }) {
 						) : (
 							<React.Fragment>
 								{getStepContent(
-									id,
 									activeStep,
-									setActiveStep,
-									checkoutData,
-									setcheckoutData
+									id,
+									// setActiveStep,
+									// checkoutData,
+									// setcheckoutData
 								)}
 							</React.Fragment>
 						)}

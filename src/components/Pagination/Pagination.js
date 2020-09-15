@@ -2,8 +2,7 @@ import React from 'react';
 import Paginator from 'react-hooks-paginator';
 
 const Pagination = (prop) => {
-  const { pageLimit, setOffset, currentPage, setCurrentPage ,data} = prop;
-  
+	const { pageLimit, setOffset, currentPage, setCurrentPage, data } = prop;
 
 	return (
 		<Paginator
@@ -16,5 +15,16 @@ const Pagination = (prop) => {
 		/>
 	);
 };
+
+/**
+ * format of what the required props...
+ */
+// <Pagination
+// data={users.length}
+// pageLimit={pageLimit}
+// setOffset={setOffset}
+// currentPage={currentPage}
+// setCurrentPage={setCurrentPage}
+// />
 
 export default Pagination;

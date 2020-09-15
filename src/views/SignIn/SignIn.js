@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => Style(theme));
 
 const SignIn = (props) => {
 	const { history } = props;
-	const [cookie, setCookie] = useCookies(['x-auth-token']);
+	const [, setCookie] = useCookies(['x-auth-token']);
 	const { authUpdate, setauthUpdate } = useContext(contextApi);
 	const [message, setMessage] = useState('');
 	const [loading, setLoading] = useState('');
@@ -47,9 +47,7 @@ const SignIn = (props) => {
 			setCookie('x-auth-token', res.headers['x-auth-token']);
 			setauthUpdate(!authUpdate);
 			setLoading(false);
-			if (cookie['x-auth-token']) {
-				history.push('/');
-			}
+			history.push('/');
 		} catch (error) {
 			const errorMesssge = errorHandler(error);
 			setMessage(errorMesssge);

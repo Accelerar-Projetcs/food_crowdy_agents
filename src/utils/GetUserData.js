@@ -1,4 +1,3 @@
-
 export const userData = (info) => {
 	if (localStorage.getItem('_FCAgent_')) {
 		try {
@@ -11,3 +10,5 @@ export const userData = (info) => {
 		return null;
 	}
 };
+
+export const clearUserData = () => localStorage.removeItem('_FCAgent_');

@@ -1,5 +1,4 @@
 import React from 'react';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
@@ -20,13 +19,10 @@ function Copyright() {
 
 const useStyles = makeStyles((theme) => ({
 	root: {
-		display: 'flex',
-		flexDirection: 'column',
-		minHeight: '50vh'
-	},
-	main: {
-		marginTop: theme.spacing(8),
-		marginBottom: theme.spacing(2)
+		// display: 'flex',
+		// flexDirection: 'column',
+		minHeight: '50px',
+		margin: theme.spacing(45, 0, -20, 0)
 	},
 	footer: {
 		padding: theme.spacing(3, 2),
@@ -43,13 +39,17 @@ export default function StickyFooter() {
 
 	return (
 		<div className={classes.root}>
-			<CssBaseline />
+			{/* <CssBaseline /> */}
 			<footer className={classes.footer}>
 				<Container maxWidth='sm'>
 					<Typography variant='body1'>
-						My sticky footer can be found here.
+						&copy;{' '}
+						<Link component='a' href='https://foodcrowdy.com' target='_blank'>
+							Food Crowdy
+						</Link>
+						2020
 					</Typography>
-					<Copyright />
+					<Copyright />[]
 				</Container>
 			</footer>
 		</div>

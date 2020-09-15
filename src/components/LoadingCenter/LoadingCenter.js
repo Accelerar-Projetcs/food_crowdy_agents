@@ -59,7 +59,7 @@ const useStyles = makeStyles({
 	}
 });
 
-export default function CustomizedProgressBars({ text }) {
+export default function LoadingCenter({ text }) {
 	const classes = useStyles();
 
 	return (

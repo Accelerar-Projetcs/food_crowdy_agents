@@ -1,12 +1,12 @@
-/* eslint-disable react/no-multi-comp */
-/* eslint-disable react/display-name */
-import React, { forwardRef } from 'react';
+import React, { forwardRef, useContext } from 'react';
+import { useCookies } from 'react-cookie';
 import { NavLink as RouterLink, useHistory } from 'react-router-dom';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/styles';
 import { Person } from '@material-ui/icons';
-import { List, ListItem, Button, colors } from '@material-ui/core';
+import { List, ListItem, Button, colors, makeStyles } from '@material-ui/core';
+import { clearUserData } from '../../../../../../utils/GetUserData';
+import { contextApi } from '../../../../../../components/context/Context';
 
 const useStyles = makeStyles((theme) => ({
 	root: {},
@@ -57,11 +57,15 @@ const CustomRouterLink = forwardRef((props, ref) => (
 
 const SidebarNav = (props) => {
 	const { pages, className, ...rest } = props;
+	const [, , removeCookie] = useCookies(['x-auth-token']);
+	const { setauthUpdate, authUpdate } = useContext(contextApi);
 	const history = useHistory();
 	const classes = useStyles();
 
 	const logout = () => {
-		localStorage.clear('');
+		clearUserData();
+		removeCookie(['x-auth-token']);
+		setauthUpdate(!authUpdate);
 		history.push('/sign-in');
 	};
 
