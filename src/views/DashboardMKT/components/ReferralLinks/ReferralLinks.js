@@ -3,6 +3,7 @@ import { Paper, Button, Grid, makeStyles } from '@material-ui/core';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import Style from './Style';
 import { PUBLIC_URL, PUBLIC_URL_MAIN } from '../../../../constants/HostUrl';
+import { userData } from '../../../../utils/GetUserData';
 
 const useStyles = makeStyles((theme) => Style(theme));
 
@@ -10,7 +11,7 @@ const ReferralLinks = () => {
 	const [copy, setcopy] = useState(false);
 	const [copy2, setcopy2] = useState(false);
 	const classes = useStyles();
-	const marketerId = 'FC102';
+	const marketerId = userData('uniqueId');
 
 	return (
 		<Paper className={classes.root}>
@@ -29,10 +30,10 @@ const ReferralLinks = () => {
 							type='text'
 							id='agents-link'
 							readOnly
-							value={`${PUBLIC_URL}/agents/frontline/registration?referral=${marketerId}`}
+							value={`${PUBLIC_URL}/agents/frontline/registration?referralId=${marketerId}`}
 						/>
 						<CopyToClipboard
-							text={`${PUBLIC_URL}/agents/frontline/registration?referral=${marketerId}`}
+							text={`${PUBLIC_URL}/agents/frontline/registration?referralId=${marketerId}`}
 							onCopy={() => setcopy2(!copy2)}>
 							<Button
 								variant='outlined'
@@ -52,10 +53,10 @@ const ReferralLinks = () => {
 							type='text'
 							readOnly
 							id='customer-link'
-							value={`${PUBLIC_URL_MAIN}/customer/account/register?referral=${marketerId}`}
+							value={`${PUBLIC_URL_MAIN}/customer/account/register?referralId=${marketerId}`}
 						/>
 						<CopyToClipboard
-							text={`${PUBLIC_URL_MAIN}/customer/account/register?referral=${marketerId}`}
+							text={`${PUBLIC_URL_MAIN}/customer/account/register?referralId=${marketerId}`}
 							onCopy={() => setcopy(!copy)}>
 							<Button
 								variant='outlined'

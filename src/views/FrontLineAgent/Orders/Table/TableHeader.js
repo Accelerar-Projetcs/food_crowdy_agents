@@ -7,12 +7,10 @@ const TableHeader = () => {
 			<TableRow>
 				<TableCell></TableCell>
 				<TableCell>Order Ref</TableCell>
-				<TableCell>DownLine</TableCell>
 				<TableCell>Delivery Status</TableCell>
 				<TableCell>Payment Status</TableCell>
-				<TableCell>Email</TableCell>
-				<TableCell>Date</TableCell>
 				<TableCell>Total</TableCell>
+				<TableCell>Date</TableCell>
 			</TableRow>
 		</TableHead>
 	);

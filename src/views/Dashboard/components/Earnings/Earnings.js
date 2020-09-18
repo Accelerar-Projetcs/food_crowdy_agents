@@ -4,13 +4,11 @@ import { Card, CardContent, Grid, Typography, Avatar } from '@material-ui/core';
 import ArrowUp from '@material-ui/icons/ArrowUpwardTwoTone';
 import MoneyIcon from '@material-ui/icons/Money';
 import { formatter } from '../../../../utils/localStore';
-import  Style  from './Style';
-
+import Style from './Style';
 
 const useStyles = makeStyles((theme) => Style(theme));
 
-
-const Earnings = () => {
+const Earnings = ({ data }) => {
 	const classes = useStyles();
 	return (
 		<Card className={classes.root}>
@@ -24,7 +22,7 @@ const Earnings = () => {
 							variant='body2'>
 							Earnings
 						</Typography>
-						<Typography variant='h3'>{formatter.format(0)}</Typography>
+						<Typography variant='h3'>{formatter.format(data || 0)}</Typography>
 					</Grid>
 					<Grid item>
 						<Avatar className={classes.avatar}>
@@ -34,8 +32,9 @@ const Earnings = () => {
 				</Grid>
 				<div className={classes.difference}>
 					<ArrowUp className={classes.differenceIcon} />
-					<Typography className={classes.differenceValue} variant='body2'>
-					</Typography>
+					<Typography
+						className={classes.differenceValue}
+						variant='body2'></Typography>
 				</div>
 			</CardContent>
 		</Card>
