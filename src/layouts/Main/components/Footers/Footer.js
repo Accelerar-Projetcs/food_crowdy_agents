@@ -12,15 +12,12 @@ function Copyright() {
 				Your Website
 			</Link>{' '}
 			{new Date().getFullYear()}
-			{'.'}
 		</Typography>
 	);
 }
 
 const useStyles = makeStyles((theme) => ({
 	root: {
-		// display: 'flex',
-		// flexDirection: 'column',
 		minHeight: '50px',
 		margin: theme.spacing(45, 0, -20, 0)
 	},
@@ -39,7 +36,6 @@ export default function StickyFooter() {
 
 	return (
 		<div className={classes.root}>
-			{/* <CssBaseline /> */}
 			<footer className={classes.footer}>
 				<Container maxWidth='sm'>
 					<Typography variant='body1'>
@@ -49,7 +45,7 @@ export default function StickyFooter() {
 						</Link>
 						2020
 					</Typography>
-					<Copyright />[]
+					<Copyright />
 				</Container>
 			</footer>
 		</div>

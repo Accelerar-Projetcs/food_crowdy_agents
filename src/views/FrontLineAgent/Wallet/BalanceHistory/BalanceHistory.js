@@ -6,9 +6,11 @@ import {
 	Grid,
 	Typography,
 	Avatar,
-	Chip
+	// Chip
 } from '@material-ui/core';
 import MoneyIcon from '@material-ui/icons/Money';
+import useAgent from '../../../../hooks/useAgent';
+import useHeader from '../../../../server/Headers';
 import { formatter } from '../../../../utils/localStore';
 
 const useStyles = makeStyles((theme) => ({
@@ -35,6 +37,8 @@ const useStyles = makeStyles((theme) => ({
 
 const BalanceHistory = () => {
 	const classes = useStyles();
+	const { headers } = useHeader();
+	const { data } = useAgent(`/wallet/balance`, headers);
 
 	return (
 		<Card className={classes.root}>
@@ -48,8 +52,10 @@ const BalanceHistory = () => {
 							variant='body2'>
 							Wallet Balance
 						</Typography>
-						<Typography variant='h3'>{formatter.format(0)}</Typography>
-						<Chip color='primary' label='coming soon' />
+						<Typography variant='h3'>
+							{formatter.format((data && data.balance) || 0)}
+						</Typography>
+						{/* <Chip color='primary' label='coming soon' /> */}
 					</Grid>
 					<Grid item>
 						<Avatar className={classes.avatar}>
