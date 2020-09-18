@@ -3,7 +3,7 @@ import { agentApi } from '../server/Server';
 import useHeader from '../server/Headers';
 import { errorHandler } from '../errors/errorHandler';
 
-const UseFetch = (url) => {
+const useAgents = (url) => {
 	const [data, setData] = useState([]);
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState('');
@@ -40,4 +40,4 @@ const UseFetch = (url) => {
 	};
 };
 
-export default UseFetch;
+export default useAgents;

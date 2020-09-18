@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-export default function SimpleBackdrop({ text }) {
+export default function BackDropLoader({ text }) {
 	const classes = useStyles();
 	const [open] = React.useState(true);
 	return (
