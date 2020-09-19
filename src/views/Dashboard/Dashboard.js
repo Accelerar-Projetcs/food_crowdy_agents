@@ -20,18 +20,19 @@ const Dashboard = () => {
 	const classes = useStyles();
 	const { headers } = useHeader();
 	const { data, loading } = useAgent(`/fla/downliner`, headers);
+	const { data: profits } = useAgent(`/wallet/balance`, headers);
 
 	return (
 		<div className={classes.root}>
 			<Grid container spacing={4}>
 				<Grid item lg={3} sm={6} xl={3} xs={12}>
-					<Earnings />
+					<Earnings data={profits && profits.balance} />
 				</Grid>
 				<Grid item lg={3} sm={6} xl={3} xs={12}>
 					<TotalUserBrought totalUsers={data.length} />
 				</Grid>
 				<Grid item lg={3} sm={6} xl={3} xs={12}>
-					<TotalProfit />
+					<TotalProfit data={profits && profits.balance} s />
 				</Grid>
 				<Grid item lg={12} md={12} xl={12} xs={12}>
 					<FrontLineDownLines data={data} loading={loading} />

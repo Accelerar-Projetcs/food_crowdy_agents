@@ -1,7 +1,9 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/styles';
 import { Card, CardContent, Grid, Typography, Button } from '@material-ui/core';
-import ArrowUpWard from '@material-ui/icons/ArrowUpward';
+import { useState } from 'react';
+import RequestWithDrawal from './RequestWithdrawal';
+import AllRequest from './AllRequest/AllRequest';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -24,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
 		width: 32
 	},
 	difference: {
-		marginTop: theme.spacing(2),
+		marginTop: theme.spacing(1),
 		display: 'flex',
 		alignItems: 'center'
 	},
@@ -37,38 +39,65 @@ const useStyles = makeStyles((theme) => ({
 	},
 	btn: {
 		color: theme.palette.white,
-		background: theme.palette.success.main
+		background: theme.palette.success.main,
+		'&:hover': {
+			backgroundColor: theme.palette.success.dark
+		}
+	},
+	btnmore: {
+		textTransform: 'capitalize',
+		fontSize: '.8rem',
+		textDecoration: 'underline'
 	}
 }));
 
 const FundWallet = () => {
 	const classes = useStyles();
-
+	const [open, setopen] = useState(false);
+	const [openList, setopenList] = useState(false);
+	const handleOpen = () => {
+		setopen(true);
+	};
+	const handleOpenList = () => {
+		setopenList(true);
+	};
 	return (
-		<Card className={classes.root}>
-			<CardContent>
-				<Grid container justify='space-between'>
-					<Grid item>
-						<Typography
-							className={classes.title}
-							color='textSecondary'
-							gutterBottom
-							variant='body2'>
-							Fund Your Wallet
-						</Typography>
-						<Button className={classes.btn} variant='contained' color='inherit'>
-							Fund Wallet
-						</Button>
+		<>
+			<Card className={classes.root}>
+				<CardContent>
+					<Grid container justify='space-between'>
+						<Grid item>
+							<Typography
+								className={classes.title}
+								color='textSecondary'
+								gutterBottom
+								variant='body2'>
+								Withdrawal
+							</Typography>
+							<Button
+								onClick={handleOpen}
+								className={classes.btn}
+								variant='contained'
+								color='inherit'>
+								Withdrawal
+							</Button>
+							<RequestWithDrawal open={open} setOpen={setopen} />
+						</Grid>
 					</Grid>
-				</Grid>
-				<div className={classes.difference}>
-					<ArrowUpWard className={classes.differenceIcon} />
-					<Typography className={classes.differenceValue} variant='body2'>
-						...
-					</Typography>
-				</div>
-			</CardContent>
-		</Card>
+					<div className={classes.difference}>
+						<Button
+							className={classes.btnmore}
+							size={'small'}
+							color='primary'
+							onClick={handleOpenList}
+							variant='text'>
+							See all request
+						</Button>
+						<AllRequest open={openList} setOpen={setopenList} />
+					</div>
+				</CardContent>
+			</Card>
+		</>
 	);
 };
 

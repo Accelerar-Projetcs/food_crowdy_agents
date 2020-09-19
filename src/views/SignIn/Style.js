@@ -1,4 +1,3 @@
-import palette from '../../theme/palette';
 
 export const Style = (theme) => ({
 	root: {},
@@ -6,21 +5,13 @@ export const Style = (theme) => ({
 		// margin: theme.spacing(4, 0, 0, 0)
 	},
 	quoteContainer: {
-		[theme.breakpoints.down('md')]: {
-			display: 'none'
-		}
-	},
-	quote: {
-		backgroundColor: palette.background.default,
 		height: '100%',
 		display: 'flex',
 		justifyContent: 'center',
 		alignItems: 'center',
-		backgroundImage:
-			'url(https://res.cloudinary.com/cmcwebcode/image/upload/v1596039761/foodcrowdy/signup_1_wovngn.jpg)',
-		backgroundSize: 'cover',
-		backgroundRepeat: 'no-repeat',
-		backgroundPosition: 'center'
+		[theme.breakpoints.down('md')]: {
+			display: 'none'
+		}
 	},
 
 	content: {

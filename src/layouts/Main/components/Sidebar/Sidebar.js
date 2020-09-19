@@ -8,7 +8,7 @@ import {
 	ShoppingBasket as ShoppingBasketIcon,
 	AccountBox as AccountBoxIcon,
 	Settings as SettingsIcon,
-	ShowChart as ShowChartIcon,
+	ShopOutlined as ShowChartIcon,
 	LineStyleOutlined as OrdersIcon,
 	AccountBalanceWallet as WalletIcon
 } from '@material-ui/icons/';
@@ -87,11 +87,11 @@ const Sidebar = (props) => {
 			href: '/agents/frontline/wallet',
 			icon: <WalletIcon />
 		},
-		{
-			title: 'Account',
-			href: '/account',
-			icon: <AccountBoxIcon />
-		},
+		// {
+		// 	title: 'Account',
+		// 	href: '/account',
+		// 	icon: <AccountBoxIcon />
+		// },
 		{
 			title: 'Settings',
 			href: '/settings',
@@ -104,16 +104,16 @@ const Sidebar = (props) => {
 			href: '/',
 			icon: <DashboardIcon />
 		},
-		{
-			title: 'Account',
-			href: '/account',
-			icon: <AccountBoxIcon />
-		}
 		// {
-		// 	title: 'Settings',
-		// 	href: '/settings',
-		// 	icon: <SettingsIcon />
+		// 	title: 'Account',
+		// 	href: '/account',
+		// 	icon: <AccountBoxIcon />
 		// }
+		{
+			title: 'Settings',
+			href: '/settings',
+			icon: <SettingsIcon />
+		}
 	];
 	const getRole = (roles) => {
 		switch (roles) {

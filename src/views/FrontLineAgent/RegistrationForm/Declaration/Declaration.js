@@ -25,7 +25,7 @@ import { contextApi } from '../../../../components/context/Context';
 
 const useStyles = makeStyles((theme) => Styles(theme));
 
-const Declaration = (props) => {
+const Declaration = () => {
 	const classes = useStyles();
 	const [state, setState] = useState({ acceptPolicy: false });
 	const { imageFile } = useContext(contextApi);
@@ -42,7 +42,7 @@ const Declaration = (props) => {
 
 	const SubmitForm = async () => {
 		const number = activeStep + 1;
-		const referralId = queryString.parse(location.search).referral || null;
+		const referralId = queryString.parse(location.search).referralId || null;
 
 		if (state.acceptPolicy && referralId) {
 			const {
@@ -92,10 +92,8 @@ const Declaration = (props) => {
 			formData.append('guarantor', JSON.stringify(guarantor));
 			formData.append('nextOfKin', JSON.stringify(nextOfKin));
 			formData.append('identification', JSON.stringify(identification));
-
 			try {
 				await agentApi.post(`/auth/signup-frontline-agent`, formData);
-
 				setLoading(false);
 				dispatch(handleNext(number));
 			} catch (error) {

@@ -60,7 +60,18 @@ const SignIn = (props) => {
 			<Minimal />
 			<Grid className={classes.grid} container>
 				<Grid className={classes.quoteContainer} item lg={5}>
-					<div className={classes.quote}></div>
+					<img
+						style={{
+							borderRadius: '5%',
+							height: '30rem',
+							width: '30rem',
+							display: 'flex',
+							justifyContent: 'center',
+							alignItems: 'center'
+						}}
+						src={`https://res.cloudinary.com/cmcwebcode/image/upload/v1596039761/foodcrowdy/signup_1_wovngn.jpg`}
+						alt='Sign Up'
+					/>
 				</Grid>
 				<Grid className={classes.content} item lg={7} xs={12}>
 					<form className={classes.form} onSubmit={handleSignIn}>

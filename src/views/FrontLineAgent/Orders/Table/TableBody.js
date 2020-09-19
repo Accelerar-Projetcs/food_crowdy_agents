@@ -19,6 +19,7 @@ import {
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import TableHeader from '../Table/TableHeader';
+import useAgent from '../../../../hooks/useAgent';
 import { formatter } from '../../../../utils/localStore';
 import StatusBullet from '../../../../components/StatusBullet/StatusBullet';
 import { statusColors } from '../../../../utils/StatusColors';
@@ -33,24 +34,7 @@ const useRowStyles = makeStyles({
 	}
 });
 
-const data = [
-	{
-		orderReference: 'TGGHJ3983983',
-		paymentStatus: 'failed',
-		email: 'infinity',
-		deliveryStatus: 'pending',
-		createdAt: Date.now(),
-		total: 383983,
-		customer: 'michael',
-		products: [
-			{
-				title: 'rice',
-				unitPrice: 100,
-				quantity: 2
-			}
-		]
-	}
-];
+
 function Row(props) {
 	const { row } = props;
 	const [open, setOpen] = useState(false);
@@ -67,23 +51,21 @@ function Row(props) {
 						{open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
 					</IconButton>
 				</TableCell>
-				<TableCell>{row.orderReference}</TableCell>
-				<TableCell>{row.customer}</TableCell>
+				<TableCell>{row.txRef}</TableCell>
 				<TableCell>
-					{row.deliveryStatus}
+					{row.DeliveryStatus}
 					{
 						<StatusBullet
 							size={'sm'}
-							color={statusColors[row.deliveryStatus]}
+							color={statusColors[row.DeliveryStatus]}
 						/>
 					}
 				</TableCell>
 				<TableCell>
-					{row.paymentStatus}
-					{<StatusBullet size={'sm'} color={statusColors[row.paymentStatus]} />}
+					{row.status}
+					{<StatusBullet size={'sm'} color={statusColors[row.status]} />}
 				</TableCell>
-				<TableCell>{row.email}</TableCell>
-				<TableCell>{row.total}</TableCell>
+				<TableCell>{formatter.format(row.chargedAmount)}</TableCell>
 				<TableCell>{moment(row.createdAt).format('LL')}</TableCell>
 			</TableRow>
 			<TableRow>
@@ -96,17 +78,13 @@ function Row(props) {
 							<Table size='small' aria-label='purchases'>
 								<TableHead>
 									<TableRow>
-										<TableCell>Title</TableCell>
 										<TableCell>unit Price</TableCell>
 										<TableCell>Quantity</TableCell>
 									</TableRow>
 								</TableHead>
 								<TableBody>
-									{row.products.map((item) => (
-										<TableRow key={item._id}>
-											<TableCell component='th' scope='row'>
-												{item.title}
-											</TableCell>
+									{row.product.map((item) => (
+										<TableRow key={item.id}>
 											<TableCell>{formatter.format(item.unitPrice)}</TableCell>
 											<TableCell>{item.quantity}</TableCell>
 										</TableRow>
@@ -143,6 +121,7 @@ export default function Orders() {
 	const pageLimit = 9;
 	const [offset, setOffset] = useState(0);
 	const [currentPage, setCurrentPage] = useState(1);
+	const { data } = useAgent(`/fla/user-orders`);
 
 	return (
 		<Card>
@@ -153,7 +132,7 @@ export default function Orders() {
 						<TableHeader />
 						<TableBody>
 							{data.slice(offset, offset + pageLimit).map((row) => (
-								<Row key={row.name} row={row} />
+								<Row key={row._id} row={row} />
 							))}
 						</TableBody>
 					</Table>

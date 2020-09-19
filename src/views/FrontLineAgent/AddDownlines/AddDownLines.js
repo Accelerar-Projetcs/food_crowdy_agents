@@ -34,6 +34,9 @@ const AddDownLines = () => {
 	const sendOTP = async (e) => {
 		e.preventDefault();
 		setLoading(true);
+		if (!phoneNumber.length === 11)
+		return setMessage(`please add a valid phone number `);
+
 		const data = {
 			phoneNumber: `234${Number(phoneNumber)}`
 		};
@@ -50,7 +53,6 @@ const AddDownLines = () => {
 
 	return (
 		<>
-
 			<Paper className={classes.paper}>
 				{loading && <BackDrop />}
 				{mailCheck ? (

@@ -3,147 +3,79 @@ import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/styles';
 import {
-  Card,
-  CardHeader,
-  CardContent,
-  CardActions,
-  Grid,
-  Divider,
-  FormControlLabel,
-  Checkbox,
-  Typography,
-  Button
+	Card,
+	CardHeader,
+	CardContent,
+	Divider,
+	Typography,
+	Button,
+	CardActions
 } from '@material-ui/core';
+import { userData } from '../../../../utils/GetUserData';
+import {
+	LocationOnOutlined,
+	MailOutline,
+	PersonOutlined
+} from '@material-ui/icons';
 
 const useStyles = makeStyles(() => ({
-  root: {},
-  item: {
-    display: 'flex',
-    flexDirection: 'column'
-  }
+	item: {
+		display: 'flex',
+		flexDirection: 'column'
+	},
+	title: {
+		textTransform: 'capitalize'
+	}
 }));
 
-const Notifications = props => {
-  const { className, ...rest } = props;
+const Notifications = (props) => {
+	const { className, ...rest } = props;
+	const firstName = userData('firstName');
+	const lastName = userData('lastName');
+	const email = userData('email');
+	const uniqueId = userData('uniqueId');
+	const state = userData('state');
 
-  const classes = useStyles();
+	const classes = useStyles();
 
-  return (
-    <Card
-      {...rest}
-      className={clsx(classes.root, className)}
-    >
-      <form>
-        <CardHeader
-          subheader="Manage the notifications"
-          title="Notifications"
-        />
-        <Divider />
-        <CardContent>
-          <Grid
-            container
-            spacing={6}
-            wrap="wrap"
-          >
-            <Grid
-              className={classes.item}
-              item
-              md={4}
-              sm={6}
-              xs={12}
-            >
-              <Typography
-                gutterBottom
-                variant="h6"
-              >
-                Notifications
-              </Typography>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    color="primary"
-                    defaultChecked //
-                  />
-                }
-                label="Email"
-              />
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    color="primary"
-                    defaultChecked //
-                  />
-                }
-                label="Push Notifications"
-              />
-              <FormControlLabel
-                control={<Checkbox color="primary" />}
-                label="Text Messages"
-              />
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    color="primary"
-                    defaultChecked //
-                  />
-                }
-                label="Phone calls"
-              />
-            </Grid>
-            <Grid
-              className={classes.item}
-              item
-              md={4}
-              sm={6}
-              xs={12}
-            >
-              <Typography
-                gutterBottom
-                variant="h6"
-              >
-                Messages
-              </Typography>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    color="primary"
-                    defaultChecked //
-                  />
-                }
-                label="Email"
-              />
-              <FormControlLabel
-                control={<Checkbox color="primary" />}
-                label="Push Notifications"
-              />
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    color="primary"
-                    defaultChecked //
-                  />
-                }
-                label="Phone calls"
-              />
-            </Grid>
-          </Grid>
-        </CardContent>
-        <Divider />
-        <CardActions>
-          <Button
-            color="primary"
-            variant="outlined"
-          >
-            Save
-          </Button>
-        </CardActions>
-      </form>
-    </Card>
-  );
+	return (
+		<Card {...rest} className={clsx(classes.root, className)}>
+			<form>
+				<CardHeader
+					subheader=''
+					title={
+						<Typography variant='h3'>{`${firstName} ${lastName}`}</Typography>
+					}
+				/>
+				<Divider />
+				<CardContent>
+					<Typography gutterBottom className={classes.title} variant='h6'>
+						<MailOutline /> <br /> {email}
+					</Typography>
+					<Typography gutterBottom className={classes.title} variant='h6'>
+						<PersonOutlined /> <br /> <strong> {uniqueId}</strong>
+					</Typography>
+					<Typography gutterBottom className={classes.title} variant='h6'>
+						<LocationOnOutlined /> <br /> <strong> {state} State</strong>
+					</Typography>
+				</CardContent>
+				<Divider />
+				<CardActions>
+					<Button
+						variant='outlined'
+						href={`/forgot-password`}
+						size={'small'}
+						color='primary'>
+						Change Password
+					</Button>
+				</CardActions>
+			</form>
+		</Card>
+	);
 };
 
 Notifications.propTypes = {
-  className: PropTypes.string
+	className: PropTypes.string
 };
 
 export default Notifications;
