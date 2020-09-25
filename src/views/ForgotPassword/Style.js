@@ -12,9 +12,9 @@ export default (theme) => {
 			margin: theme.spacing(1, 0)
 		},
 		paper: {
-			width: 'auto',
+			width: '95%',
 			margin: theme.spacing(1, 'auto'),
-			[theme.breakpoints.up('sm')]: {
+			[theme.breakpoints.up('md')]: {
 				width: '30%'
 			}
 		}

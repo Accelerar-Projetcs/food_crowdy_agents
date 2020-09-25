@@ -2,10 +2,14 @@ import Palette from '../../../../theme/palette';
 
 export default (theme) => {
 	return {
-		root: {
-			
+		root: {},
+		iconmail: {
+			margin: theme.spacing(0, 0, -1, 1)
 		},
-
+		mail: {
+			color: Palette.black,
+			margin: theme.spacing(3, 0)
+		},
 		card: {
 			textAlign: 'center',
 			boxShadow: 'none',

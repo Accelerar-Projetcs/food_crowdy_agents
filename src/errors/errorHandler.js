@@ -8,9 +8,9 @@ export const errorHandler = (error) => {
 	}
 	if (error.response) {
 		if (error.response.status === 500) {
-			// toast.error('Something went wrong', {
-			// 	toastId: 'Something went wrong'
-			// });
+			toast.error(' "Internal server error" Something went wrong ', {
+				toastId: 'Something went wrong'
+			});
 		} else if (error.response.status === 404) {
 			toast.error(error.response.statusText, {
 				toastId: error.response.statusText

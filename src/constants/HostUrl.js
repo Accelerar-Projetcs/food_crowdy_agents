@@ -6,7 +6,7 @@ const UniversalLocation = `https://www.universal-tutorial.com/api/getaccesstoken
 const DEV_URL = 'http://agent-dev-mode3000.surge.sh';
 
 // const PROD_URL_MAIN = 'https://foodcrowdy.com/';
-const DEV_URL_MAIN = 'https://food-crowdy-dev-mode.netlify.app/';
+const DEV_URL_MAIN = 'http://user-dev-mode3000.surge.sh';
 
 if (process.env.NODE_ENV === 'development') {
 	PUBLIC_URL = DEV_URL;

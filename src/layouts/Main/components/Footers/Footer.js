@@ -1,53 +1,69 @@
 import React from 'react';
-import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
-import Link from '@material-ui/core/Link';
-
-function Copyright() {
-	return (
-		<Typography variant='body2' color='textSecondary'>
-			{'Copyright © '}
-			<Link color='inherit' href='https://material-ui.com/'>
-				Your Website
-			</Link>{' '}
-			{new Date().getFullYear()}
-		</Typography>
-	);
-}
+import { makeStyles, Grid } from '@material-ui/core/';
+import {
+	Facebook as FacebookIcon,
+	Twitter as TwitterIcon,
+	Instagram as InstagramIcon
+} from '@material-ui/icons/';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
 		minHeight: '50px',
-		margin: theme.spacing(45, 0, -20, 0)
+		// margin: theme.spacing(45, 0, -20, 0)
 	},
 	footer: {
 		padding: theme.spacing(3, 2),
 		marginTop: 'auto',
-		backgroundColor:
-			theme.palette.type === 'light'
-				? theme.palette.grey[200]
-				: theme.palette.grey[800]
+		backgroundColor: theme.palette.grey[700]
+	},
+	icon: {
+		color: theme.palette.white
+	},
+	bottom: {
+		color: theme.palette.white
+	},
+	link: {
+		margin: theme.spacing(0.5, 1)
 	}
 }));
 
-export default function StickyFooter() {
+const Footer = () => {
 	const classes = useStyles();
+	const date = new Date();
+	const currentYear = date.getFullYear();
 
 	return (
 		<div className={classes.root}>
 			<footer className={classes.footer}>
-				<Container maxWidth='sm'>
-					<Typography variant='body1'>
-						&copy;{' '}
-						<Link component='a' href='https://foodcrowdy.com' target='_blank'>
-							Food Crowdy
-						</Link>
-						2020
-					</Typography>
-					<Copyright />
-				</Container>
+				<Grid className={classes.bottom} container spacing={4}>
+					<Grid item lg={6} md={6} xl={3} xs={12}>
+						<p> FoodCrowdy &copy; {currentYear} || All Right Reserved</p>
+					</Grid>
+					<Grid item lg={6} md={6} xl={3} xs={12}>
+						{/* <h6>FOLLOW US ON</h6> */}
+						<a
+							className={classes.link}
+							target='_blanck'
+							href='https://www.facebook.com/foodcrowdy/'>
+							<FacebookIcon className={classes.icon} />
+						</a>
+						<a
+							className={classes.link}
+							target='_blanck'
+							href='https://twitter.com/foodcrowdy?s=09'>
+							<TwitterIcon className={classes.icon} />
+						</a>
+						<a
+							className={classes.link}
+							target='_blanck'
+							href='https://www.instagram.com/foodcrowdy/'>
+							<InstagramIcon className={classes.icon} />
+						</a>
+					</Grid>
+				</Grid>
 			</footer>
 		</div>
 	);
-}
+};
+
+export default Footer;

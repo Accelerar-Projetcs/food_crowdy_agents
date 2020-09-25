@@ -59,7 +59,8 @@ const TotalUsers = () => {
 
 	useEffect(() => {
 		dispatch(getData(url, getCustomers, setLoader, headers));
-	}, [dispatch, headers]);
+		//eslint-disable-next-line
+	}, [dispatch]);
 
 	return (
 		<Card className={classes.root}>

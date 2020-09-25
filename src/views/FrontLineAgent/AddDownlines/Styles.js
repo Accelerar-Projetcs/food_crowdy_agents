@@ -28,6 +28,7 @@ export default (theme) => {
 			justifyContent: 'center',
 			flexFlow: 'column nowrap',
 			alignItems: 'center',
+			width: '95%',
 			// display: 'none',
 			// [theme.breakpoints.up('sm')]: {
 			// 	width: '100%'

@@ -29,7 +29,7 @@ const steps = [
 	'Declaration'
 ];
 
-export default function Checkout() {
+export default function Registration() {
 	const formState = useSelector((state) => state.FLRegistration.step);
 	// const formState2 = useSelector((state) => state.FLRegistration);
 	const activeStep = formState.activeStep;
@@ -56,6 +56,7 @@ export default function Checkout() {
 		}
 	};
 
+	
 	return (
 		<React.Fragment>
 			<main className={classes.layout}>

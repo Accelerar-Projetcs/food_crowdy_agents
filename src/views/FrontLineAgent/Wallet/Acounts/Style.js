@@ -13,7 +13,7 @@ export default (theme) => ({
 	btn: {
 		color: theme.palette.error.main,
 		border: `1px solid ${theme.palette.error.main}`
-  },
+},
 	content: {
 		alignItems: 'center',
 		display: 'flex'

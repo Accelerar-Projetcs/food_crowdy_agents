@@ -1,6 +1,6 @@
 const FLUTTER_WAVE_PLUBIC_KEY = 'FLWPUBK-5f46e5e01c88ccb097131b949fd14c9a-X';
-// const REDIRECT_URL = 'https://foodcrowdy.com/payment-vefication';
-const REDIRECT_URL = 'http://localhost:3002/payment-vefication/';
+// const REDIRECT_URL = 'https://agent.foodcrowdy.com/payment-vefication';
+const REDIRECT_URL = 'http://user-dev-mode3000.surge.sh/payment-vefication';
 const FLUTTER_CHECKOUT_URL = 'https://checkout.flutterwave.com/v3/hosted/pay';
 const CUSTOM_LOGO =
 	'https://res.cloudinary.com/cmcwebcode/image/upload/v1596211234/foodcrowdy/LOGO_FOODCROWDY_pa3ciy.png';

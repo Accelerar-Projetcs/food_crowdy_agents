@@ -53,7 +53,7 @@ const RequestTable = () => {
 	const classes = useStyles();
 	const pageLimit = 12;
 	const { headers } = useHeader();
-	const { data, loading } = useAgent(`/wallet`, headers);
+	const { data, loading } = useAgent(`/wallet/pending-payment`, headers);
 
 
 	const discardWithdrawalRequest = async (id) => {
@@ -91,23 +91,23 @@ const RequestTable = () => {
 											</TableRow>
 										</TableHead>
 										<TableBody>
-											{data.slice(offset, offset + pageLimit).map((order) => (
-												<TableRow hover key={order._id}>
+											{data.slice(offset, offset + pageLimit).map((request) => (
+												<TableRow hover key={request._id}>
 													<TableCell>
-														{formatter.format(order.amount)}
+														{formatter.format(request.amount)}
 													</TableCell>
 													<TableCell>
-														{order.status} {''}
+														{request.status} {''}
 														<StatusBullet
 															size='sm'
-															color={statusColors[order.status]}
+															color={statusColors[request.status]}
 														/>
 													</TableCell>
 													<TableCell>
-														{moment(Date.now()).format('DD/MM/YYYY')}
+														{moment(request.createdAt).format('DD/MM/YYYY')}
 													</TableCell>
 													<TableCell
-														onClick={() => discardWithdrawalRequest(order._id)}>
+														onClick={() => discardWithdrawalRequest(request._id)}>
 														{loader ? (
 															<CachedIcon  />
 														) : (

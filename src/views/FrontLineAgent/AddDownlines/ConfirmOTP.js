@@ -37,14 +37,14 @@ const AddDownLines = ({ phoneNumber }) => {
 			phoneNumber: `234${Number(phoneNumber)}`,
 			code
 		};
-		console.log(data);
+
 		try {
-			const res = await agentApi.post(
+			await agentApi.post(
 				`fla/user-auth/verify-otp
 			`,
 				data
 			);
-			console.log(res);
+
 			setregister(true);
 		} catch (error) {
 			const errorMessage = errorHandler(error);

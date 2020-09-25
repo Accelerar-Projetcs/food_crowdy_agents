@@ -63,7 +63,7 @@ const OtherMarketers = () => {
 								</TableHead>
 								<TableBody>
 									{data.slice(offset, offset + pageLimit).map((user) => (
-										<TableRow hover key={user.id}>
+										<TableRow hover key={user._id}>
 											<TableCell>{user.uniqueId}</TableCell>
 											<TableCell>
 												{user.firstName + ' ' + user.lastName}

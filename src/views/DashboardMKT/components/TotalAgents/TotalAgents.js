@@ -59,7 +59,8 @@ const TotalAgents = () => {
 
 	useEffect(() => {
 		dispatch(getData(url, getFrontLineAgents, setLoader, headers));
-	}, [dispatch, headers]);
+				//eslint-disable-next-line
+	}, [dispatch]);
 
 	return (
 		<Card className={classes.root}>
