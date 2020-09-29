@@ -3,10 +3,10 @@ let PUBLIC_URL_MAIN = '';
 const UniversalLocation = `https://www.universal-tutorial.com/api/getaccesstoken`;
 
 // const PROD_URL = 'https://agents.foodcrowdy.com/';
-const DEV_URL = 'http://agent-dev-mode3000.surge.sh';
+const DEV_URL = 'https://foodcrowdy-agent-prelaunch.netlify.app';
 
 // const PROD_URL_MAIN = 'https://foodcrowdy.com/';
-const DEV_URL_MAIN = 'http://user-dev-mode3000.surge.sh';
+const DEV_URL_MAIN = 'https://foodcrowdy-prelaunch.netlify.app';
 
 if (process.env.NODE_ENV === 'development') {
 	PUBLIC_URL = DEV_URL;
