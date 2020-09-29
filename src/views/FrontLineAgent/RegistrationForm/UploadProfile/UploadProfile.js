@@ -19,7 +19,6 @@ import {
 import Styles from './Styles';
 import { contextApi } from '../../../../components/context/Context';
 import { ArrowRightAltSharp as ForwardIcon } from '@material-ui/icons';
-import { toast } from 'react-toastify';
 
 const useStyles = makeStyles((theme) => Styles(theme));
 const PersonalDetails = () => {
@@ -33,9 +32,7 @@ const PersonalDetails = () => {
 		if (imageFile && imageFile.files.file) {
 			const number = activeStep + 1;
 			dispatch(handleNext(number));
-		} else {
-			toast.error('please upload your picture');
-		}
+		} 
 	};
 
 	return (
@@ -61,22 +58,12 @@ const PersonalDetails = () => {
 						<div>
 							<FilePond
 								className={classes.img}
-								allowMultiple={true}
-								maxFiles={1}
-								name={'file'}
-								required={true}
 								allowFileSizeValidation={true}
-								maxTotalFileSize={100}
-								labelMaxTotalFileSize={
-									'Total file size should be lesser than 5MB.'
-								}
-								allowFileTypeValidation={true}
-								acceptedFileTypes={['image/jpeg']}
-								fileValidateTypeLabelExpectedTypesMap={{
-									// 'application/pdf': '.pdf',
-									'image/jpeg': '.jpg'
-								}}
-								labelFileTypeNotAllowed={'Upload only PDF or JPEG file.'}
+								maxFileSize={'500KB'}
+								allowMultiple={false}
+								maxFiles={1}
+								required
+								labelMaxFileSize={'Maximum file size is 500KB'}
 								onremovefile={(file) => {
 									setImageFile('');
 								}}
@@ -92,6 +79,7 @@ const PersonalDetails = () => {
 					<Divider />
 					<CardActions>
 						<Button
+							type="submit"
 							variant='contained'
 							color='primary'
 							onClick={handleNextAction}
