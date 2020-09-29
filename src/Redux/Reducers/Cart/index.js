@@ -1,9 +1,14 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { toast } from 'react-toastify';
 import {
 	getCartItemFromLocalStore,
 	saveCartItemInLocalStore
 } from './localStorage';
 
+const notify = (value, message, type) => {
+	toast[type](message)
+	return value
+}
 const cartProducts = getCartItemFromLocalStore();
 const initialState = {
 	cart: cartProducts
@@ -17,18 +22,15 @@ const cartActions = createSlice({
 			const cartItems = state.cart.filter(
 				(item) => item.productId === productId
 			);
-
 			if (cartItems.length) {
 				const addedItem = state.cart.map((item) =>
 					item.productId === productId
 						? {
-								...item,
-								quantity:
-									item.quantity === item.availableUnits
-										? item.quantity
-										: item.quantity + quantity,
-								totalPrice: (item.quantity + quantity) * item.unitPrice
-						  }
+							...item,
+							quantity: item.quantity === item.converisonUnit ? notify(item.quantity, `You have reached the total number of units available for this product measurement type`, 'warning') :
+								notify(item.quantity + quantity, `One item added to cart`, `success`),
+							totalPrice: (item.quantity + quantity) * item.unitPrice
+						}
 						: item
 				);
 				state.cart = addedItem;
@@ -41,16 +43,17 @@ const cartActions = createSlice({
 		},
 
 		incrementCartItem(state, action) {
-			const id = action.payload;
+			const id = action.payload
 			state.cart.map((item) =>
 				item.productId === id
 					? {
-							...item,
-							quantity:
-								item.quantity === item.availableUnits
-									? item.quantity
-									: item.quantity++
-					  }
+						...item,
+						quantity:
+							item.quantity === item.converisonUnit ? notify(item.quantity, `You have reached the total number of units available for this product measurement type`) :
+
+
+								item.quantity++
+					}
 					: item
 			);
 			saveCartItemInLocalStore(state.cart);
@@ -62,9 +65,9 @@ const cartActions = createSlice({
 			state.cart.map((item) =>
 				item.productId === id
 					? {
-							...item,
-							quantity: item.quantity === 1 ? item.quantity : item.quantity--
-					  }
+						...item,
+						quantity: item.quantity === 1 ? notify(item.quantity, `you can cannot reduce lesser than one`) : item.quantity--
+					}
 					: item
 			);
 			saveCartItemInLocalStore(state.cart);
@@ -78,6 +81,7 @@ const cartActions = createSlice({
 				(item) => item.productId !== id
 			);
 			state.cart = remainingCartItems;
+			notify(0, `One cart item successfully removed`)
 			saveCartItemInLocalStore(state.cart);
 			return state;
 		},

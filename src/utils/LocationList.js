@@ -1,3 +1,18 @@
+
+export const offices = [
+	{
+	  name: "Rivers",
+	  id: 1,
+	  label: "Km 19 Lekki - Epe Expy, Lekki Penninsula II, Lekki",
+	  // label: "Rumuola Road, Port Harcourt, Nigeria",
+	},
+	{
+	  name: "Lagos",
+	  id: 2,
+	  label: "Ibadan - Lagos Expressway, Nigeria",
+	},
+  ];
+
 export default [
 	{ id: 1, name: 'Abia' },
 	{ id: 2, name: 'Adamawa' },

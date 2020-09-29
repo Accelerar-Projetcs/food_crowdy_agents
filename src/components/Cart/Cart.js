@@ -50,14 +50,14 @@ export default function Cart({ toggleDrawer }) {
 						{loading ? (
 							<ProgressBar />
 						) : (
-							<>
-								<img src={cartImage} alt='no cart available' />
-								<p>
-									<strong>Your cart is empty</strong>
-								</p>
-								<p>Browse our categories and discover our best deals!</p>
-							</>
-						)}
+								<>
+									<img src={cartImage} alt='no cart available' />
+									<p>
+										<strong>Your cart is empty</strong>
+									</p>
+									<p>Browse our categories and discover our best deals!</p>
+								</>
+							)}
 					</div>
 					<Link onClick={toggleDrawer} to={`/agents/frontline/products`}>
 						<Button variant='contained' size='large' color='primary'>
@@ -66,37 +66,37 @@ export default function Cart({ toggleDrawer }) {
 					</Link>
 				</div>
 			) : (
-				<div>
-					<MobileCartView cartDisplay={cart} dispatch={dispatch} />
-					<div className='cart-checkout'>
-						<div className='cart-checkout-total'>
-							{loading ? (
-								<ProgressBar />
-							) : (
-								<span>TOTAL PRICE : {formatter.format(totalPrice)}</span>
-							)}
-						</div>
-						<div className='cart-checkout-btn'>
-							<Button
-								href={`/agents/frontline/products`}
-								className={classes.btn}
-								onClick={toggleDrawer}
-								variant='outlined'
-								color='default'>
-								<strong>CONTINUE SHOPPING</strong>
-							</Button>
-							<Button
-								onClick={toggleDrawer}
-								className={classes.btn}
-								variant='contained'
-								href={`/agents/frontline/choose-downline`}
-								color='primary'>
-								<strong>PROCEED TO CHECKOUT</strong>
-							</Button>
+					<div>
+						<MobileCartView cartDisplay={cart} dispatch={dispatch} />
+						<div className='cart-checkout'>
+							<div className='cart-checkout-total'>
+								{loading ? (
+									<ProgressBar />
+								) : (
+										<span>TOTAL PRICE : {formatter.format(totalPrice)}</span>
+									)}
+							</div>
+							<div className='cart-checkout-btn'>
+								<Button
+									href={`/agents/frontline/products`}
+									className={classes.btn}
+									onClick={toggleDrawer}
+									variant='outlined'
+									color='default'>
+									<strong>CONTINUE SHOPPING</strong>
+								</Button>
+								<Button
+									onClick={toggleDrawer}
+									className={classes.btn}
+									variant='contained'
+									href={`/agents/frontline/choose-downline`}
+									color='primary'>
+									<strong>PROCEED TO CHECKOUT</strong>
+								</Button>
+							</div>
 						</div>
 					</div>
-				</div>
-			)}
+				)}
 		</div>
 	);
 }

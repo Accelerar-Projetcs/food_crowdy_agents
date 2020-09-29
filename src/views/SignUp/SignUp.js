@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import Footer from '../../layouts/Main/components/Footer/Footer';
 import Minimal from '../../layouts/Minimal/Minimal';
-import { agentUser } from '../../server/Server';
+import { agentApi } from '../../server/Server';
 import { saveAuthToken, saveUserDetails } from '../../utils/AuthToken';
 import { contextApi } from '../../components/context/Context';
 import DoneIcon from '@material-ui/icons/Done';
@@ -231,7 +231,7 @@ const SignIn = () => {
 		setLoading(true);
 		formState.values.role = role;
 		try {
-			const res = await agentUser.post('/signup', formState.values);
+			const res = await agentApi.post('/signup', formState.values);
 			saveUserDetails(res.data.newUser);
 			saveAuthToken(res.data.token);
 			toast.success(

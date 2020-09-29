@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/styles';
-import { ProductsApiHooks } from '../../../server/Server';
 import AllProducts from './AllProducts';
 import {
 	Grid,
@@ -14,6 +13,7 @@ import {
 	FormControlLabel,
 	Radio
 } from '@material-ui/core';
+import useAgent from '../../../hooks/useAgent';
 import ctimage from '../../../assets/images/category.svg';
 import { category as productCategory } from '../../../utils/ProductsCategory';
 import { categoryStyles } from './styles/Styles';
@@ -23,12 +23,14 @@ const useStyles = makeStyles((theme) => categoryStyles(theme));
 const ProductCategory = () => {
 	const [category, setcategory] = useState('');
 	const [searchQuery, setsearchQuery] = useState('');
-	const [{ data, loading }] = ProductsApiHooks(`/search/all`);
+	const { data, loading } = useAgent(`/products/`);
 	const classes = useStyles();
+
 
 	const searchCategoryHandle = (e) => {
 		setcategory(e.target.value);
 	};
+
 	const searchQueryHandle = (e) => {
 		setsearchQuery(e.target.value);
 	};
@@ -37,7 +39,7 @@ const ProductCategory = () => {
 		if (data) {
 			if (category) {
 				modifiedData = modifiedData.filter(
-					(item) => item.category === category
+					(item) => item.category.toLowerCase().includes(category.toLowerCase())
 				);
 			}
 			if (searchQuery) {

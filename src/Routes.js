@@ -41,8 +41,11 @@ const Checkout = lazy(() => import('./views/FrontLineAgent/Checkout/Checkout'));
 const AddDownLines = lazy(() =>
 	import('./views/FrontLineAgent/AddDownlines/AddDownLines')
 );
+// const ChooseDownLine = lazy(() =>
+// 	import('./views/FrontLineAgent/Checkout/ChooseDownLine/ChooseDownLine')
+// );
 const ChooseDownLine = lazy(() =>
-	import('./views/FrontLineAgent/Checkout/ChooseDownLine/ChooseDownLine')
+	import('./views/FrontLineAgent/Checkout/ChooseDownLine/ChooseDownLines')
 );
 const RegistrationForm = lazy(() =>
 	import('./views/FrontLineAgent/RegistrationForm/RegistrationForm')

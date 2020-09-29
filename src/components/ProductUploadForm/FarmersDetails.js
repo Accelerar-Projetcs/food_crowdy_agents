@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { contextApi } from '../context/Context';
-import { ProductsApi } from '../../server/Server';
+import { agentApi } from '../../server/Server';
 import { getUserId } from '../../utils/localStore';
 import PropTypes from 'prop-types';
 import { category } from '../../utils/ProductsCategory';
@@ -59,7 +59,7 @@ const AccountDetails = () => {
 	const getFarmersInfo = async (key, value) => {
 		handleChange('farmerName', value);
 		// try {
-		// 	// const res = await ProductsApi.get(`/search/farmerss?name=${value}`);
+		// 	// const res = await agentApi.get(`/search/farmerss?name=${value}`);
 		// 	// console.log(res);
 		// 	if (res.data.length) {
 		// 		setProductDetails({
@@ -103,7 +103,7 @@ const AccountDetails = () => {
 			data.append('location', productDetails.location);
 			data.append('image', imageFile.files);
 			data.append('videoURL', productDetails.videoURL);
-			await ProductsApi.post(`/createuploadrequest/${agentId}`, data);
+			await agentApi.post(`/createuploadrequest/${agentId}`, data);
 			toast.success('your deal has been  successfully uploaded', {
 				toastId: '4334'
 			});

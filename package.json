@@ -31,6 +31,7 @@
     "react-copy-to-clipboard": "^5.0.2",
     "react-dom": "^16.13.1",
     "react-filepond": "^7.0.1",
+    "react-google-places-autocomplete": "^3.0.0",
     "react-hook-form": "^6.4.1",
     "react-hooks-paginator": "^0.4.4",
     "react-perfect-scrollbar": "^1.5.8",

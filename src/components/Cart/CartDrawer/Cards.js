@@ -5,11 +5,11 @@ import {
 	removeCartItem
 } from '../../../Redux/Reducers/Cart/';
 import { Delete as DeleteIcon, Add, Minimize } from '@material-ui/icons/';
-import { Chip, Divider, Button ,makeStyles} from '@material-ui/core';
+import { Chip, Divider, Button, makeStyles } from '@material-ui/core';
 import { formatter } from '../../../utils/localStore';
 import { Block as BlockIcon } from '@material-ui/icons';
 import Style from './Style';
-import { toast } from 'react-toastify';
+
 
 const useStyles = makeStyles((theme) => Style(theme));
 const CartMobile = ({ cartDisplay, dispatch }) => {
@@ -30,7 +30,7 @@ const CartMobile = ({ cartDisplay, dispatch }) => {
 								<div className='head'>
 									<div>
 										<h5>{cart.title}</h5>
-										<Chip size='small' label={cart.category} />
+										Per <Chip size='small' label={cart.measurementType} />
 									</div>
 									<div>
 										{cart.isSoldOut ? (
@@ -43,33 +43,27 @@ const CartMobile = ({ cartDisplay, dispatch }) => {
 												Not Available
 											</Button>
 										) : (
-											<div className='buttons'>
-												<button
-													onClick={() => {
-														dispatch(incrementCartItem(cart.productId));
-														toast.success(
-															`Cart item successfully incremented by 1`,
-															{ toastId: 'cart' }
-														);
-													}}>
-													<Add />
-												</button>
-												<button
-													onClick={() => {
-														dispatch(decrementCartItem(cart.productId));
-														toast.success(
-															`Cart item successfully decremented by 1`,
-															{ toastId: 'cart' }
-														);
-													}}>
-													<Minimize />
-												</button>
-											</div>
-										)}
+												<div className='buttons'>
+													<button
+														onClick={() => {
+															dispatch(incrementCartItem(cart.productId));
+
+														}}>
+														<Add />
+													</button>
+													<button
+														onClick={() => {
+															dispatch(decrementCartItem(cart.productId));
+
+														}}>
+														<Minimize />
+													</button>
+												</div>
+											)}
 									</div>
 								</div>
 								<p>
-									Slots: <span>{cart.quantity}</span>
+									Qty: <span>{cart.quantity}</span>
 								</p>
 								<p>
 									Unit Price: <span>{formatter.format(cart.unitPrice)}</span>
@@ -88,9 +82,7 @@ const CartMobile = ({ cartDisplay, dispatch }) => {
 								color='inherit'
 								onClick={() => {
 									dispatch(removeCartItem(cart.productId));
-									toast.success(`1 item successfully removed from cart`, {
-										toastId: 'cart'
-									});
+
 								}}
 								size='small'
 								className={classes.button}
