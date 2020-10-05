@@ -54,7 +54,7 @@ export default function AlignItemsList() {
 				/>
 			</ListItem>
 			<Divider variant='inset' component='li' />
-			<ListItem alignItems='flex-start'>
+			{/* <ListItem alignItems='flex-start'>
 				<ListItemIcon>
 					<InfoIcon />
 				</ListItemIcon>
@@ -70,7 +70,7 @@ export default function AlignItemsList() {
 						</Typography>
 					}
 				/>
-			</ListItem>
+			</ListItem> */}
 		</List>
 	);
 }
