@@ -33,15 +33,24 @@ const AddToCartForm = ({ data, price, setOpen, open }) => {
 
   const AddToCart = (e) => {
     e.preventDefault()
+    const units = Math.floor(price.conversionUnit)
     if (!quantity) {
-    
-    } else {
+      toast.error('Fill the number of slot needed', {
+				toastId: 'add to cart error'
+			});
+    } else if (quantity > data.quantity * units) {
+			toast.warning(`Available quantity is ${data.quantity * units}`, {
+				toastId: 'add to cart error'
+      })}
+       else  {
       if (Number.isInteger(quantity)) {
         const item = {
           productId: data._id,
           image: data.image.secureUrl,
           title: data.title,
           category: data.category,
+          location: data.availableState,
+          availableQty: data.quantity,
           quantity: Math.abs(quantity),
           unitPrice: price.displayPrice,
           measurementType: price.conversionType,

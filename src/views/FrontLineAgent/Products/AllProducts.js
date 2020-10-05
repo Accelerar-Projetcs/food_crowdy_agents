@@ -10,7 +10,7 @@ import {
 import BackDrop from '../../../components/BackDrop/BackDrop';
 import Pagination from '../../../components/Pagination/Pagination';
 import { allProductsStyles } from './styles/Styles';
-import ProductCard from './ProductCard'
+import ProductCard from './ProductCard/ProductCard'
 import { Product as EmptyList } from '../../../components/EmptyList/EmptyList';
 
 const useStyles = makeStyles((theme) => allProductsStyles(theme));
