@@ -60,7 +60,7 @@ export default (theme)=>({
   displayPrice: {
     fontWeight: '800',
     fontSize: '1.3rem',
-    color: theme.palette.secondary.main,
+    color: theme.palette.primary.main,
   },
   marketPrice: {
     textDecoration: 'line-through',

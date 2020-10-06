@@ -14,7 +14,7 @@ import {
   Typography,
   Paper,
   CardHeader,
-  Card,
+  Card, Divider
 } from "@material-ui/core/";
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
@@ -53,16 +53,20 @@ function Row(props) {
         </TableCell>
         <TableCell>{row.txRef}</TableCell>
         <TableCell>
-          {row.DeliveryStatus}
+          {row.deliveryStatus || 'processing'}
           {
             <StatusBullet
               size={"sm"}
-              color={statusColors[row.DeliveryStatus]}
+              color={statusColors[row.deliveryStatus || 'processing']}
             />
           }
         </TableCell>
         <TableCell>
-          {row.status}
+
+          {row.delivery && row.delivery ? row.delivery : formatter.format(0)}
+        </TableCell>
+        <TableCell>
+          {row.status}{""}
           {<StatusBullet size={"sm"} color={statusColors[row.status]} />}
         </TableCell>
         <TableCell>{formatter.format(row.chargedAmount)}</TableCell>
@@ -72,25 +76,35 @@ function Row(props) {
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box margin={1}>
-              <Typography variant="h6" gutterBottom component="div">
+              <Typography variant="h6" gutterBottom >
                 Products Details
               </Typography>
               <Table size="small" aria-label="purchases">
                 <TableHead>
                   <TableRow>
+                    <TableCell>Title</TableCell>
                     <TableCell>unit Price</TableCell>
                     <TableCell>Quantity</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   {row.product.map((item) => (
-                    <TableRow key={item.id}>
+                    <TableRow key={item._id}>
+                      <TableCell>{item.title}</TableCell>
                       <TableCell>{formatter.format(item.unitPrice)}</TableCell>
                       <TableCell>{item.quantity}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
               </Table>
+              <Divider />
+              <Typography  variant="h6" gutterBottom >
+                Delivery Address
+              </Typography>
+              <Divider />
+              <Typography variant="body1" gutterBottom component="div">
+                {row.address}
+              </Typography>
             </Box>
           </Collapse>
         </TableCell>
@@ -123,6 +137,7 @@ export default function Orders() {
   const [currentPage, setCurrentPage] = useState(1);
   const { data } = useAgent(`/fla/user-orders`);
 
+
   return (
     <Card>
       <CardHeader title={<Typography variant="h4">My Orders</Typography>} />
@@ -145,8 +160,8 @@ export default function Orders() {
           />
         </TableContainer>
       ) : (
-        <EmptyList />
-      )}
+          <EmptyList />
+        )}
     </Card>
   );
 }

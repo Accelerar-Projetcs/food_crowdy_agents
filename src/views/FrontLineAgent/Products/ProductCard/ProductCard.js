@@ -47,11 +47,10 @@ const ProductCard = ({ item }) => {
 
   return (
     <>
-      <AddToCartForm data={item} price={price} open={open} setOpen={setopen} />
 
       <div className={classes.card}>
         <Link
-          to={`/product-details/${item.category}/${item.title}/${item._id}`}
+          to={`/agents/frontline/products-details/${item.category}/${item.title}/${item._id}`}
         >
           <div className={classes.imgcard}>
             <img
@@ -78,7 +77,7 @@ const ProductCard = ({ item }) => {
             <TextField
               className="product-select"
               select
-              color="secondary"
+              color="primary"
               size="small"
               variant="outlined"
               id="demo-simple-select-outlined"
@@ -99,10 +98,11 @@ const ProductCard = ({ item }) => {
             </TextField>
           </div>
           <Link
-            to={`/product-details/${item.category}/${item.title}/${item._id}`}
+          color="primary"
+            to={`/agents/frontline/products-details/${item.category}/${item.title}/${item._id}`}
           >
             <div>
-              <Rating name={item.title} value={5} />
+              <Rating color="primary" name={item.title} value={5} />
             </div>
             <Divider />
             <div className={classes.price}>
@@ -113,23 +113,23 @@ const ProductCard = ({ item }) => {
                 {formatter.format(price.marketPrice)}
               </p>
               <div>
-                <Location fontSize={'small'} color="secondary" className="location-icon" />{item.availableState}
+                <Location fontSize={'small'} color="primary" className="location-icon" />{item.availableState}
               </div>
 
             </div>
-
             <Divider />
             <span className={classes.available}>Number of products available</span>
           </Link>
           <div>
-            <Button fullWidth className={classes.btnSmall} variant="outlined" > {Math.floor(price.conversionUnit * item.quantity)} {item.isSoldOut ? 'sold out' : 'available'}  <CheckCircleIcon className={classes.btnIcon} color="secondary" /></Button>
+            <Button fullWidth className={classes.btnSmall} variant="outlined" > {Math.floor(price.conversionUnit * item.quantity)} {item.isSoldOut ? 'sold out' : 'available'}  <CheckCircleIcon className={classes.btnIcon} color="primary" /></Button>
             <Button onClick={() => {
               setopen(true);
-            }} fullWidth className={classes.btn} variant="contained" color="secondary" disabled={item.isSoldOut ? true : false} >Add to Cart </Button>
+            }} fullWidth className={classes.btn} variant="contained" color="primary" disabled={item.isSoldOut ? true : false} >Add to Cart </Button>
           </div>
 
         </div>
       </div>
+      <AddToCartForm data={item} price={price} open={open} setOpen={setopen} />
     </>
   );
 };

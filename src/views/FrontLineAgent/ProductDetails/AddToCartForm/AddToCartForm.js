@@ -50,7 +50,7 @@ const AddToCartForm = ({ data, price, setOpen, open }) => {
           title: data.title,
           category: data.category,
           location: data.availableState,
-          availableQty: data.quantity,
+          initialQty: data.quantity,
           quantity: Math.abs(quantity),
           unitPrice: price.displayPrice,
           measurementType: price.conversionType,

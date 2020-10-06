@@ -36,7 +36,7 @@ const Payments = ({ paymentData }) => {
         type="hidden"
         name="amount"
         defaultValue={
-          paymentData.totalPrice + (paymentData.delivery && paymentData.delivery.price ?paymentData.delivery.price:0 ) + Number(process.env.REACT_APP_FOODCROWDY_CHARGE)
+          paymentData.totalPrice + Number(process.env.REACT_APP_FOODCROWDY_CHARGE)
         }
       />
       <input type="hidden" name="currency" defaultValue="NGN" />

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { makeStyles } from '@material-ui/styles';
 import AllProducts from './AllProducts';
 import {
@@ -17,13 +17,15 @@ import useAgent from '../../../hooks/useAgent';
 import ctimage from '../../../assets/images/category.svg';
 import { category as productCategory } from '../../../utils/ProductsCategory';
 import { categoryStyles } from './styles/Styles';
+import { contextApi } from '../../../components/context/Context';
 
 const useStyles = makeStyles((theme) => categoryStyles(theme));
 
 const ProductCategory = () => {
 	const [category, setcategory] = useState('');
 	const [searchQuery, setsearchQuery] = useState('');
-	const { data, loading } = useAgent(`/products/`);
+	const { location } = useContext(contextApi)
+	const { data, loading } = useAgent(`/products/?state=${location}`);
 	const classes = useStyles();
 
 

@@ -18,7 +18,7 @@ const DoorDelivery = ({ getDoorDelivery }) => {
   const classes = useStyles();
   const [deliveryPoint, setDeliveryPoint] = useState("");
   const [location, setLocation] = useState();
-  
+
 
   const saveAddress = (value) => {
     if (value && deliveryPoint) {
@@ -53,7 +53,7 @@ const DoorDelivery = ({ getDoorDelivery }) => {
       >
         <option value={""}>Choose State</option>
         {offices.map((option) => (
-          <option key={option.name} value={option.label}>
+          <option key={option.name} value={option.name}>
             {option.name}
           </option>
         ))}
@@ -62,12 +62,17 @@ const DoorDelivery = ({ getDoorDelivery }) => {
         <Grid item md={12} lg={12} xl={12} xs={12} sm={12}>
           <label>Enter Your Nearest Landmark</label>
           <GooglePlacesAutocomplete
-               apiKey={process.env.REACT_APP_GOOGLE_MAP}
+            apiKey={process.env.REACT_APP_GOOGLE_MAP}
+            autocompletionRequest={{
+              componentRestrictions: {
+                country: ['ng']
+              }
+            }}
             selectProps={{
               deliveryPoint,
               onChange: setDeliveryPoint,
             }}
-            onLoadFailed={(error) => {}}
+            onLoadFailed={(error) => { }}
           />
         </Grid>
       </Grid>

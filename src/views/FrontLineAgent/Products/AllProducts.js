@@ -12,6 +12,7 @@ import Pagination from '../../../components/Pagination/Pagination';
 import { allProductsStyles } from './styles/Styles';
 import ProductCard from './ProductCard/ProductCard'
 import { Product as EmptyList } from '../../../components/EmptyList/EmptyList';
+import ProductFilter from './ProductFilter/ProductFilter';
 
 const useStyles = makeStyles((theme) => allProductsStyles(theme));
 
@@ -30,7 +31,7 @@ export default function AllProducts({ data = [], loading }) {
   return (
     <Card className={classes.card}>
       <div className={classes.header}>
-        <CardHeader title={`(${data.length}) Products`} />
+        <CardHeader title={`(${data.length}) Products`} action={<ProductFilter />} />
       </div>
       <Divider />
       <Grid container spacing={1}>

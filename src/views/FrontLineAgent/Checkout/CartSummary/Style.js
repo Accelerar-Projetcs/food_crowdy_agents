@@ -1,9 +1,9 @@
 
 export default (theme) => {
-	return {
+    return {
         root: {
-            flexGrow: 1,
-            maxWidth: 752,
+            // flexGrow: 1,
+            // maxWidth: 752,
         },
         demo: {
             // margin: theme.spacing(2, 1),
@@ -17,11 +17,11 @@ export default (theme) => {
             color: theme.palette.black,
             fontWeight: "600",
         },
-		btn: {
-			margin: theme.spacing(1, 0)
-		},
-		paper: {
-      margin: theme.spacing(2, 'auto')
-		}
-	};
+        btn: {
+            margin: theme.spacing(1, 0)
+        },
+        paper: {
+            margin: theme.spacing(2, 'auto')
+        }
+    };
 };

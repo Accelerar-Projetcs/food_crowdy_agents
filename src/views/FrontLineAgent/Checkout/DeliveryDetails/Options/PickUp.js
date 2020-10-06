@@ -3,8 +3,8 @@ import { LocationOn as LocationIcon } from "@material-ui/icons";
 
 import { makeStyles, TextField, Button } from "@material-ui/core";
 import Style from "../Style";
-import { DeliveryData } from "./data";
 import { COMPANY_LINE } from "../../../../../constants/brand";
+import { offices } from "../../../../../utils/LocationList";
 
 const useStyles = makeStyles((theme) => Style(theme));
 
@@ -18,9 +18,9 @@ const PickUp = ({ pickUpDelivery }) => {
 
   const getArea = (id) => {
     if (id) {
-      const filteredItem = DeliveryData.filter((item) => item.name === id);
+      const filteredItem = offices.filter((item) => item.name === id);
       setLocation({
-        locationArea: filteredItem[0].officeAddress,
+        locationArea: filteredItem[0].label,
         state: id,
       });
     }
@@ -48,6 +48,7 @@ const PickUp = ({ pickUpDelivery }) => {
         select
         fullWidth
         name="state"
+        required
         onChange={(e) => getArea(e.target.value)}
         helperText={errors ? errors : ""}
         error={errors ? true : false}
@@ -58,7 +59,7 @@ const PickUp = ({ pickUpDelivery }) => {
         variant="outlined"
       >
         <option value={""}>Choose State</option>
-        {DeliveryData.map((option) => (
+        {offices.map((option) => (
           <option key={option.name} value={option.name}>
             {option.name}
           </option>

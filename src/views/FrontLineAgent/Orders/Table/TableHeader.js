@@ -8,6 +8,7 @@ const TableHeader = () => {
 				<TableCell></TableCell>
 				<TableCell>Order Ref</TableCell>
 				<TableCell>Delivery Status</TableCell>
+				<TableCell>Delivery Fee</TableCell>
 				<TableCell>Payment Status</TableCell>
 				<TableCell>Total</TableCell>
 				<TableCell>Date</TableCell>
