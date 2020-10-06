@@ -6,6 +6,7 @@ const ContextProvider = ({ children }) => {
 	const [dealDisplay, setDealDisplay] = useState([]);
 	const [dealTosend, setDealToSend] = useState([]);
 	const [loading, setLoading] = useState(false);
+	const [location, setLocation] = useState('Lagos');
 
 	//****Frontline Agents image State***//
 	const [imageFile, setImageFile] = useState({ files: '' });
@@ -35,6 +36,8 @@ const ContextProvider = ({ children }) => {
 				// postOffer,
 				loading,
 				setLoading,
+				location, 
+				setLocation,
 				pendingProducts,
 				approvedProducts,
 				mailCheck,

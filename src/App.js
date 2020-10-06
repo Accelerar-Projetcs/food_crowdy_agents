@@ -27,6 +27,9 @@ import ErrorBoundary from './views/ErrorBoundary/ErrorBoundary';
 registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview, FilePondPluginFileValidateSize);
 
 const browserHistory = createBrowserHistory();
+if (process.env.NODE_ENV === "production") {
+	console.log = function () { };
+}
 
 export default () => {
 	return (

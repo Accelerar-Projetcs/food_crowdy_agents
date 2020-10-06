@@ -90,6 +90,8 @@ const Routes = () => {
 		switch (String(roles)) {
 			case 'frontline':
 				return FrontLineAgentDashboard;
+			case 'customerCare':
+				return FrontLineAgentDashboard;
 			case 'backline':
 				return BackLineAgentDashboard;
 			case 'marketer':

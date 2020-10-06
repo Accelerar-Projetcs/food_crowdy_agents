@@ -43,7 +43,6 @@ const Topbar = (props) => {
 	const classes = useStyles();
 	const history = useHistory();
 	const role = userData('role');
-	const frontline = 'frontline';
 
 	const logoutOutUser = () => {
 		clearUserData();
@@ -61,7 +60,7 @@ const Topbar = (props) => {
 				</RouterLink>
 				<h3 className={classes.header}>AGENTS DASHBOARD</h3>
 				<div className={classes.flexGrow} />
-				{role === frontline && (
+				{role === (`customerCare`) && (
 					<IconButton onClick={openCart} color='inherit'>
 						<Badge
 							badgeContent={cart.length}

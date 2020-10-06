@@ -119,6 +119,8 @@ const Sidebar = (props) => {
 		switch (roles) {
 			case 'frontline':
 				return FrontLine;
+			case 'customerCare':
+				return FrontLine;
 			case 'backline':
 				return BackLineAgent;
 			case 'marketer':

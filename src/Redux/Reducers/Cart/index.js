@@ -6,7 +6,7 @@ import {
 } from './localStorage';
 
 const notify = (value, message, type) => {
-	toast[type](message)
+	toast[type](message, { toastId: 'cart' })
 	return value
 }
 const cartProducts = getCartItemFromLocalStore();
@@ -18,27 +18,35 @@ const cartActions = createSlice({
 	initialState,
 	reducers: {
 		addToCart(state, action) {
-			const { productId, quantity } = action.payload;
-			const cartItems = state.cart.filter(
-				(item) => item.productId === productId
-			);
-			if (cartItems.length) {
-				const addedItem = state.cart.map((item) =>
-					item.productId === productId
-						? {
-							...item,
-							quantity: item.quantity === item.converisonUnit ? notify(item.quantity, `You have reached the total number of units available for this product measurement type`, 'warning') :
-								notify(item.quantity + quantity, `One item added to cart`, `success`),
-							totalPrice: (item.quantity + quantity) * item.unitPrice
-						}
-						: item
-				);
-				state.cart = addedItem;
-				saveCartItemInLocalStore(state.cart);
+			const { productId, quantity, location } = action.payload;
+
+			const productLocation = state.cart.find(item => item.location === location);
+			if (state.cart.length && !productLocation) {
+				toast.warning(`Please you cannot add products from different location at a time,
+				 please select from your current state or clear your cart and select from the state of your choice.`);
 			} else {
-				state.cart.push(action.payload);
-				saveCartItemInLocalStore(state.cart);
+				const cartItems = state.cart.filter(
+					(item) => item.productId === productId
+				);
+				if (cartItems.length) {
+					const addedItem = state.cart.map((item) =>
+						item.productId === productId
+							? {
+								...item,
+								quantity: item.quantity === item.converisonUnit ? notify(item.quantity, `You have reached the total number of units available for this product measurement type`, 'warning') :
+									notify(item.quantity + quantity, `One item added to cart`, `success`),
+								totalPrice: (item.quantity + quantity) * item.unitPrice
+							}
+							: item
+					);
+					state.cart = addedItem;
+					saveCartItemInLocalStore(state.cart);
+				} else {
+					state.cart.push(action.payload);
+					saveCartItemInLocalStore(state.cart);
+				}
 			}
+
 			return state;
 		},
 
@@ -49,9 +57,11 @@ const cartActions = createSlice({
 					? {
 						...item,
 						quantity:
-							item.quantity === item.converisonUnit ? notify(item.quantity, `You have reached the total number of units available for this product measurement type`) :
-
-
+							item.quantity === Math.floor(item.converisonUnit * item.initialQty )?
+								notify(item.quantity,
+									`You have reached the total number of units
+									available for this product
+									 measurement type`) :
 								item.quantity++
 					}
 					: item
@@ -66,7 +76,7 @@ const cartActions = createSlice({
 				item.productId === id
 					? {
 						...item,
-						quantity: item.quantity === 1 ? notify(item.quantity, `you can cannot reduce lesser than one`) : item.quantity--
+						quantity: item.quantity === 1 ? notify(item.quantity, `you can cannot reduce lesser than one`, 'warning') : item.quantity--
 					}
 					: item
 			);
@@ -81,7 +91,7 @@ const cartActions = createSlice({
 				(item) => item.productId !== id
 			);
 			state.cart = remainingCartItems;
-			notify(0, `One cart item successfully removed`)
+			notify(0, `One cart item successfully removed`, `success`)
 			saveCartItemInLocalStore(state.cart);
 			return state;
 		},

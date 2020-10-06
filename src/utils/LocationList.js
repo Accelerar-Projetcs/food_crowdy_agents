@@ -1,17 +1,20 @@
-
 export const offices = [
-	{
-	  name: "Rivers",
-	  id: 1,
-	  label: "Km 19 Lekki - Epe Expy, Lekki Penninsula II, Lekki",
-	  // label: "Rumuola Road, Port Harcourt, Nigeria",
-	},
-	{
-	  name: "Lagos",
-	  id: 2,
-	  label: "Ibadan - Lagos Expressway, Nigeria",
-	},
-  ];
+  {
+    name: "Rivers",
+    id: 1,
+    // label: "Km 19 Lekki - Epe Expy, Lekki Penninsula II, Lekki",
+    label: "Eliada Close Phc, Okporo Road, Port Harcourt",
+    // label: "Rumuola Road, Port Harcourt, Nigeria",
+  },
+  {
+    name: "Lagos",
+    id: 2,
+    label: "Sparklight Housing Estate, Ojodu, Lagos",
+    // label: "Ibadan - Lagos Expressway, Nigeria",
+  },
+];
+	
+	export const statesAvailable = [{ name: 'Lagos' }, { name: 'Rivers' }]
 
 export default [
 	{ id: 1, name: 'Abia' },

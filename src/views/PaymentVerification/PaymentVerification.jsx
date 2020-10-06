@@ -17,6 +17,7 @@ import Styles from './Styles';
 import Backdrop from '../../components/BackDrop/BackDrop';
 import qs from 'query-string';
 import { agentApi } from '../../server/Server';
+import useHeader from '../../server/Headers';
 import { errorHandler } from '../../errors/errorHandler';
 import { useDispatch } from 'react-redux';
 import { removeAllCartItem } from '../../Redux/Reducers/Cart';
@@ -27,31 +28,36 @@ const PaymentVerification = ({ location, history }) => {
 	const [success, setSuccess] = useState(false);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(false);
+	const { headers } = useHeader()
 	const classes = useStyles();
 	const dispatch = useDispatch();
-
-	useEffect(() => {
-		(async () => {
-			setLoading(true);
-			try {
-				const TRANSACTION_REF = qs.parse(location.search);
-				const tx_ref = TRANSACTION_REF['tx_ref'];
-				if (tx_ref) {
-					const res = await agentApi.get(`/payment-status/${tx_ref}`);
-					if (res.data && res.data.status === 'successful') {
-						setSuccess(true);
-					} else {
-						setError(true);
-					}
+	const getPaymentStatus = async () => {
+		setLoading(true);
+		try {
+			const TRANSACTION_REF = qs.parse(location.search);
+			const tx_ref = TRANSACTION_REF['tx_ref'];
+			if (tx_ref) {
+				const res = await agentApi.get(`/fla/payment-status/${tx_ref}`, { headers });
+				if (res.data && res.data.status === 'successful') {
+					setSuccess(true);
+					dispatch(removeAllCartItem());
+				} else {
+					setError(true);
 				}
-			} catch (error) {
-				errorHandler(error);
-				setSuccess(true);
-				dispatch(removeAllCartItem());
 			}
-			setLoading(false);
-		})();
-	}, [location.search, dispatch]);
+		} catch (error) {
+			errorHandler(error);
+			setError(true);
+
+		}
+		setLoading(false);
+
+	}
+	useEffect(() => {
+
+		getPaymentStatus()
+		//eslint-disable-next-line
+	}, []);
 
 	return (
 		<div className={classes.root}>

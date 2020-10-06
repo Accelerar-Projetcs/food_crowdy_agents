@@ -1,6 +1,6 @@
 import { useCookies } from 'react-cookie';
 
-const Headers = () => {
+const HeadersAuth = () => {
 	const [cookies] = useCookies(['x-auth-token']);
 
 	return {
@@ -11,4 +11,4 @@ const Headers = () => {
 	};
 };
 
-export default Headers;
+export default HeadersAuth;

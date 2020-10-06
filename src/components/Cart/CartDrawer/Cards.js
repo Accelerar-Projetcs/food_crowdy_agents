@@ -4,7 +4,7 @@ import {
 	incrementCartItem,
 	removeCartItem
 } from '../../../Redux/Reducers/Cart/';
-import { Delete as DeleteIcon, Add, Minimize } from '@material-ui/icons/';
+import { Delete as DeleteIcon, Add, Minimize, LocationOn } from '@material-ui/icons/';
 import { Chip, Divider, Button, makeStyles } from '@material-ui/core';
 import { formatter } from '../../../utils/localStore';
 import { Block as BlockIcon } from '@material-ui/icons';
@@ -74,7 +74,14 @@ const CartMobile = ({ cartDisplay, dispatch }) => {
 										{formatter.format(cart.quantity * cart.unitPrice)}
 									</span>
 								</p>
+
 							</div>
+							<p>
+								<LocationOn />
+								<span>
+									{cart.location}
+								</span>
+							</p>
 						</div>
 						<div className='mobile-cart-bottom'>
 							<Button

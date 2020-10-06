@@ -51,7 +51,13 @@ export const category = [
 	{
 		value: 'Nuts',
 		label: 'Nuts',
-		link: '/products/SeaFoods',
+		link: '/products/Nuts',
 		image: '/image/'
-	}
+	},
+	{
+		value: 'Paste',
+		label: 'Paste',
+		link: '/products/Paste',
+		image: '/image/'
+	},
 ];

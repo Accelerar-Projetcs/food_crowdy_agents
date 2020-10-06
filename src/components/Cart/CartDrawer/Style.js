@@ -4,7 +4,7 @@ export default (theme) => ({
 	list: {
 		width: 500,
 		[theme.breakpoints.down('md')]: {
-			width: 450
+			width: 400
 		}
 	},
 	fullList: {
